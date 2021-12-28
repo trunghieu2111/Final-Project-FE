@@ -1,0 +1,57 @@
+<span style="font-size: 27px;">Quản lý chi nhánh</span>
+<br><br>
+<div style="position: relative;">
+  <!-- <span *ngIf="flag===false Then hd1 else hd2"></span> -->
+  <!-- <ng-template #hd1> -->
+  <button #buttonThem nz-button nzType="primary" (click)="addBranch()">
+    <i nz-icon nzType="plus" nzTheme="outline"></i>Tạo chi nhánh
+  </button>
+
+  <div style="width: 400px; position: absolute; right: 0%; top: 0%;">
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+      <input nz-input placeholder="input search text" (keyup)="onKey($event)" />
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+      <button nz-button nzType="primary" nzSearch><i nz-icon nzType="search"></i></button>
+    </ng-template>
+  </div>
+
+  <div class="tableBranch" style="border-top: 2px solid #66CCFF; margin-top: 50px">
+    <nz-table #tableList style="margin-top: 10px" #basicTable [nzData]="data" [nzPageIndex]="pageIndex"
+      [nzPageSize]="pageSize" [nzTotal]="total">
+      <!-- (nzPageIndexChange)="pageIndexChange($event)" -->
+      <thead>
+        <tr>
+          <th>Mã số thuế</th>
+          <th>Tên miền</th>
+          <th>Tên chi nhánh</th>
+          <th>Địa chỉ</th>
+          <th>Trạng thái</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td>{{data.mst}}</td>
+          <td>{{data.url}}</td>
+          <td>{{data.nameBranch}}</td>
+          <td>{{data.address}}</td>
+          <td>{{data.status}}</td>
+          <!-- <td>{{data.id}}</td>
+          <td>{{data.toanha}}</td>
+          <td>{{data.tang}}</td>
+          <td>{{data.sogiuong}}</td>
+          <td>{{data.songuoitoida}}</td> -->
+
+          <td>
+            <a><i style="color: red; margin-right: 10px; font-size: 20px;" nz-icon nzType="close" nzTheme="outline"
+                title="Xóa" (click)="removeBranch(data.id)"></i></a>
+            &emsp;
+            <a><i style="font-size: 20px;" nz-icon nzType="edit" nzTheme="outline" title="Sửa"
+                (click)="editBranch(data.id)"></i></a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
