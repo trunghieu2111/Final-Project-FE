@@ -27,7 +27,7 @@ const routes: Routes = [
   //     import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
   // },
   
-  // { path: '', pathMatch: 'full', redirectTo: 'hethong' },
+  { path: '', pathMatch: 'full', redirectTo: 'hethong' },
   {path: '', component: LayoutComponent, 
     children: [
     { path: 'hethong', loadChildren: () => import('./pages/hethong/hethong.module').then(m => m.HethongModule) },

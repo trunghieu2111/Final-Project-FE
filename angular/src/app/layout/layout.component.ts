@@ -20,4 +20,20 @@ export class LayoutComponent implements OnInit {
       this.authService.navigateToLogin();
     }
   }
+
+  logout(): void {
+    this.authService.logout().subscribe(() => {
+      sessionStorage.clear();
+      localStorage.clear();
+      // this.store.dispatch(
+      //   new Navigate(['/'], null, {
+      //     state: { redirectUrl: this.store.selectSnapshot(RouterState)?.state.url },
+      //   })
+      // );
+    });
+  }
+
+  login() {
+    this.authService.navigateToLogin();
+  }
 }

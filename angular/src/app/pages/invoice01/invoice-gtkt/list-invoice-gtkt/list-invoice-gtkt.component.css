@@ -1,3 +1,6 @@
 .tableInvoice nz-table tr th{
     background-color: #cde5fd;
 }
+.tableDouble{
+    font-weight: bold;
+}

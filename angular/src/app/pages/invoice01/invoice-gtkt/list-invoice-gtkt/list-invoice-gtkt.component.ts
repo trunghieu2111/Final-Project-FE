@@ -9,10 +9,10 @@ import { InvoiceGTKTService } from '../InvoiceGTKT.service';
 })
 export class ListInvoiceGTKTComponent implements OnInit {
 
-  //data: any;
-  checked = false;
-  data = [{acc:"test", tt:"Đã ký", hd:"0001", bb:"abc", tongtienhang: 100000, tongtienthue:10000, tongtt:1110111}
-];
+  data: any;
+//   checked = false;
+//   data = [{acc:"test", tt:"Đã ký", hd:"0001", bb:"abc", tongtienhang: 100000, tongtienthue:10000, tongtt:1110111}
+// ];
   pageIndex: number = 1;
   pageSize: number = 5;
   total:number = 0;
@@ -27,11 +27,10 @@ export class ListInvoiceGTKTComponent implements OnInit {
     this.loadData();
   }
   public loadData(){
-    // this.branchService.getListBranch().subscribe((data) => {
-    //   this.data = data.items;
-    //   //this.data = data;
-    //   this.total = this.data.length;
-    // })
+    this.invoiceGTKTService.getListInvoiceGTKT().subscribe((data) => {
+      this.data = data.items;
+      this.total = this.data.length;
+    })
   }
 
   addInvoice(){
@@ -39,19 +38,19 @@ export class ListInvoiceGTKTComponent implements OnInit {
   }
 
   removeInvoice(index:any){
-    // this.branchService.deleteBranch(index).subscribe((data) => {
-    //   this.loadData();
-    // });
+    this.invoiceGTKTService.deleteInvoiceGTKT(index).subscribe((data) => {
+      this.loadData();
+    });
   }
 
   editInvoice(index:any){
-    // this.router.navigate(['hethong/chinhanh/branch-form', index]);
+    this.router.navigate(['invoice/invoiceGTKT/form-invoice', index]);
   }
   
   onKey(keyword:any){
-    // this.branchService.getListBranch(keyword.target.value).subscribe((data) =>{
-    //   this.data = data.items;
-    //   this.total = this.data.length;
-    // })
+    this.invoiceGTKTService.getListInvoiceGTKT(keyword.target.value).subscribe((data) =>{
+      this.data = data.items;
+      this.total = this.data.length;
+    })
   }
 }

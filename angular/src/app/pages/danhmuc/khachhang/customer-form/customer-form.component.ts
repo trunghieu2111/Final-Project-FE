@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BranchService } from 'src/app/pages/hethong/chinhanh/branch.service';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
+import { CustomerService } from '../customer.service';
 
 @Component({
   selector: 'app-customer-form',
@@ -11,9 +12,9 @@ import {Location} from '@angular/common';
 })
 export class CustomerFormComponent implements OnInit {
 
-  isShowCreateOrUpdate: boolean= false; //false: tạo, true: sửa
+  isShowCreateOrUpdate: boolean = false; //false: tạo, true: sửa
   ids = this.route.snapshot.paramMap.get('id');
-  flag = true;
+  //flag = true;
 
   selectedValue = null;
   Citys = ['Hà Nội', 'Hồ Chí Minh', 'Đà Nẵng'];
@@ -23,7 +24,7 @@ export class CustomerFormComponent implements OnInit {
   constructor(
     private _location: Location,
     private route: ActivatedRoute,
-    //public branchService: BranchService,
+    public customerService: CustomerService,
     public fb: FormBuilder,
   ) {
     this.submitForm = this.fb.group({
@@ -31,74 +32,96 @@ export class CustomerFormComponent implements OnInit {
       taxCode: [null, Validators.required],
       fullName: [null, [Validators.required, Validators.minLength(6)]],
       address: [null, Validators.required],
-      legalName:  [null],
-      bankAcount:[],
+      legalName: [null],
+      bankAcount: [],
       bankName: [],
       phone: [],
-      soFax:[],
-      email:[],
-      district:[],
-      city:[]
+      soFax: [],
+      email: [],
+      district: [],
+      city: []
     })
   }
 
   ngOnInit(): void {
-    // if (String(this.ids) !== '0') {
-    //   this.isShowCreateOrUpdate = true;
-    //   this.loadData(this.ids);
-    //   this.flag = false;
-    // }
+    if (String(this.ids) !== '0') {
+      this.isShowCreateOrUpdate = true;
+      this.loadData(this.ids);
+      //this.flag = false;
+    }
   }
 
   public loadData(id: any) {
-    // this.branchService.getInfoBranchByID(id).subscribe((data) => {
-    //   this.submitForm.patchValue({
-    //     tenmien: data.url,
-    //     MST: data.mst,
-    //     tenchinhanh: data.nameBranch,
-    //     diachi: data.address,
-    //   })
-    // });
+    this.customerService.getInfoCustomerByID(id).subscribe((data) => {
+      this.submitForm.patchValue({
+        customerId: data.customerId,
+        taxCode: data.taxCode,
+        fullName: data.name,
+        address: data.address,
+        legalName: data.daidienphapnhan,
+        bankAcount: data.stk,
+        bankName: data.tenNH,
+        phone: data.sdt,
+        soFax: data.fax,
+        email: data.email,
+        district: data.district,
+        city: data.city
+      })
+    });
   }
 
-  onSubmit(){
-    // const valid = this.submitForm.valid;
-    // if(valid){
-    //   if (this.isShowCreateOrUpdate) { // Update
-    //     const params = {
-    //       id: this.ids,
-    //       mst: this.submitForm.get('MST')?.value,
-    //       url: this.submitForm.get('tenmien')?.value,
-    //       nameBranch: this.submitForm.get('tenchinhanh')?.value,
-    //       address: this.submitForm.get('diachi')?.value,
-    //       status: "false",
-    //     }
-    //     this.branchService.updateBranch(params).subscribe((data) => {
-    //       this._location.back();
-    //     })
-    //   } else { // CREATE
-    //     const params = {
-    //       mst: this.submitForm.get('MST')?.value,
-    //       url: this.submitForm.get('tenmien')?.value,
-    //       nameBranch: this.submitForm.get('tenchinhanh')?.value,
-    //       address: this.submitForm.get('diachi')?.value,
-    //       status: "false",
-    //     }
-    //     this.branchService.createBranch(params).subscribe((data) => {
-    //       this._location.back();
-    //     })
-    //   }
-    // }else{
-    //   for (const i in this.submitForm.controls) {
-    //     if (this.submitForm.controls.hasOwnProperty(i)) {
-    //       this.submitForm.controls[i].markAsDirty();
-    //       this.submitForm.controls[i].updateValueAndValidity();
-    //     }
-    //   }
-    // }
+  onSubmit() {
+    const valid = this.submitForm.valid;
+    if(valid){
+      if (this.isShowCreateOrUpdate) { // Update
+        const params = {
+          id: this.ids,
+          customerId: this.submitForm.get('customerId')?.value,
+          taxCode: this.submitForm.get('taxCode')?.value,
+          address: this.submitForm.get('address')?.value,
+          name: this.submitForm.get('fullName')?.value,
+          city: this.submitForm.get('city')?.value,
+          district: this.submitForm.get('district')?.value,
+          daidienphapnhan: this.submitForm.get('legalName')?.value,
+          stk: this.submitForm.get('bankAcount')?.value,
+          tenNH: this.submitForm.get('bankName')?.value,
+          sdt: this.submitForm.get('phone')?.value,
+          fax: this.submitForm.get('soFax')?.value,
+          email: this.submitForm.get('email')?.value
+        }
+        this.customerService.updateCustomer(params).subscribe((data) => {
+          this._location.back();
+        })
+      } else { // CREATE
+        const params = {
+          customerId: this.submitForm.get('customerId')?.value,
+          taxCode: this.submitForm.get('taxCode')?.value,
+          address: this.submitForm.get('address')?.value,
+          name: this.submitForm.get('fullName')?.value,
+          city: this.submitForm.get('city')?.value,
+          district: this.submitForm.get('district')?.value,
+          daidienphapnhan: this.submitForm.get('legalName')?.value,
+          stk: this.submitForm.get('bankAcount')?.value,
+          tenNH: this.submitForm.get('bankName')?.value,
+          sdt: this.submitForm.get('phone')?.value,
+          fax: this.submitForm.get('soFax')?.value,
+          email: this.submitForm.get('email')?.value
+        }
+        this.customerService.createCustomer(params).subscribe((data) => {
+          this._location.back();
+        })
+      }
+    }else{
+      for (const i in this.submitForm.controls) {
+        if (this.submitForm.controls.hasOwnProperty(i)) {
+          this.submitForm.controls[i].markAsDirty();
+          this.submitForm.controls[i].updateValueAndValidity();
+        }
+      }
+    }
   }
 
-  back(){
+  back() {
     this._location.back();
   }
 
