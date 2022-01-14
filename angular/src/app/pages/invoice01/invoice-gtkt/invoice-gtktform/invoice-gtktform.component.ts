@@ -24,7 +24,10 @@ export class InvoiceGTKTFormComponent implements OnInit {
   data: any;
 
   flagInvoiceDetail = false;
+  flagCreateorUpdateInvoiceDetail = true; //Create
+  indexOfInvoiceDetailUpdate: number;
   isVisible = false;
+  //MoneyTaxSellBeforeEdit: number;
 
   selectedValueTaxSell = null;
   taxs: ITax[] = [
@@ -62,15 +65,19 @@ export class InvoiceGTKTFormComponent implements OnInit {
   submitFormDetails: FormGroup;
   InvoiceDetails: IDataDetails[] = [];
   InvoiceTaxBreaks: IDataTaxBreaks[] = [];
-  TaxBreaks: IDataTaxBreaks[] = [];
+  SubInvoiceTaxBreaks: IDataTaxBreaks[] = [];
+  TaxBreaks: number[] = [];
   nameTaxBreak: string;
   totalProduct: number = 0;
   totalTax: number = 0;
   totalPay: number = 0;
 
   intoMoneyAffer: number;
+  PercentDiscountBeforeTax: number = 0;
+  MoneyTaxSell: number;
   quantity: number;
   priceAffter: number = 0;
+  PercentTaxSellinForm = 0;
 
   constructor(
     private _location: Location,
@@ -114,7 +121,7 @@ export class InvoiceGTKTFormComponent implements OnInit {
 
     this.submitFormDetails = this.fb.group({
       //detail
-      id: [],
+      //id: [],
       nameProduct: [],
       productId: [],
       content: [],
@@ -140,45 +147,67 @@ export class InvoiceGTKTFormComponent implements OnInit {
   }
 
   handleOk(): void {
-    //console.log('Button ok clicked!');
-    if (this.TaxBreaks.includes(this.submitFormDetails.get('percentTaxSell')?.value)) {
-      //console.log("trùng");
-      for (let i of this.InvoiceTaxBreaks) {
-        if (i.percentTaxSell == this.submitFormDetails.get('percentTaxSell')?.value) {
-          i.moneyTaxSell += (Number(this.submitFormDetails.get('percentTaxSell')?.value) * Number(this.submitFormDetails.get('intoMoney')?.value)) / 100;
-        }
+    //tính thuế suất khi âm
+    // if (Number(this.submitFormDetails.get('percentTaxSell')?.value) < 0) {
+    //   this.PercentTaxSellinForm = 0;
+    //   console.log("vào <0");
+    // }
+    // else {
+    //   console.log("vào >0");
+    //   this.PercentTaxSellinForm = (Number(this.submitFormDetails.get('percentTaxSell')?.value) * Number(this.submitFormDetails.get('intoMoney')?.value)) / 100;
+    // }
+
+    if (this.flagCreateorUpdateInvoiceDetail == true) {
+      const par = {
+        id: 0,
+        //invoiceId: this.InvoiceDetails[0].invoiceId,
+        nameProduct: this.submitFormDetails.get('nameProduct')?.value,
+        productId: this.submitFormDetails.get('productId')?.value,
+        content: this.submitFormDetails.get('content')?.value,
+        unit: this.submitFormDetails.get('unit')?.value,
+        quantity: this.submitFormDetails.get('quantity')?.value,
+        price: this.submitFormDetails.get('price')?.value,
+        percentTaxSell: Number(this.submitFormDetails.get('percentTaxSell')?.value),
+        percentDiscountBeforeTax: this.submitFormDetails.get('percentDiscountBeforeTax')?.value,
+        percentMoney: this.submitFormDetails.get('percentMoney')?.value,
+        intoMoney: this.submitFormDetails.get('intoMoney')?.value,
       }
+      this.InvoiceDetails.push(par);
+      this.InvoiceDetails = [...this.InvoiceDetails];
+      this.calculateTaxSell();
+      console.log("dataTaxx:", this.InvoiceTaxBreaks);
+      console.log("data:", this.InvoiceDetails);
     }
     else {
-      //console.log("khongtrùng");
-      for (let i of this.taxs) {
-        if (i.value == this.submitFormDetails.get('percentTaxSell')?.value) {
-          this.nameTaxBreak = i.lable;
+      for (let i = 0; i < this.InvoiceDetails.length; i++) {
+        if (this.InvoiceDetails[i].id == this.InvoiceDetails[this.indexOfInvoiceDetailUpdate].id) {
+          const par = {
+            id: this.InvoiceDetails[i].id,
+            //invoiceId: this.InvoiceDetails[i].invoiceId,
+            nameProduct: this.submitFormDetails.get('nameProduct')?.value,
+            productId: this.submitFormDetails.get('productId')?.value,
+            content: this.submitFormDetails.get('content')?.value,
+            unit: this.submitFormDetails.get('unit')?.value,
+            quantity: this.submitFormDetails.get('quantity')?.value,
+            price: this.submitFormDetails.get('price')?.value,
+            percentTaxSell: Number(this.submitFormDetails.get('percentTaxSell')?.value),
+            percentDiscountBeforeTax: this.submitFormDetails.get('percentDiscountBeforeTax')?.value,
+            percentMoney: this.submitFormDetails.get('percentMoney')?.value,
+            intoMoney: this.submitFormDetails.get('intoMoney')?.value,
+          }
+          this.InvoiceDetails[i] = par;
+          this.InvoiceDetails = [...this.InvoiceDetails];
+          console.log("dataDetail Sửa:", this.InvoiceDetails);
+          break;
         }
       }
-      const taxBreak = {
-        nameTaxSell: this.nameTaxBreak,
-        percentTaxSell: this.submitFormDetails.get('percentTaxSell')?.value,
-        moneyTaxSell: (Number(this.submitFormDetails.get('percentTaxSell')?.value) * Number(this.submitFormDetails.get('intoMoney')?.value)) / 100,
-      }
-      this.InvoiceTaxBreaks.push(taxBreak);
-      this.InvoiceTaxBreaks = [...this.InvoiceTaxBreaks];
+      this.calculateTaxSell();
+      console.log("dataTaxx:", this.InvoiceTaxBreaks);
+      console.log("data:", this.InvoiceDetails);
+      this.flagCreateorUpdateInvoiceDetail = true;
     }
-    //console.log("dataTax:", this.InvoiceTaxBreaks);
-    this.InvoiceDetails.push(this.submitFormDetails.value);
-    this.InvoiceDetails = [...this.InvoiceDetails];
-    this.TaxBreaks.push(this.submitFormDetails.get('percentTaxSell')?.value);
+    this.submitFormDetails.reset();
     this.isVisible = false;
-
-    this.totalProduct = 0;
-    for (let i of this.InvoiceDetails) {
-      this.totalProduct += i.intoMoney;
-    }
-    this.totalTax = 0;
-    for (let i of this.InvoiceTaxBreaks) {
-      this.totalTax += i.moneyTaxSell;
-    }
-    this.totalPay = this.totalProduct + this.totalTax;
   }
 
   handleCancel(): void {
@@ -196,7 +225,7 @@ export class InvoiceGTKTFormComponent implements OnInit {
         companyNameBuy: data.companyNameBuyer,
         addressBuy: data.addressBuyer,
         // kiểu date input chỉ nhận y-m-d
-        dateInvoice: String(data.invoiceDay).slice(0,10),
+        dateInvoice: String(data.invoiceDay).slice(0, 10),
         payType: data.payments,
         invoiceNumber: data.invoiceNumber,
         invoiceForm: data.invoiceForm,
@@ -215,34 +244,124 @@ export class InvoiceGTKTFormComponent implements OnInit {
       this.totalTax = data.totalTax;
       this.totalPay = data.totalPay;
       //console.log("date:",String(data.invoiceDay).slice(0,10));
+
+      // console.log("dataTaxxLoad:", this.InvoiceTaxBreaks);
+      // console.log("dataLoad:", this.InvoiceDetails);
+      this.SubInvoiceTaxBreaks = this.InvoiceTaxBreaks;
     });
   }
 
-  removeInvoiceDetail(id:any){
-    for(let i of this.InvoiceDetails){
-      if(i.id == id){
+  removeInvoiceDetail(id: any) {
+    for (let i of this.InvoiceDetails) {
+      if (i.id == id) {
         this.InvoiceDetails = this.InvoiceDetails.filter(item => item != i);
         this.InvoiceDetails = [...this.InvoiceDetails];
         // console.log("data:", this.InvoiceDetails);
         break;
       }
     }
+    this.calculateTaxSell();
+    // console.log("dataTaxx:", this.InvoiceTaxBreaks);
+    // console.log("data:", this.InvoiceDetails);
+
   }
-  editInvoiceDetail(id:any){
-    for(let i of this.InvoiceDetails){
-      if(i.id == id){
+
+  handTaxSell() {
+    //gán id cho thuế sau khi xử lý
+    for(let i = 0; i< this.InvoiceTaxBreaks.length; i++){
+      var check = 0;
+      for(let j =0; j<this.SubInvoiceTaxBreaks.length;j++){
+        if(this.InvoiceTaxBreaks[i].percentTaxSell==this.SubInvoiceTaxBreaks[j].percentTaxSell){
+          this.InvoiceTaxBreaks[i].id = this.SubInvoiceTaxBreaks[j].id;
+          check = 1;
+          //console.log("check vào:", check);
+          break;
+        }
+      }
+      if(check == 0){
+        this.InvoiceTaxBreaks[i].id = 0;
+        //console.log("check không vào:", check);
+      }
+    }
+    //console.log("datatxxxxx:", this.InvoiceTaxBreaks);
+  }
+  calculateTaxSell() {
+    //tính thuế suất khi âm
+    this.InvoiceTaxBreaks = [];
+    this.TaxBreaks = [];
+    //console.log("chitite:", this.InvoiceDetails);
+    for (let i = 0; i < this.InvoiceDetails.length; i++) {
+      //console.log("chitite:", this.InvoiceDetails[i]);
+      if (this.InvoiceDetails[i].percentTaxSell < 0) {
+        this.PercentTaxSellinForm = 0;
+        //console.log("vào <0");
+      }
+      else {
+        //console.log("vào >0");
+        this.PercentTaxSellinForm = (this.InvoiceDetails[i].percentTaxSell * this.InvoiceDetails[i].intoMoney) / 100;
+      }
+
+      if (this.TaxBreaks.includes(this.InvoiceDetails[i].percentTaxSell)) {
+        //console.log("trùng");
+        for (let j of this.InvoiceTaxBreaks) {
+          if (j.percentTaxSell == this.InvoiceDetails[i].percentTaxSell) {
+            j.moneyTaxSell += this.PercentTaxSellinForm;
+            break;
+          }
+        }
+        //console.log("tax:", this.TaxBreaks);
+      }
+      else {
+        //console.log("khongtrùng");
+        for (let j of this.taxs) {
+          if (j.value == this.InvoiceDetails[i].percentTaxSell) {
+            this.nameTaxBreak = j.lable;
+          }
+        }
+        const taxBreak = {
+          nameTaxSell: this.nameTaxBreak,
+          percentTaxSell: this.InvoiceDetails[i].percentTaxSell,
+          moneyTaxSell: this.PercentTaxSellinForm,
+        }
+        this.InvoiceTaxBreaks.push(taxBreak);
+        this.InvoiceTaxBreaks = [...this.InvoiceTaxBreaks];
+        this.TaxBreaks.push(Number(this.InvoiceDetails[i].percentTaxSell));
+        //console.log("tax:", this.TaxBreaks);
+      }
+    }
+
+    this.totalProduct = 0;
+    for (let i of this.InvoiceDetails) {
+      this.totalProduct += i.intoMoney;
+    }
+    this.totalTax = 0;
+    for (let i of this.InvoiceTaxBreaks) {
+      this.totalTax += i.moneyTaxSell;
+    }
+    this.totalPay = this.totalProduct + this.totalTax;
+    this.handTaxSell();
+  }
+  editInvoiceDetail(id: any) {
+    this.flagCreateorUpdateInvoiceDetail = false;
+    for (let i = 0; i < this.InvoiceDetails.length; i++) {
+      if (this.InvoiceDetails[i].id == id) {
         this.submitFormDetails.patchValue({
-          nameProduct: i.nameProduct,
-          productId: i.productId,
-          content: i.content,
-          unit: i.unit,
-          quantity: i.quantity,
-          price: i.price,
-          percentTaxSell: i.percentTaxSell,
-          percentMoney: i.percentMoney,
-          percentDiscountBeforeTax: i.percentDiscountBeforeTax,
+          nameProduct: this.InvoiceDetails[i].nameProduct,
+          productId: this.InvoiceDetails[i].productId,
+          content: this.InvoiceDetails[i].content,
+          unit: this.InvoiceDetails[i].unit,
+          quantity: this.InvoiceDetails[i].quantity,
+          price: this.InvoiceDetails[i].price,
+          percentTaxSell: this.InvoiceDetails[i].percentTaxSell,
+          percentMoney: this.InvoiceDetails[i].percentMoney,
+          percentDiscountBeforeTax: this.InvoiceDetails[i].percentDiscountBeforeTax,
         })
-        this.intoMoneyAffer = i.intoMoney;
+        this.intoMoneyAffer = this.InvoiceDetails[i].intoMoney;
+        this.indexOfInvoiceDetailUpdate = i;
+        //this.MoneyTaxSellBeforeEdit = this.InvoiceDetails[i].percentMoney;
+        // console.log(this.InvoiceDetails[i].percentMoney);
+
+        //xử lý chọn sau:
         // this.selectedValueTaxSell = i.percentTaxSell;
         break;
       }
@@ -250,91 +369,94 @@ export class InvoiceGTKTFormComponent implements OnInit {
     this.showModal();
   }
   onSubmit() {
-    const params = {
-      taxCodeBuyer: this.submitForm.get('taxCodeBuy')?.value,
-      companyNameBuyer: this.submitForm.get('companyNameBuy')?.value,
-      addressBuyer: this.submitForm.get('addressBuy')?.value,
-      taxCodeSeller: this.submitForm.get('taxCodeSell')?.value,
-      customerIdSeller: this.submitForm.get('customerIdSell')?.value,
-      companyNameSeller: this.submitForm.get('companyNameSell')?.value,
-      fulNameSeller: this.submitForm.get('nameSell')?.value,
-      emailSeller: this.submitForm.get('emailSell')?.value,
-      addressSeller: this.submitForm.get('addressSell')?.value,
-      bankNumberSeller: this.submitForm.get('accountBankSell')?.value,
-      nameBankSeller: this.submitForm.get('nameBankSell')?.value,
-      invoiceNumber: this.submitForm.get('invoiceNumber')?.value,
-      invoiceForm: this.submitForm.get('invoiceForm')?.value,
-      invoiceSign: this.submitForm.get('invoiceSign')?.value,
-      invoiceDay: this.submitForm.get('dateInvoice')?.value,
-      payments: this.submitForm.get('payType')?.value,
-      invoiceNote: this.submitForm.get('noteInvoice')?.value,
-      totalProduct: this.totalProduct,
-      totalTax: this.totalTax,
-      totalPay: this.totalPay,
-      totalDiscountBeforeTax: 0,
-      totalDiscountAfterTax: 0,
-      percentDiscountAfterTax: 0,
-      invoiceDetails: this.InvoiceDetails,
-      invoiceTaxBreaks: this.InvoiceTaxBreaks
-    }
-    //console.log("data:", params);
-    this.invoiceService.createInvoiceGTKT(params).subscribe((data) => {
-      this._location.back();
-    })
-
-
     //console.log(this.flagInvoiceDetail);
-    // const valid = this.submitForm.valid;
-    // if(valid){
-    //   if (this.isShowCreateOrUpdate) { // Update
-    //     const params = {
-    //       id: this.ids,
-    //       customerId: this.submitForm.get('customerId')?.value,
-    //       taxCode: this.submitForm.get('taxCode')?.value,
-    //       address: this.submitForm.get('address')?.value,
-    //       name: this.submitForm.get('fullName')?.value,
-    //       city: this.submitForm.get('city')?.value,
-    //       district: this.submitForm.get('district')?.value,
-    //       daidienphapnhan: this.submitForm.get('legalName')?.value,
-    //       stk: this.submitForm.get('bankAcount')?.value,
-    //       tenNH: this.submitForm.get('bankName')?.value,
-    //       sdt: this.submitForm.get('phone')?.value,
-    //       fax: this.submitForm.get('soFax')?.value,
-    //       email: this.submitForm.get('email')?.value
-    //     }
-    //     this.customerService.updateCustomer(params).subscribe((data) => {
-    //       this._location.back();
-    //     })
-    //   } else { // CREATE
-    //     const params = {
-    //       customerId: this.submitForm.get('customerId')?.value,
-    //       taxCode: this.submitForm.get('taxCode')?.value,
-    //       address: this.submitForm.get('address')?.value,
-    //       name: this.submitForm.get('fullName')?.value,
-    //       city: this.submitForm.get('city')?.value,
-    //       district: this.submitForm.get('district')?.value,
-    //       daidienphapnhan: this.submitForm.get('legalName')?.value,
-    //       stk: this.submitForm.get('bankAcount')?.value,
-    //       tenNH: this.submitForm.get('bankName')?.value,
-    //       sdt: this.submitForm.get('phone')?.value,
-    //       fax: this.submitForm.get('soFax')?.value,
-    //       email: this.submitForm.get('email')?.value
-    //     }
-    //     this.customerService.createCustomer(params).subscribe((data) => {
-    //       this._location.back();
-    //     })
-    //   }
-    // }else{
-    //   for (const i in this.submitForm.controls) {
-    //     if (this.submitForm.controls.hasOwnProperty(i)) {
-    //       this.submitForm.controls[i].markAsDirty();
-    //       this.submitForm.controls[i].updateValueAndValidity();
-    //     }
-    //   }
-    // }
+    const valid = this.submitForm.valid;
+    if(valid){
+      if (this.isShowCreateOrUpdate) { // Update
+        const params = {
+          id: this.ids,
+          taxCodeBuyer: this.submitForm.get('taxCodeBuy')?.value,
+          companyNameBuyer: this.submitForm.get('companyNameBuy')?.value,
+          addressBuyer: this.submitForm.get('addressBuy')?.value,
+          taxCodeSeller: this.submitForm.get('taxCodeSell')?.value,
+          customerIdSeller: this.submitForm.get('customerIdSell')?.value,
+          companyNameSeller: this.submitForm.get('companyNameSell')?.value,
+          fulNameSeller: this.submitForm.get('nameSell')?.value,
+          emailSeller: this.submitForm.get('emailSell')?.value,
+          addressSeller: this.submitForm.get('addressSell')?.value,
+          bankNumberSeller: this.submitForm.get('accountBankSell')?.value,
+          nameBankSeller: this.submitForm.get('nameBankSell')?.value,
+          invoiceNumber: this.submitForm.get('invoiceNumber')?.value,
+          invoiceForm: this.submitForm.get('invoiceForm')?.value,
+          invoiceSign: this.submitForm.get('invoiceSign')?.value,
+          invoiceDay: this.submitForm.get('dateInvoice')?.value,
+          payments: this.submitForm.get('payType')?.value,
+          invoiceNote: this.submitForm.get('noteInvoice')?.value,
+          totalProduct: this.totalProduct,
+          totalTax: this.totalTax,
+          totalPay: this.totalPay,
+          totalDiscountBeforeTax: 0,
+          totalDiscountAfterTax: 0,
+          percentDiscountAfterTax: 0,
+          invoiceDetails: this.InvoiceDetails,
+          invoiceTaxBreaks: this.InvoiceTaxBreaks
+        }
+        this.invoiceService.updateInvoiceGTKT(params).subscribe((data) => {
+          this._location.back();
+        })
+      } else { // CREATE
+        const params = {
+          taxCodeBuyer: this.submitForm.get('taxCodeBuy')?.value,
+          companyNameBuyer: this.submitForm.get('companyNameBuy')?.value,
+          addressBuyer: this.submitForm.get('addressBuy')?.value,
+          taxCodeSeller: this.submitForm.get('taxCodeSell')?.value,
+          customerIdSeller: this.submitForm.get('customerIdSell')?.value,
+          companyNameSeller: this.submitForm.get('companyNameSell')?.value,
+          fulNameSeller: this.submitForm.get('nameSell')?.value,
+          emailSeller: this.submitForm.get('emailSell')?.value,
+          addressSeller: this.submitForm.get('addressSell')?.value,
+          bankNumberSeller: this.submitForm.get('accountBankSell')?.value,
+          nameBankSeller: this.submitForm.get('nameBankSell')?.value,
+          invoiceNumber: this.submitForm.get('invoiceNumber')?.value,
+          invoiceForm: this.submitForm.get('invoiceForm')?.value,
+          invoiceSign: this.submitForm.get('invoiceSign')?.value,
+          invoiceDay: this.submitForm.get('dateInvoice')?.value,
+          payments: this.submitForm.get('payType')?.value,
+          invoiceNote: this.submitForm.get('noteInvoice')?.value,
+          totalProduct: this.totalProduct,
+          totalTax: this.totalTax,
+          totalPay: this.totalPay,
+          totalDiscountBeforeTax: 0,
+          totalDiscountAfterTax: 0,
+          percentDiscountAfterTax: 0,
+          invoiceDetails: this.InvoiceDetails,
+          invoiceTaxBreaks: this.InvoiceTaxBreaks
+        }
+        //console.log("data:", params);
+        this.invoiceService.createInvoiceGTKT(params).subscribe((data) => {
+          this._location.back();
+        })
+      }
+    }else{
+      for (const i in this.submitForm.controls) {
+        if (this.submitForm.controls.hasOwnProperty(i)) {
+          this.submitForm.controls[i].markAsDirty();
+          this.submitForm.controls[i].updateValueAndValidity();
+        }
+      }
+    }
 
   }
-
+  onChange(taxSell: any) {
+    if (taxSell < 0) {
+      this.MoneyTaxSell = 0;
+    }
+    else {
+      this.MoneyTaxSell = (taxSell * this.intoMoneyAffer) / 100;
+    }
+    //test để chạy được đã phần chiết khấu
+    this.PercentDiscountBeforeTax = 0;
+  }
   onKeyQuantity(quantity: any) {
     this.quantity = quantity.target.value;
     this.intoMoneyAffer = this.quantity * this.priceAffter;

@@ -255,12 +255,27 @@
                                     suất
                                 </nz-form-label>
                                 <nz-select nz-col nzSpan="16" formControlName="percentTaxSell" nzShowSearch nzAllowClear
-                                    nzPlaceHolder="-Chọn thuế suất-" [(ngModel)]="selectedValueTaxSell">
+                                    nzPlaceHolder="-Chọn thuế suất-" [(ngModel)]="selectedValueTaxSell" (ngModelChange)="onChange($event)">
                                     <nz-option *ngFor="let taxsell of taxs" nzLabel="{{taxsell.lable}}"
                                         nzValue="{{taxsell.value}}">
                                     </nz-option>
                                 </nz-select>
                             </div><br>
+                            <div hidden class="form-group" nz-row>
+                                <nz-form-label nz-col nzSpan="8" nzFor="percentMoney" style="font-weight: bold;">Tiền thuế suất
+                                </nz-form-label>
+                                <nz-form-control nz-col nzSpan="16" nzErrorTip="">
+                                    <input nz-input type="text" formControlName="percentMoney"
+                                    [(ngModel)]="MoneyTaxSell">
+                                </nz-form-control>
+                            </div>
+                            <div hidden class="form-group" nz-row>
+                                <nz-form-label nz-col nzSpan="8" nzFor="percentDiscountBeforeTax" style="font-weight: bold;">Chiết khấu trước thuế
+                                </nz-form-label>
+                                <nz-form-control nz-col nzSpan="16" nzErrorTip="">
+                                    <input nz-input type="text" formControlName="percentDiscountBeforeTax" [(ngModel)]="PercentDiscountBeforeTax">
+                                </nz-form-control>
+                            </div>
                             <div class="form-group" nz-row>
                                 <nz-form-label nz-col nzSpan="8" nzFor="intoMoney" style="font-weight: bold;">Thành tiền
                                 </nz-form-label>
