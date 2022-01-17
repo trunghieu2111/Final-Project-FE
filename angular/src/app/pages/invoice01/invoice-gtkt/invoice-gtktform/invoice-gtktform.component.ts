@@ -73,11 +73,18 @@ export class InvoiceGTKTFormComponent implements OnInit {
   totalPay: number = 0;
 
   intoMoneyAffer: number;
-  PercentDiscountBeforeTax: number = 0;
-  MoneyTaxSell: number;
+  intoMoneyBefore: number=0;
+  percentDiscount:number=0;
+  intoMoneyBeforeTax:number = 0;
+  //PercentDiscountBeforeTax: number = 0;
+  MoneyTaxSell: number = 0;
   quantity: number;
   priceAffter: number = 0;
   PercentTaxSellinForm = 0;
+  PercentDiscountAfterTax = 0;
+  TotalDiscountAfterTax = 0;
+  //để không bị trùng id khi mà dùng chức năng sửa
+  idOfCreateDetail = 0.5;
 
   constructor(
     private _location: Location,
@@ -144,12 +151,14 @@ export class InvoiceGTKTFormComponent implements OnInit {
 
   showModal(): void {
     this.isVisible = true;
+    this.percentDiscount = 0;
+    this.MoneyTaxSell = 0;
   }
 
   handleOk(): void {
     //tính thuế suất khi âm
     // if (Number(this.submitFormDetails.get('percentTaxSell')?.value) < 0) {
-    //   this.PercentTaxSellinForm = 0;
+    //this.PercentTaxSellinForm = 0;
     //   console.log("vào <0");
     // }
     // else {
@@ -159,24 +168,26 @@ export class InvoiceGTKTFormComponent implements OnInit {
 
     if (this.flagCreateorUpdateInvoiceDetail == true) {
       const par = {
-        id: 0,
+        id: this.idOfCreateDetail + 1,
         //invoiceId: this.InvoiceDetails[0].invoiceId,
         nameProduct: this.submitFormDetails.get('nameProduct')?.value,
         productId: this.submitFormDetails.get('productId')?.value,
         content: this.submitFormDetails.get('content')?.value,
         unit: this.submitFormDetails.get('unit')?.value,
-        quantity: this.submitFormDetails.get('quantity')?.value,
-        price: this.submitFormDetails.get('price')?.value,
+        quantity: Number(this.submitFormDetails.get('quantity')?.value),
+        price: Number(this.submitFormDetails.get('price')?.value),
         percentTaxSell: Number(this.submitFormDetails.get('percentTaxSell')?.value),
-        percentDiscountBeforeTax: this.submitFormDetails.get('percentDiscountBeforeTax')?.value,
-        percentMoney: this.submitFormDetails.get('percentMoney')?.value,
-        intoMoney: this.submitFormDetails.get('intoMoney')?.value,
+        percentDiscountBeforeTax: Number(this.submitFormDetails.get('percentDiscountBeforeTax')?.value),
+        percentMoney: Number(this.submitFormDetails.get('percentMoney')?.value),
+        intoMoney: Number(this.submitFormDetails.get('intoMoney')?.value),
       }
       this.InvoiceDetails.push(par);
       this.InvoiceDetails = [...this.InvoiceDetails];
       this.calculateTaxSell();
-      console.log("dataTaxx:", this.InvoiceTaxBreaks);
-      console.log("data:", this.InvoiceDetails);
+
+      this.idOfCreateDetail = par.id;
+      // console.log("dataTaxx:", this.InvoiceTaxBreaks);
+      // console.log("data:", this.InvoiceDetails);
     }
     else {
       for (let i = 0; i < this.InvoiceDetails.length; i++) {
@@ -188,22 +199,22 @@ export class InvoiceGTKTFormComponent implements OnInit {
             productId: this.submitFormDetails.get('productId')?.value,
             content: this.submitFormDetails.get('content')?.value,
             unit: this.submitFormDetails.get('unit')?.value,
-            quantity: this.submitFormDetails.get('quantity')?.value,
-            price: this.submitFormDetails.get('price')?.value,
+            quantity: Number(this.submitFormDetails.get('quantity')?.value),
+            price: Number(this.submitFormDetails.get('price')?.value),
             percentTaxSell: Number(this.submitFormDetails.get('percentTaxSell')?.value),
-            percentDiscountBeforeTax: this.submitFormDetails.get('percentDiscountBeforeTax')?.value,
-            percentMoney: this.submitFormDetails.get('percentMoney')?.value,
-            intoMoney: this.submitFormDetails.get('intoMoney')?.value,
+            percentDiscountBeforeTax: Number(this.submitFormDetails.get('percentDiscountBeforeTax')?.value),
+            percentMoney: Number(this.submitFormDetails.get('percentMoney')?.value),
+            intoMoney: Number(this.submitFormDetails.get('intoMoney')?.value),
           }
           this.InvoiceDetails[i] = par;
           this.InvoiceDetails = [...this.InvoiceDetails];
-          console.log("dataDetail Sửa:", this.InvoiceDetails);
+          //console.log("dataDetail Sửa:", this.InvoiceDetails);
           break;
         }
       }
       this.calculateTaxSell();
-      console.log("dataTaxx:", this.InvoiceTaxBreaks);
-      console.log("data:", this.InvoiceDetails);
+      // console.log("dataTaxx:", this.InvoiceTaxBreaks);
+      // console.log("data:", this.InvoiceDetails);
       this.flagCreateorUpdateInvoiceDetail = true;
     }
     this.submitFormDetails.reset();
@@ -213,6 +224,7 @@ export class InvoiceGTKTFormComponent implements OnInit {
   handleCancel(): void {
     //console.log('Button cancel clicked!');
     this.isVisible = false;
+    this.submitFormDetails.reset();
   }
 
   public loadData(id: any) {
@@ -263,28 +275,49 @@ export class InvoiceGTKTFormComponent implements OnInit {
     this.calculateTaxSell();
     // console.log("dataTaxx:", this.InvoiceTaxBreaks);
     // console.log("data:", this.InvoiceDetails);
-
   }
 
   handTaxSell() {
     //gán id cho thuế sau khi xử lý
-    for(let i = 0; i< this.InvoiceTaxBreaks.length; i++){
+    for (let i = 0; i < this.InvoiceTaxBreaks.length; i++) {
       var check = 0;
-      for(let j =0; j<this.SubInvoiceTaxBreaks.length;j++){
-        if(this.InvoiceTaxBreaks[i].percentTaxSell==this.SubInvoiceTaxBreaks[j].percentTaxSell){
+      for (let j = 0; j < this.SubInvoiceTaxBreaks.length; j++) {
+        if (this.InvoiceTaxBreaks[i].percentTaxSell == this.SubInvoiceTaxBreaks[j].percentTaxSell) {
           this.InvoiceTaxBreaks[i].id = this.SubInvoiceTaxBreaks[j].id;
           check = 1;
           //console.log("check vào:", check);
           break;
         }
       }
-      if(check == 0){
+      if (check == 0) {
         this.InvoiceTaxBreaks[i].id = 0;
         //console.log("check không vào:", check);
       }
     }
     //console.log("datatxxxxx:", this.InvoiceTaxBreaks);
   }
+
+  onKeyPercentDiscountAfterTax(percent:any){
+    this.PercentDiscountAfterTax = Number(percent.target.value);
+    this.TotalDiscountAfterTax = (this.PercentDiscountAfterTax * this.totalProduct)/100;
+    this.totalPay = (this.totalProduct + this.totalTax) - this.TotalDiscountAfterTax;
+  }
+  onKeyTotalDiscountAfterTax(total:any){
+    //người dùng làm tròn thuế
+    this.TotalDiscountAfterTax = Number(total.target.value);
+    this.totalPay = (this.totalProduct + this.totalTax) - this.TotalDiscountAfterTax;
+  }
+
+  calculateDiscount(){
+    this.intoMoneyBeforeTax = 0;
+    for(let i of this.InvoiceDetails){
+      this.intoMoneyBeforeTax += i.percentMoney;
+      //console.log("data", i.percentMoney +"-"+ this.intoMoneyBeforeTax);
+    }
+    //console.log("data", this.InvoiceDetails);
+    
+  }
+
   calculateTaxSell() {
     //tính thuế suất khi âm
     this.InvoiceTaxBreaks = [];
@@ -338,8 +371,9 @@ export class InvoiceGTKTFormComponent implements OnInit {
     for (let i of this.InvoiceTaxBreaks) {
       this.totalTax += i.moneyTaxSell;
     }
-    this.totalPay = this.totalProduct + this.totalTax;
+    this.totalPay = (this.totalProduct + this.totalTax) - this.TotalDiscountAfterTax;
     this.handTaxSell();
+    this.calculateDiscount();
   }
   editInvoiceDetail(id: any) {
     this.flagCreateorUpdateInvoiceDetail = false;
@@ -357,7 +391,10 @@ export class InvoiceGTKTFormComponent implements OnInit {
           percentDiscountBeforeTax: this.InvoiceDetails[i].percentDiscountBeforeTax,
         })
         this.intoMoneyAffer = this.InvoiceDetails[i].intoMoney;
+        this.intoMoneyBefore = (this.InvoiceDetails[i].quantity * this.InvoiceDetails[i].price);
         this.indexOfInvoiceDetailUpdate = i;
+        this.priceAffter = this.InvoiceDetails[i].price;
+        this.quantity = this.InvoiceDetails[i].quantity;
         //this.MoneyTaxSellBeforeEdit = this.InvoiceDetails[i].percentMoney;
         // console.log(this.InvoiceDetails[i].percentMoney);
 
@@ -370,8 +407,14 @@ export class InvoiceGTKTFormComponent implements OnInit {
   }
   onSubmit() {
     //console.log(this.flagInvoiceDetail);
+    for(let i of this.InvoiceDetails){
+      if(Number.isInteger(i.id)==false){
+        i.id = 0;
+      }
+    }
+    
     const valid = this.submitForm.valid;
-    if(valid){
+    if (valid) {
       if (this.isShowCreateOrUpdate) { // Update
         const params = {
           id: this.ids,
@@ -395,9 +438,9 @@ export class InvoiceGTKTFormComponent implements OnInit {
           totalProduct: this.totalProduct,
           totalTax: this.totalTax,
           totalPay: this.totalPay,
-          totalDiscountBeforeTax: 0,
-          totalDiscountAfterTax: 0,
-          percentDiscountAfterTax: 0,
+          totalDiscountBeforeTax: this.intoMoneyBeforeTax,
+          totalDiscountAfterTax: this.TotalDiscountAfterTax,
+          percentDiscountAfterTax: this.PercentDiscountAfterTax,
           invoiceDetails: this.InvoiceDetails,
           invoiceTaxBreaks: this.InvoiceTaxBreaks
         }
@@ -426,9 +469,9 @@ export class InvoiceGTKTFormComponent implements OnInit {
           totalProduct: this.totalProduct,
           totalTax: this.totalTax,
           totalPay: this.totalPay,
-          totalDiscountBeforeTax: 0,
-          totalDiscountAfterTax: 0,
-          percentDiscountAfterTax: 0,
+          totalDiscountBeforeTax: this.intoMoneyBeforeTax,
+          totalDiscountAfterTax: this.TotalDiscountAfterTax,
+          percentDiscountAfterTax: this.PercentDiscountAfterTax,
           invoiceDetails: this.InvoiceDetails,
           invoiceTaxBreaks: this.InvoiceTaxBreaks
         }
@@ -437,7 +480,7 @@ export class InvoiceGTKTFormComponent implements OnInit {
           this._location.back();
         })
       }
-    }else{
+    } else {
       for (const i in this.submitForm.controls) {
         if (this.submitForm.controls.hasOwnProperty(i)) {
           this.submitForm.controls[i].markAsDirty();
@@ -447,23 +490,53 @@ export class InvoiceGTKTFormComponent implements OnInit {
     }
 
   }
+
   onChange(taxSell: any) {
-    if (taxSell < 0) {
-      this.MoneyTaxSell = 0;
-    }
-    else {
-      this.MoneyTaxSell = (taxSell * this.intoMoneyAffer) / 100;
-    }
+    // if (taxSell < 0) {
+    //   this.MoneyTaxSell = 0;
+    // }
+    // else {
+    //   this.MoneyTaxSell = (taxSell * this.intoMoneyAffer) / 100;
+    // }
+
     //test để chạy được đã phần chiết khấu
-    this.PercentDiscountBeforeTax = 0;
+    //this.PercentDiscountBeforeTax = 0;
   }
+  onKeyTaxSell(moneyTax: any, tax: any) {
+    for (let i of this.InvoiceTaxBreaks) {
+      if (i.percentTaxSell == tax) {
+        i.moneyTaxSell = Number(moneyTax.target.value);
+        break;
+      }
+    }
+    //console.log("data:", this.InvoiceTaxBreaks);
+    this.totalTax = 0;
+    for (let i of this.InvoiceTaxBreaks) {
+      this.totalTax += i.moneyTaxSell;
+    }
+    this.totalPay = (this.totalProduct + this.totalTax) - this.TotalDiscountAfterTax;
+    this.handTaxSell();
+  }
+
+  onKeyDiscount(discount:any){
+    this.MoneyTaxSell = (Number(discount.target.value) * this.intoMoneyBefore)/100;
+    this.percentDiscount = Number(discount.target.value);
+    this.intoMoneyAffer = (this.quantity * this.priceAffter) - this.MoneyTaxSell;
+    //console.log("intomoney:", this.intoMoneyAffer + "+" + this.quantity + "pri"+this.priceAffter + "chiết"+this.MoneyTaxSell);
+  }
+
   onKeyQuantity(quantity: any) {
-    this.quantity = quantity.target.value;
-    this.intoMoneyAffer = this.quantity * this.priceAffter;
+    this.quantity = Number(quantity.target.value);
+    this.intoMoneyBefore = this.quantity * this.priceAffter;
+    this.MoneyTaxSell = (this.percentDiscount * this.intoMoneyBefore)/100;
+    this.intoMoneyAffer = (this.quantity * this.priceAffter) - this.MoneyTaxSell;
   }
+
   onKey(p: any) {
-    this.intoMoneyAffer = this.quantity * Number(p.target.value);
+    this.intoMoneyBefore = this.quantity * Number(p.target.value);
     this.priceAffter = Number(p.target.value);
+    this.MoneyTaxSell = (this.percentDiscount * this.intoMoneyBefore)/100;
+    this.intoMoneyAffer = (this.quantity * Number(p.target.value))- this.MoneyTaxSell;
   }
 
   back() {

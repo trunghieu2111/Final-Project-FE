@@ -46,7 +46,7 @@
                     </nz-form-label>
                     <nz-form-control [nzSpan]="0">
                         <input style="width: auto" nz-input type="date" placeholder="-Chọn ngày-"
-                            formControlName="dateInvoice"/> 
+                            formControlName="dateInvoice" />
                     </nz-form-control>
                 </nz-form-item>
 
@@ -202,9 +202,7 @@
                     (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
                     <form nz-form [formGroup]="submitFormDetails">
                         <ng-container *nzModalContent>
-                            <!-- <p>Content one</p>
-                        <p>Content two</p>
-                        <p>Content three</p> -->
+
                             <div class="form-group" nz-row>
                                 <nz-form-label nz-col nzSpan="8" nzFor="nameProduct" style="font-weight: bold;">Hàng hóa
                                     /
@@ -255,25 +253,29 @@
                                     suất
                                 </nz-form-label>
                                 <nz-select nz-col nzSpan="16" formControlName="percentTaxSell" nzShowSearch nzAllowClear
-                                    nzPlaceHolder="-Chọn thuế suất-" [(ngModel)]="selectedValueTaxSell" (ngModelChange)="onChange($event)">
+                                    nzPlaceHolder="-Chọn thuế suất-" [(ngModel)]="selectedValueTaxSell"
+                                    (ngModelChange)="onChange($event)">
                                     <nz-option *ngFor="let taxsell of taxs" nzLabel="{{taxsell.lable}}"
                                         nzValue="{{taxsell.value}}">
                                     </nz-option>
                                 </nz-select>
                             </div><br>
                             <div hidden class="form-group" nz-row>
-                                <nz-form-label nz-col nzSpan="8" nzFor="percentMoney" style="font-weight: bold;">Tiền thuế suất
+                                <nz-form-label nz-col nzSpan="8" nzFor="percentMoney" style="font-weight: bold;">Tiền
+                                    thuế suất
                                 </nz-form-label>
                                 <nz-form-control nz-col nzSpan="16" nzErrorTip="">
                                     <input nz-input type="text" formControlName="percentMoney"
-                                    [(ngModel)]="MoneyTaxSell">
+                                        [(ngModel)]="MoneyTaxSell">
                                 </nz-form-control>
                             </div>
                             <div hidden class="form-group" nz-row>
-                                <nz-form-label nz-col nzSpan="8" nzFor="percentDiscountBeforeTax" style="font-weight: bold;">Chiết khấu trước thuế
+                                <nz-form-label nz-col nzSpan="8" nzFor="percentDiscountBeforeTax"
+                                    style="font-weight: bold;">Chiết khấu trước thuế
                                 </nz-form-label>
                                 <nz-form-control nz-col nzSpan="16" nzErrorTip="">
-                                    <input nz-input type="text" formControlName="percentDiscountBeforeTax" [(ngModel)]="PercentDiscountBeforeTax">
+                                    <input nz-input type="text" formControlName="percentDiscountBeforeTax"
+                                        [(ngModel)]="percentDiscount">
                                 </nz-form-control>
                             </div>
                             <div class="form-group" nz-row>
@@ -297,87 +299,97 @@
                 </button>
                 <nz-modal *ngIf="flagInvoiceDetail === true" [(nzVisible)]="isVisible" nzTitle="Chi tiết hóa đơn"
                     (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
-                    <ng-container *nzModalContent>
-                        <!-- <p>Content one</p>
-                    <p>Content two</p>
-                    <p>Content three</p> -->
-                        <div class="form-group" nz-row>
-                            <nz-form-label nz-col nzSpan="8" nzFor="nameProduct" style="font-weight: bold;">Hàng hóa /
-                                dịch vụ</nz-form-label>
-                            <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập hàng hóa">
-                                <input nz-input type="text" formControlName="nameProduct">
-                            </nz-form-control>
-                        </div><br>
-                        <div class="form-group" nz-row>
-                            <nz-form-label nz-col nzSpan="8" nzFor="productId" style="font-weight: bold;">Mã Hàng hóa /
-                                dịch vụ</nz-form-label>
-                            <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập mã hàng hóa">
-                                <input nz-input type="text" formControlName="productId">
-                            </nz-form-control>
-                        </div><br>
-                        <div class="form-group" nz-row>
-                            <nz-form-label nz-col nzSpan="8" nzFor="content" style="font-weight: bold;">Nội dung
-                            </nz-form-label>
-                            <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập nội dung">
-                                <input nz-input type="text" formControlName="content">
-                            </nz-form-control>
-                        </div>
-                        <div class="form-group" nz-row>
-                            <nz-form-label nz-col nzSpan="8" nzFor="unit" style="font-weight: bold;">Đơn vị tính
-                            </nz-form-label>
-                            <nz-form-control nz-col nzSpan="16" nzErrorTip="">
-                                <input nz-input type="text" formControlName="unit">
-                            </nz-form-control>
-                        </div>
-                        <div class="form-group" nz-row>
-                            <nz-form-label nz-col nzSpan="8" nzFor="quantity" style="font-weight: bold;">Số lượng
-                            </nz-form-label>
-                            <nz-form-control nz-col nzSpan="16" nzErrorTip="">
-                                <input nz-input type="text" formControlName="quantity">
-                            </nz-form-control>
-                        </div>
-                        <div class="form-group" nz-row>
-                            <nz-form-label nz-col nzSpan="8" nzFor="price" style="font-weight: bold;">Đơn giá
-                            </nz-form-label>
-                            <nz-form-control nz-col nzSpan="16" nzErrorTip="">
-                                <input nz-input type="text" formControlName="price">
-                            </nz-form-control>
-                        </div>
-                        <div class="form-group" nz-row>
-                            <nz-form-label nz-col nzSpan="8" nzFor="percentTaxSell" style="font-weight: bold;">Thuế suất
-                            </nz-form-label>
-                            <nz-select nz-col nzSpan="16" formControlName="percentTaxSell" nzShowSearch nzAllowClear
-                                nzPlaceHolder="-Chọn thuế suất-" [(ngModel)]="selectedValueTaxSell">
-                                <nz-option *ngFor="let taxsell of TaxSell" nzLabel="{{taxsell}}" nzValue="{{taxsell}}">
-                                </nz-option>
-                            </nz-select>
-                        </div><br>
-                        <div class="form-group" nz-row>
-                            <nz-form-label nz-col nzSpan="8" nzFor="percentDiscountBeforeTax"
-                                style="font-weight: bold;">Phần trăm chiết khấu
-                            </nz-form-label>
-                            <nz-form-control nz-col nzSpan="16" nzErrorTip="">
-                                <input nz-input type="text" formControlName="percentDiscountBeforeTax">
-                            </nz-form-control>
-                        </div>
-                        <div class="form-group" nz-row>
-                            <nz-form-label nz-col nzSpan="8" nzFor="percentMoney" style="font-weight: bold;">Tiền chiết
-                                khấu
-                            </nz-form-label>
-                            <nz-form-control nz-col nzSpan="16" nzErrorTip="">
-                                <input nz-input type="text" formControlName="percentMoney">
-                            </nz-form-control>
-                        </div>
-                        <div class="form-group" nz-row>
-                            <nz-form-label nz-col nzSpan="8" nzFor="intoMoney" style="font-weight: bold;">Thành tiền
-                            </nz-form-label>
-                            <nz-form-control nz-col nzSpan="16" nzErrorTip="">
-                                <input disabled nz-input type="text" formControlName="intoMoney"
-                                    [(ngModel)]="intoMoneyAffer">
-                            </nz-form-control>
-                        </div>
+                    <form nz-form [formGroup]="submitFormDetails">
+                        <ng-container *nzModalContent>
 
-                    </ng-container>
+                            <div class="form-group" nz-row>
+                                <nz-form-label nz-col nzSpan="8" nzFor="nameProduct" style="font-weight: bold;">Hàng hóa
+                                    /
+                                    dịch vụ</nz-form-label>
+                                <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập hàng hóa">
+                                    <input nz-input type="text" formControlName="nameProduct">
+                                </nz-form-control>
+                            </div><br>
+                            <div class="form-group" nz-row>
+                                <nz-form-label nz-col nzSpan="8" nzFor="productId" style="font-weight: bold;">Mã Hàng
+                                    hóa /
+                                    dịch vụ</nz-form-label>
+                                <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập mã hàng hóa">
+                                    <input nz-input type="text" formControlName="productId">
+                                </nz-form-control>
+                            </div><br>
+                            <div class="form-group" nz-row>
+                                <nz-form-label nz-col nzSpan="8" nzFor="content" style="font-weight: bold;">Nội dung
+                                </nz-form-label>
+                                <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập nội dung">
+                                    <input nz-input type="text" formControlName="content">
+                                </nz-form-control>
+                            </div>
+                            <div class="form-group" nz-row>
+                                <nz-form-label nz-col nzSpan="8" nzFor="unit" style="font-weight: bold;">Đơn vị tính
+                                </nz-form-label>
+                                <nz-form-control nz-col nzSpan="16" nzErrorTip="">
+                                    <input nz-input type="text" formControlName="unit">
+                                </nz-form-control>
+                            </div>
+                            <div class="form-group" nz-row>
+                                <nz-form-label nz-col nzSpan="8" nzFor="quantity" style="font-weight: bold;">Số lượng
+                                </nz-form-label>
+                                <nz-form-control nz-col nzSpan="16" nzErrorTip="">
+                                    <input nz-input type="text" formControlName="quantity"
+                                        (keyup)="onKeyQuantity($event)">
+                                </nz-form-control>
+                            </div>
+                            <div class="form-group" nz-row>
+                                <nz-form-label nz-col nzSpan="8" nzFor="price" style="font-weight: bold;">Đơn giá
+                                </nz-form-label>
+                                <nz-form-control nz-col nzSpan="16" nzErrorTip="">
+                                    <input nz-input type="text" formControlName="price" (keyup)="onKey($event)">
+                                </nz-form-control>
+                            </div>
+                            <div class="form-group" nz-row>
+                                <nz-form-label nz-col nzSpan="8" nzFor="percentTaxSell" style="font-weight: bold;">Thuế
+                                    suất
+                                </nz-form-label>
+                                <nz-select nz-col nzSpan="16" formControlName="percentTaxSell" nzShowSearch nzAllowClear
+                                    nzPlaceHolder="-Chọn thuế suất-" [(ngModel)]="selectedValueTaxSell"
+                                    (ngModelChange)="onChange($event)">
+                                    <nz-option *ngFor="let taxsell of taxs" nzLabel="{{taxsell.lable}}"
+                                        nzValue="{{taxsell.value}}">
+                                    </nz-option>
+                                </nz-select>
+                            </div><br>
+                            
+                            <div class="form-group" nz-row>
+                                <nz-form-label nz-col nzSpan="8" nzFor="percentDiscountBeforeTax"
+                                    style="font-weight: bold;">Phần trăm chiết khấu
+                                </nz-form-label>
+                                <nz-form-control nz-col nzSpan="16" nzErrorTip="">
+                                    <input nz-input type="text" formControlName="percentDiscountBeforeTax"
+                                        [(ngModel)]="percentDiscount" (keyup)="onKeyDiscount($event)">
+                                </nz-form-control>
+                            </div>
+                            <div class="form-group" nz-row>
+                                <nz-form-label nz-col nzSpan="8" nzFor="percentMoney" style="font-weight: bold;">Tiền
+                                    chiết khấu
+                                </nz-form-label>
+                                <nz-form-control nz-col nzSpan="16" nzErrorTip="">
+                                    <input nz-input type="text" formControlName="percentMoney"
+                                        [(ngModel)]="MoneyTaxSell">
+                                </nz-form-control>
+                            </div>
+
+                            <div class="form-group" nz-row>
+                                <nz-form-label nz-col nzSpan="8" nzFor="intoMoney" style="font-weight: bold;">Thành tiền
+                                </nz-form-label>
+                                <nz-form-control nz-col nzSpan="16" nzErrorTip="">
+                                    <input readonly nz-input type="text" formControlName="intoMoney"
+                                        [(ngModel)]="intoMoneyAffer">
+                                </nz-form-control>
+                            </div>
+
+                        </ng-container>
+                    </form>
                 </nz-modal>
 
             </div>
@@ -410,7 +422,11 @@
                         <td>{{ data.unit }}</td>
                         <td>{{ data.quantity }}</td>
                         <td>{{ data.price }}</td>
-                        <td>{{ data.percentTaxSell }}</td>
+                        <td *ngIf="data.percentTaxSell == 10">Thuế suất 10%</td>
+                        <td *ngIf="data.percentTaxSell == 5">Thuế suất 5%</td>
+                        <td *ngIf="data.percentTaxSell == 0">Thuế suất 0%</td>
+                        <td *ngIf="data.percentTaxSell == -1">Không chịu thuế</td>
+                        <td *ngIf="data.percentTaxSell == -2">Không kê khai</td>
                         <td>{{ data.intoMoney }}</td>
 
                         <td>
@@ -426,26 +442,30 @@
 
             <div style="font-size: 16px; font-style: italic;font-weight: bold; display: flex;">
                 <div style="width: 500px">
-                    <span>Tổng tiền hàng </span><br />
+                    <span>Tổng tiền hàng </span><br /><br />
                     <span *ngFor="let i of InvoiceTaxBreaks">
                         {{i.nameTaxSell}}<br>
-                    </span><br>
-                    <span>Tổng tiền thuế </span><br />
+                    </span><br />
+                    <span>Tổng tiền thuế </span><br /><br />
                     <span>Tổng tiền thanh toán </span>
                 </div>
                 <div>
-                    <span>{{totalProduct}}</span><br />
-                    <span *ngFor="let i of InvoiceTaxBreaks">
+                    <span>{{totalProduct}}</span><br /><br />
+                    <!-- <span *ngFor="let i of InvoiceTaxBreaks">
                         {{i.moneyTaxSell}}<br>
-                    </span><br>
-                    <span>{{totalTax}}</span><br />
+                    </span><br> -->
+                    <span *ngFor="let i of InvoiceTaxBreaks">
+                        <input class="inputTax" value="{{i.moneyTaxSell}}"
+                            (keyup)="onKeyTaxSell($event, i.percentTaxSell)" /><br />
+                    </span><br />
+                    <span>{{totalTax}}</span><br /><br />
                     <span>{{totalPay}}</span>
                 </div>
             </div>
         </div>
 
         <div *ngIf="flagInvoiceDetail === true" class="tableInvoiceDetail" style="margin-top: 20px; position: relative">
-            <nz-table #tableList #basicTable [nzData]="data" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize"
+            <nz-table #tableList #basicTable [nzData]="InvoiceDetails" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize"
                 [nzTotal]="total">
                 <!-- (nzPageIndexChange)="pageIndexChange($event)" -->
                 <thead>
@@ -460,50 +480,65 @@
                         <th>% Chiết khấu</th>
                         <th>Tiền chiết khấu</th>
                         <th>Thành tiền</th>
+                        <th>#</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let data of basicTable.data">
-                        <!-- <td>
-                            
+                    <tr *ngFor="let data of basicTable.data; let i = index">
+                        <td>
+                            {{ i + 1 }}
                         </td>
-                        <td>{{data.acc}}</td>
-                        <td>{{data.tt}}</td>
-                        <td>{{data.hd}}</td>
-                        <td>{{data.bb}}</td>
-                        <td>{{data.tongtienhang}}</td>
-                        <td>{{data.tongtienthue}}</td>
-                        <td>{{data.tongtt}}</td> -->
+                        <td>{{ data.nameProduct }}</td>
+                        <td>{{ data.content }}</td>
+                        <td>{{ data.unit }}</td>
+                        <td>{{ data.quantity }}</td>
+                        <td>{{ data.price }}</td>
+                        <td *ngIf="data.percentTaxSell == 10">Thuế suất 10%</td>
+                        <td *ngIf="data.percentTaxSell == 5">Thuế suất 5%</td>
+                        <td *ngIf="data.percentTaxSell == 0">Thuế suất 0%</td>
+                        <td *ngIf="data.percentTaxSell == -1">Không chịu thuế</td>
+                        <td *ngIf="data.percentTaxSell == -2">Không kê khai</td>
+                        <td>{{ data.percentDiscountBeforeTax }}</td>
+                        <td>{{ data.percentMoney }}</td>
+                        <td>{{ data.intoMoney }}</td>
 
-                        <!-- <td>
-                            <a><i style="color: red; margin-right: 10px; font-size: 20px;" nz-icon nzType="close"
-                                    nzTheme="outline" title="Xóa" (click)="removeInvoice(data.id)"></i></a>
+                        <td>
+                            <a><i style="color: red; margin-right: 10px; font-size: 20px" nz-icon nzType="close"
+                                    nzTheme="outline" title="Xóa" (click)="removeInvoiceDetail(data.id)"></i></a>
                             &emsp;
-                            <a><i style="font-size: 20px;" nz-icon nzType="edit" nzTheme="outline" title="Sửa"
-                                    (click)="editInvoice(data.id)"></i></a>
-                        </td> -->
+                            <a><i style="font-size: 20px" nz-icon nzType="edit" nzTheme="outline" title="Sửa"
+                                    (click)="editInvoiceDetail(data.id)"></i></a>
+                        </td>
                     </tr>
                 </tbody>
             </nz-table>
 
-            <!-- <div style="font-size: 16px; font-style: italic; font-weight: bold; position: absolute; right: 10px; display: flex;">
-                <div style="width: 500px;">
-                    <span>Tổng tiền hàng
-                    </span><br>
-                    <span>Tổng tiền thuế
-                    </span><br>
-                    <span>Tổng tiền thanh toán
-                    </span>
+            <div style="font-size: 16px; font-style: italic;font-weight: bold; display: flex;">
+                <div style="width: 500px">
+                    <span>Tổng tiền chiết khấu trước thuế</span><br /><br />
+                    <span>Tổng tiền hàng </span><br /><br />
+                    <span *ngFor="let i of InvoiceTaxBreaks">
+                        {{i.nameTaxSell}}<br>
+                    </span><br />
+                    <span>Tổng tiền thuế </span><br /><br />
+                    <span>Tổng tiền chiết khấu sau thuế</span><br /><br />
+                    <span>Tổng tiền thanh toán </span>
                 </div>
                 <div>
-                    <span>0
-                    </span><br>
-                    <span>0
-                    </span><br>
-                    <span>0
-                    </span>
+                    <span>{{intoMoneyBeforeTax}}</span><br /><br/>
+                    <span>{{totalProduct}}</span><br /><br/>
+                    <span *ngFor="let i of InvoiceTaxBreaks">
+                        <input class="inputTax" value="{{i.moneyTaxSell}}"
+                            (keyup)="onKeyTaxSell($event, i.percentTaxSell)" /><br />
+                    </span><br />
+                    <span>{{totalTax}}</span><br /><br />
+                    <span><input class="inputTax" value="{{PercentDiscountAfterTax}}" (keyup)="onKeyPercentDiscountAfterTax($event)" />%&emsp;</span>
+                    <span>&emsp;=<input class="inputTax" value="{{TotalDiscountAfterTax}}" (keyup)="onKeyTotalDiscountAfterTax($event)"/></span>
+                    <br/><br/>
+                    <span>{{totalPay}}</span>
                 </div>
-            </div> -->
+            </div>
+
         </div>
     </div>
 </form>

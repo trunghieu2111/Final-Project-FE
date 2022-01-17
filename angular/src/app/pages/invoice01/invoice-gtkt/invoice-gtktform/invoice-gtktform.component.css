@@ -11,3 +11,13 @@
 .tableInvoiceDetail nz-table tr th{
     background-color: #cde5fd;
 }
+.inputTax{
+    outline: none !important;
+    font-weight: bold;
+    font-style: italic;
+    border: 1px solid #cde5fd;
+    border-top: 0px; 
+    border-left: 0px;
+    border-right: 0px;
+    width: 150px;
+}
