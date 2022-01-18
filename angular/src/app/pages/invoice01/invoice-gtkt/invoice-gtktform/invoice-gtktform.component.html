@@ -253,10 +253,9 @@
                                     suất
                                 </nz-form-label>
                                 <nz-select nz-col nzSpan="16" formControlName="percentTaxSell" nzShowSearch nzAllowClear
-                                    nzPlaceHolder="-Chọn thuế suất-" [(ngModel)]="selectedValueTaxSell"
-                                    (ngModelChange)="onChange($event)">
-                                    <nz-option *ngFor="let taxsell of taxs" nzLabel="{{taxsell.lable}}"
-                                        nzValue="{{taxsell.value}}">
+                                    nzPlaceHolder="-Chọn thuế suất-" [(ngModel)]="selectedValueTaxSell">
+                                    <nz-option *ngFor="let taxsell of taxs" [nzLabel]= "taxsell.lable"
+                                        [nzValue]="taxsell.value">
                                     </nz-option>
                                 </nz-select>
                             </div><br>

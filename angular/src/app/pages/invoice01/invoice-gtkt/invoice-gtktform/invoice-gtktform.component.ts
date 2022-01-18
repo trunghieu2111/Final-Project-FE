@@ -29,7 +29,7 @@ export class InvoiceGTKTFormComponent implements OnInit {
   isVisible = false;
   //MoneyTaxSellBeforeEdit: number;
 
-  selectedValueTaxSell = null;
+  selectedValueTaxSell:any;
   taxs: ITax[] = [
     {
       lable: 'Thuế suất 10%',
@@ -395,11 +395,8 @@ export class InvoiceGTKTFormComponent implements OnInit {
         this.indexOfInvoiceDetailUpdate = i;
         this.priceAffter = this.InvoiceDetails[i].price;
         this.quantity = this.InvoiceDetails[i].quantity;
-        //this.MoneyTaxSellBeforeEdit = this.InvoiceDetails[i].percentMoney;
-        // console.log(this.InvoiceDetails[i].percentMoney);
-
         //xử lý chọn sau:
-        // this.selectedValueTaxSell = i.percentTaxSell;
+        this.selectedValueTaxSell = this.InvoiceDetails[i].percentTaxSell;
         break;
       }
     }
@@ -491,17 +488,6 @@ export class InvoiceGTKTFormComponent implements OnInit {
 
   }
 
-  onChange(taxSell: any) {
-    // if (taxSell < 0) {
-    //   this.MoneyTaxSell = 0;
-    // }
-    // else {
-    //   this.MoneyTaxSell = (taxSell * this.intoMoneyAffer) / 100;
-    // }
-
-    //test để chạy được đã phần chiết khấu
-    //this.PercentDiscountBeforeTax = 0;
-  }
   onKeyTaxSell(moneyTax: any, tax: any) {
     for (let i of this.InvoiceTaxBreaks) {
       if (i.percentTaxSell == tax) {
