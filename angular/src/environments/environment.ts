@@ -10,7 +10,8 @@ export const environment = {
     logoUrl: '',
   },
   oAuthConfig: {
-    issuer: 'https://localhost:44399',
+    // issuer: 'https://localhost:44399',
+    issuer: 'https://localhost:44332',
     redirectUri: baseUrl,
     clientId: 'FinalProject_App',
     responseType: 'code',

@@ -1,8 +1,4 @@
-<div class = "loader" *ngIf="!hasLoggedIn">
-    <div id="cover-spin"></div>
-</div>
-
-<ng-container  *ngIf="hasLoggedIn">
+<!-- <ng-container> -->
     <nz-layout class="app-layout">
         <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
             [nzTrigger]="null">
@@ -45,10 +41,10 @@
                     </ul>
                 </li>
 
-                <li nz-menu-item style="width: 70%; margin: auto; margin-top: 50px;" (click)="logout()">
+                <!-- <li nz-menu-item style="width: 70%; margin: auto; margin-top: 50px;" (click)="logout()">
                     <i nz-icon nzType="logout" [nzRotate] = 180></i>
                     <span><a style="color:brown;" routerLink="/login">Log Out</a></span>
-                </li>
+                </li> -->
 
             </ul>
         </nz-sider>
@@ -67,4 +63,4 @@
             </nz-content>
         </nz-layout>
     </nz-layout>
-</ng-container>
+<!-- </ng-container> -->
