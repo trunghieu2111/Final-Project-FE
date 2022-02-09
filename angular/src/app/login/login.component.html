@@ -1,0 +1,19 @@
+<div>
+  <div class="login">
+    <div class="form">
+      <div style="background-color: cornsilk; border-radius: 5px;">
+        <div style="display: flex; justify-content: center;">
+          <img src="../../assets/icon/logo-login-resize-removebg.png" alt="">
+        </div>
+        <h2>Hệ Thống Giải Pháp Hóa Đơn Điện Tử</h2>
+        <span style="font-size: 0.1px;">.</span>
+      </div>
+      <input type="text" placeholder="Tài khoản">
+      <!-- [(ngModel)]="Username" -->
+      <input type="password" placeholder="Mật khẩu">
+      <!-- [(ngModel)]="Password" -->
+      <span style="color: red;">{{Notifi}}</span>
+      <input type="submit" value="Đăng Nhập" class="submit" (click)="submitLogin()">
+    </div>
+  </div>
+</div>

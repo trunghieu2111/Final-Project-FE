@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   // {
@@ -27,7 +28,8 @@ const routes: Routes = [
   //     import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
   // },
   
-  { path: '', pathMatch: 'full', redirectTo: 'hethong' },
+  { path: '', pathMatch: 'full', redirectTo: '/login' },
+  { path: 'login', component: LoginComponent },
   {path: '', component: LayoutComponent, 
     children: [
     { path: 'hethong', loadChildren: () => import('./pages/hethong/hethong.module').then(m => m.HethongModule) },
