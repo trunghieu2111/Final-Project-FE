@@ -9,16 +9,16 @@ import { OAuthService } from 'angular-oauth2-oidc';
 })
 export class HethongComponent implements OnInit {
   isCollapsed = false;
-  get hasLoggedIn(): boolean {
-    return this.oAuthService.hasValidAccessToken();
-  }
+  // get hasLoggedIn(): boolean {
+  //   return this.oAuthService.hasValidAccessToken();
+  // }
   constructor(private oAuthService: OAuthService,
               private authService: AuthService) { }
 
   ngOnInit(): void {
-    if (!this.hasLoggedIn) {
-      this.authService.navigateToLogin();
-    }
+    // if (!this.hasLoggedIn) {
+    //   this.authService.navigateToLogin();
+    // }
   }
 
 }

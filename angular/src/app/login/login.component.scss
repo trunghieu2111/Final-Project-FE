@@ -2,6 +2,39 @@
     box-sizing: border-box;
     font-family: sans-serif;
   }
+
+  .notifiDiv{
+    border-radius: 5px;
+    text-align: center; 
+    background-color: cornsilk; 
+    width: 80%;
+    height: 80%;
+    margin: auto;
+  }
+
+  #tenant {
+    // background-color: rgb(52, 16, 82); 
+    background: url(https://media4.giphy.com/media/BHNfhgU63qrks/giphy.gif) center center no-repeat;
+    background-size: cover; 
+    border-radius: 5px; 
+    width: 320px;
+    // height: 113px;
+    height: auto;
+    border: 1px solid #CCC;
+    margin: auto;
+    margin-top: 20px;
+    border-radius: 7px;
+  }
+  .input-tenant{
+    outline: none !important;
+    margin-left: 10px;
+    background: rgba(255,255,255,.5);
+    border: 1px solid rgba(255,255,255,.1);
+    color: #FFF;
+    padding: 0 5px;
+    border-radius: 5px;
+    font-size: 16px;
+  }
   .login {
     width: 320px;
     height: 450px;
@@ -9,7 +42,7 @@
     background: url(https://media4.giphy.com/media/BHNfhgU63qrks/giphy.gif) center center no-repeat;
     background-size: cover;
     margin: auto;
-    margin-top: 70px;
+    margin-top: 20px;
     border-radius: 20px;
   }
   .login .form {
@@ -22,6 +55,26 @@
     text-align: center;
     font-weight: normal;
     font-size: 18px;
+  }
+  .notifiTenant1{
+    color: rgb(255, 28, 28); 
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .notifiTenant2{
+    color: rgb(37, 22, 255); 
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .submit-tenant{
+    background: rgba(255,255,255,.9);
+    margin-left: 10px;
+    color: #444;
+    font-size: 15px;
+    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,.1);
   }
   .login .form input {
     width: 100%;

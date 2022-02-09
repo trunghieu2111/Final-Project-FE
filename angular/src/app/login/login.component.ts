@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-// import { ServiceLogin } from '../services/service-login.service';
+import { ServiceLogin } from './login.service';
 
 @Component({
   selector: 'app-login',
@@ -9,39 +9,72 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  Notifi = "";
+  NotifiLogin = '';
+  NotifiTenant = '';
   Username = '';
   Password = '';
+  Tenant = '';
+  TenantId : any;
 
   constructor(
     private router: Router,
-    // private loginService: ServiceLogin
+    private loginService: ServiceLogin
   ) { }
+
+  submitTenant(){
+    //console.log(this.NotifiTenant);
+    if(this.Tenant == ''){
+      this.NotifiTenant = "Chưa chọn chi nhánh!";
+    }
+    else{
+      this.loginService.loginTenantInvoice(this.Tenant).subscribe((data) => {
+        //console.log(data);
+        if(data.tax == 0){
+          this.NotifiTenant = "Chi nhánh không hợp lệ!";
+        }
+        else{
+          this.NotifiTenant = "Thành công!";
+          this.TenantId = data.tax;
+        }
+      })
+    }
+  }
 
   submitLogin(){
     //this.router.navigate(['/dashboard'], { replaceUrl: true });
 
-    // const params = {
-    //   username: this.Username,
-    //   password: this.Password
-    // }
-    // this.loginService.loginStudent(params).subscribe((data) => {
-    //   if(data.status == "success"){
-    //     //lần đầu vào thì nó chưa có local nên phải gán.
-    //     this.loginService.flagPermission = data.user.role;
-    //     localStorage.setItem('flagPermission', data.user.role);
+    //console.log("taxxx:", this.TenantId);
+    const params = {
+      acc: this.Username,
+      pass: this.Password,
+      tenantId: this.TenantId
+    }
+    console.log("pa:", params);
+    this.loginService.loginAccountInvoice(params).subscribe((data) => {
+      console.log("data:", data);
+      if(data.id == 0){
+        this.NotifiLogin = "Sai tài khoản hoặc mật khẩu!";
+      }
+      else{
+        this.router.navigate(['/hethong'], { replaceUrl: true });
+        // replaceUrl: true xóa lịch sử đường dẫn trước đó
+      }
+      // if(data.status == "success"){
+      //   //lần đầu vào thì nó chưa có local nên phải gán.
+      //   this.loginService.flagPermission = data.user.role;
+      //   localStorage.setItem('flagPermission', data.user.role);
 
-    //     if(data.user.role == "student"){
-    //       this.loginService.flagSinhvienId = data.user.id_student;
-    //       localStorage.setItem('flagSinhvienId', data.user.id_student);
-    //     }
-    //     //console.log("role:", data.user.role);
-    //     this.router.navigate(['/dashboard'], { replaceUrl: true });
-    //   }
-    //   else{
-    //     this.Notifi = "Sai tài khoản hoặc mật khẩu!";
-    //   }
-    // })
+      //   if(data.user.role == "student"){
+      //     this.loginService.flagSinhvienId = data.user.id_student;
+      //     localStorage.setItem('flagSinhvienId', data.user.id_student);
+      //   }
+      //   //console.log("role:", data.user.role);
+      //   this.router.navigate(['/dashboard'], { replaceUrl: true });
+      // }
+      // else{
+      //   this.Notifi = "Sai tài khoản hoặc mật khẩu!";
+      // }
+    })
   }
 
   ngOnInit(): void {

@@ -20,8 +20,11 @@ import { LayoutComponent } from './layout/layout.component';
 import { APP_ROUTE_PROVIDER } from './route.provider';
 import { AntDesignModule } from './share/ant-design.module';
 
+import { LoginModule } from './login/login.module';
+
 @NgModule({
   imports: [
+    LoginModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -49,4 +52,4 @@ import { AntDesignModule } from './share/ant-design.module';
   providers: [APP_ROUTE_PROVIDER],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
