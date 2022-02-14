@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
     this.loginService.loginAccountInvoice(params).subscribe((data) => {
       console.log("data:", data);
       if(data.id == 0){
-        this.NotifiLogin = "Sai tài khoản hoặc mật khẩu!";
+        this.NotifiLogin = "Vui lòng nhập đầy đủ các thông tin! Sai tài khoản hoặc mật khẩu!";
       }
       else{
         this.router.navigate(['/hethong'], { replaceUrl: true });
