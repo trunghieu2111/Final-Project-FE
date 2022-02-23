@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PermissionService } from '../permission.service';
 import { Location } from '@angular/common';
 import { IData } from '../data.model';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-form-permission',
@@ -22,6 +23,8 @@ export class FormPermissionComponent implements OnInit {
   ids = this.route.snapshot.paramMap.get('id');
   flag = true;
   dataPermission: IData = {};
+
+  submitForm: FormGroup;
 
   constructor(private route: ActivatedRoute,
     public permissionService: PermissionService,

@@ -2,7 +2,7 @@
 <br><br>
 <div style="position: relative;">
   <button #buttonThem nz-button nzType="primary" (click)="addPermission()">
-    <i nz-icon nzType="plus" nzTheme="outline"></i>Thêm mới
+    <i class="add" nz-icon nzType="plus" nzTheme="outline"></i>Thêm mới
   </button>
 
   <div style="width: 400px; position: absolute; right: 0%; top: 0%;">
@@ -25,7 +25,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of basicTable.data">
-          <td>{{data.name}}</td>
+          <td>{{data.roleName}}</td>
           <td>
             <a><i style="color: red; margin-right: 10px; font-size: 20px;" nz-icon nzType="close" nzTheme="outline"
                 title="Xóa" (click)="removePermission(data.id)"></i></a>

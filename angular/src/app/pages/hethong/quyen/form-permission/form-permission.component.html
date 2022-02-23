@@ -1,4 +1,26 @@
-<span *ngIf="flag=== true" style="font-size: 27px;">Thêm mới quyền tài khoản</span>
+<span style="font-size: 27px">Thông tin quyền</span> <br /><br />
+<form nz-form [formGroup]="submitForm">
+  <div style="border-top: 3px solid #66ccff">
+    <div style="margin-top: 10px; margin-left: 70px">
+
+      <div class="form-group" nz-row>
+        <nz-form-label nz-col nzSpan="3" nzFor="roleName" style="font-weight: bold;">Tên</nz-form-label>
+        <nz-form-control nz-col nzSpan="21" nzErrorTip="Chưa nhập tên">
+          <input nz-input type="text" formControlName="roleName">
+        </nz-form-control>
+      </div><br>
+
+      <!-- <div class="form-group" nz-row>
+        <nz-form-label nz-col nzSpan="3" nzFor="roleName" style="font-weight: bold;">Chức năng</nz-form-label>
+        <nz-form-control nz-col nzSpan="21" nzErrorTip="Chưa nhập tên">
+          <input nz-input type="text" formControlName="roleName">
+        </nz-form-control>
+      </div><br> -->
+
+    </div>
+  </div>
+</form>
+<!-- <span *ngIf="flag=== true" style="font-size: 27px;">Thêm mới quyền tài khoản</span>
 <span *ngIf="flag=== false" style="font-size: 27px;">Sửa quyền tài khoản</span>
 <br><br>
 <div style="border: 1px solid rgb(83, 83, 202); position: relative;">
@@ -68,7 +90,7 @@
       [(ngModel)]="dataPermission.quyenqlInvoice">Xóa hóa đơn</label>
   </div><br><br>
 
-</div>
+</div> -->
 
 <div style="position: relative; height: 50px; margin-top: 50px;">
   <button class="luu" nz-button nzType="primary" type="" (click)="Save()">
