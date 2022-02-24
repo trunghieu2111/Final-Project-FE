@@ -10,87 +10,188 @@
         </nz-form-control>
       </div><br>
 
-      <!-- <div class="form-group" nz-row>
-        <nz-form-label nz-col nzSpan="3" nzFor="roleName" style="font-weight: bold;">Chức năng</nz-form-label>
-        <nz-form-control nz-col nzSpan="21" nzErrorTip="Chưa nhập tên">
-          <input nz-input type="text" formControlName="roleName">
-        </nz-form-control>
-      </div><br> -->
+      <div class="form-group" nz-row>
+        <nz-form-label nz-col nzSpan="3" nzFor="" style="font-weight: bold;">Chức năng</nz-form-label>
+
+        <div nz-col nzSpan="21" style="border-radius: 5px; border: 1px solid rgb(83, 83, 202); position: relative;">
+          <div
+            style="position: absolute; height: 30px; width: 100%; left: 0px; top: 0px; background: rgb(83, 83, 202);">
+            <span style="font-size: 18px; color: white; margin-left: 15px;">
+              Quản lý khách hàng
+            </span>
+          </div><br><br>
+
+          <div class="form-group" nz-row>
+            <div nz-col nzSpan="12">
+              <input type="checkbox" formControlName="listCustomer" value="AABE8729-5FD5-4A88-8D29-7DCB2F18E567">
+              <label for="">&emsp;Danh sách khách hàng</label><br>
+            </div>
+            <div nz-col nzSpan="12">
+              <input type="checkbox" formControlName="addCustomer" value="B22B8690-BD30-484C-94B8-7BFC4903900A">
+              <label for="">&emsp;Tạo khách hàng</label><br>
+            </div>
+          </div>
+
+          <div class="form-group" nz-row>
+            <div nz-col nzSpan="12">
+              <input type="checkbox" formControlName="editCustomer" value="D2EC9A7F-3B38-406D-8C76-9B2FFA661119">
+              <label for="">&emsp;Sửa khách hàng</label><br>
+            </div>
+            <div nz-col nzSpan="12">
+              <input type="checkbox" formControlName="delCustomer" value="39B2CF71-7879-442D-B027-A202C4126D77">
+              <label for="">&emsp;Xóa khách hàng</label><br>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br><br>
+      <div class="form-group" nz-row>
+        <span nz-col nzSpan="3"></span>
+
+        <div nz-col nzSpan="21" style="border-radius: 5px; border: 1px solid rgb(83, 83, 202); position: relative;">
+          <div
+            style="position: absolute; height: 30px; width: 100%; left: 0px; top: 0px; background: rgb(83, 83, 202);">
+            <span style="font-size: 18px; color: white; margin-left: 15px;">
+              Quản lý hóa đơn 01GTKT
+            </span>
+          </div><br><br>
+
+          <div class="form-group" nz-row>
+            <div nz-col nzSpan="12">
+              <input type="checkbox" formControlName="listInvoice" value="F06BE707-4D1D-458A-84CE-C0E5B1BB15B8">
+              <label for="">&emsp;Danh sách 01GTKT</label><br>
+            </div>
+            <div nz-col nzSpan="12">
+              <input type="checkbox" formControlName="addInvoice" value="32F38657-BDED-4232-91D1-BA558394FF7F">
+              <label for="">&emsp;Tạo 01GTKT</label><br>
+            </div>
+          </div>
+
+          <div class="form-group" nz-row>
+            <div nz-col nzSpan="12">
+              <input type="checkbox" formControlName="editInvoice" value="5FDA7B60-2569-4188-88BB-E81433F1AAA6">
+              <label for="">&emsp;Sửa 01GTKT</label><br>
+            </div>
+            <div nz-col nzSpan="12">
+              <input type="checkbox" formControlName="delInvoice" value="C5385A8F-B8C6-4C02-BF3F-22AF32C8F04A">
+              <label for="">&emsp;Xóa 01GTKT</label><br>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br><br>
+      <div class="form-group" nz-row>
+        <span nz-col nzSpan="3"></span>
+
+        <div nz-col nzSpan="21" style="border-radius: 5px; border: 1px solid rgb(83, 83, 202); position: relative;">
+          <div
+            style="position: absolute; height: 30px; width: 100%; left: 0px; top: 0px; background: rgb(83, 83, 202);">
+            <span style="font-size: 18px; color: white; margin-left: 15px;">
+              Quản lý chi nhánh
+            </span>
+          </div><br><br>
+
+          <div class="form-group" nz-row>
+            <div nz-col nzSpan="12">
+              <input type="checkbox" formControlName="listTenant" value="5FDA7B60-2569-4188-88B1-E81433F1AAA6">
+              <label for="">&emsp;Danh sách chi nhánh</label><br>
+            </div>
+            <div nz-col nzSpan="12">
+              <input type="checkbox" formControlName="addTenant" value="5FDA7B60-2569-4188-88B3-E81433F1AAA6">
+              <label for="">&emsp;Tạo chi nhánh</label><br>
+            </div>
+          </div>
+
+          <div class="form-group" nz-row>
+            <div nz-col nzSpan="12">
+              <input type="checkbox" formControlName="editTenant" value="5FDA7B60-2569-4188-88B2-E81433F1AAA6">
+              <label for="">&emsp;Sửa chi nhánh</label><br>
+            </div>
+            <div nz-col nzSpan="12">
+              <input type="checkbox" formControlName="delTenant" value="5FDA7B60-2569-4188-88B4-E81433F1AAA6">
+              <label for="">&emsp;Xóa chi nhánh</label><br>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br><br>
+      <div class="form-group" nz-row>
+        <span nz-col nzSpan="3"></span>
+
+        <div nz-col nzSpan="21" style="border-radius: 5px; border: 1px solid rgb(83, 83, 202); position: relative;">
+          <div
+            style="position: absolute; height: 30px; width: 100%; left: 0px; top: 0px; background: rgb(83, 83, 202);">
+            <span style="font-size: 18px; color: white; margin-left: 15px;">
+              Quản lý tài khoản
+            </span>
+          </div><br><br>
+
+          <div class="form-group" nz-row>
+            <div nz-col nzSpan="12">
+              <input type="checkbox" formControlName="listAccount" value="1ABE8729-5FD5-4A88-8D29-7DCB2F18E567">
+              <label for="">&emsp;Danh sách tài khoản</label><br>
+            </div>
+            <div nz-col nzSpan="12">
+              <input type="checkbox" formControlName="addAccount" value="2ABE8729-5FD5-4A88-8D29-7DCB2F18E567">
+              <label for="">&emsp;Tạo tài khoản</label><br>
+            </div>
+          </div>
+
+          <div class="form-group" nz-row>
+            <div nz-col nzSpan="12">
+              <input type="checkbox" formControlName="editAccount" value="3ABE8729-5FD5-4A88-8D29-7DCB2F18E567">
+              <label for="">&emsp;Sửa tài khoản</label><br>
+            </div>
+            <div nz-col nzSpan="12">
+              <input type="checkbox" formControlName="delAccount" value="4ABE8729-5FD5-4A88-8D29-7DCB2F18E567">
+              <label for="">&emsp;Xóa tài khoản</label><br>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br><br>
+      <div class="form-group" nz-row>
+        <span nz-col nzSpan="3"></span>
+
+        <div nz-col nzSpan="21" style="border-radius: 5px; border: 1px solid rgb(83, 83, 202); position: relative;">
+          <div
+            style="position: absolute; height: 30px; width: 100%; left: 0px; top: 0px; background: rgb(83, 83, 202);">
+            <span style="font-size: 18px; color: white; margin-left: 15px;">
+              Quản lý quyền
+            </span>
+          </div><br><br>
+
+          <div class="form-group" nz-row>
+            <div nz-col nzSpan="12">
+              <input type="checkbox" formControlName="listPermission" value="B22B8690-BD30-484C-94B8-7BFC4903901A">
+              <label for="">&emsp;Danh sách nhóm quyền</label><br>
+            </div>
+            <div nz-col nzSpan="12">
+              <input type="checkbox" formControlName="addPermission" value="B22B8690-BD30-484C-94B8-7BFC4903902A">
+              <label for="">&emsp;Tạo nhóm quyền</label><br>
+            </div>
+          </div>
+
+          <div class="form-group" nz-row>
+            <div nz-col nzSpan="12">
+              <input type="checkbox" formControlName="editPermission" value="B22B8690-BD30-484C-94B8-7BFC4903903A">
+              <label for="">&emsp;Sửa nhóm quyền</label><br>
+            </div>
+            <div nz-col nzSpan="12">
+              <input type="checkbox" formControlName="delPermission" value="B22B8690-BD30-484C-94B8-7BFC4903904A">
+              <label for="">&emsp;Xóa nhóm quyền</label><br>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
   </div>
 </form>
-<!-- <span *ngIf="flag=== true" style="font-size: 27px;">Thêm mới quyền tài khoản</span>
-<span *ngIf="flag=== false" style="font-size: 27px;">Sửa quyền tài khoản</span>
-<br><br>
-<div style="border: 1px solid rgb(83, 83, 202); position: relative;">
-  <div style="position: absolute; height: 30px; width: 100%; left: 0px; top: 0px; background: rgb(83, 83, 202);">
-    <span style="font-size: 18px; color: white;">
-      Thông tin quyền
-    </span>
-  </div>
-  <div nz-row style="margin-left: 50px; margin-top: 80px">
-    <div nz-col nzSpan="2"><span style="font-weight: bold; font-size: 18px;">Tên:</span></div>
-    <div nz-col nzSpan="22">
-      <span><input nz-input placeholder="Nhập tên quyền" [(ngModel)]="dataPermission.Name" /></span>
-    </div>
-  </div><br>
-  <label style="font-weight: bold; font-style: italic; font-size: 18px;" nz-checkbox
-    [(ngModel)]="dataPermission.quyenqltaikhoan">Quản lý tài khoản</label><br>
-  <div style="display:flex; margin-left: 50px">
-    <label nzDisabled style="font-size: 14px; font-weight: bold;" nz-checkbox
-      [(ngModel)]="dataPermission.quyenqltaikhoan">Thêm tài khoản</label>
-    <label nzDisabled style="font-size: 14px; margin-left: 50px; font-weight: bold;" nz-checkbox
-      [(ngModel)]="dataPermission.quyenqltaikhoan">Sửa tài khoản</label>
-    <label nzDisabled style="font-size: 14px; margin-left: 50px; font-weight: bold;" nz-checkbox
-      [(ngModel)]="dataPermission.quyenqltaikhoan">Xóa tài khoản</label>
-  </div><br><br>
-
-  <label style="font-weight: bold; font-style: italic; font-size: 18px;" nz-checkbox
-    [(ngModel)]="dataPermission.quyenqlquyen">Quản lý quyền</label><br>
-  <div style="display:flex; margin-left: 50px">
-    <label nzDisabled style="font-size: 14px; font-weight: bold;" nz-checkbox
-      [(ngModel)]="dataPermission.quyenqlquyen">Thêm mới quyền</label>
-    <label nzDisabled style="font-size: 14px; margin-left: 50px; font-weight: bold;" nz-checkbox
-      [(ngModel)]="dataPermission.quyenqlquyen">Sửa quyền</label>
-    <label nzDisabled style="font-size: 14px; margin-left: 50px; font-weight: bold;" nz-checkbox
-      [(ngModel)]="dataPermission.quyenqlquyen">Xóa quyền</label>
-  </div><br><br>
-
-  <label style="font-weight: bold; font-style: italic; font-size: 18px;" nz-checkbox
-    [(ngModel)]="dataPermission.quyenqlchinhanh">Quản lý chi nhánh</label><br>
-  <div style="display:flex; margin-left: 50px">
-    <label nzDisabled style="font-size: 14px; font-weight: bold;" nz-checkbox
-      [(ngModel)]="dataPermission.quyenqlchinhanh">Thêm mới chi nhánh</label>
-    <label nzDisabled style="font-size: 14px; margin-left: 50px; font-weight: bold;" nz-checkbox
-      [(ngModel)]="dataPermission.quyenqlchinhanh">Sửa chi nhánh</label>
-    <label nzDisabled style="font-size: 14px; margin-left: 50px; font-weight: bold;" nz-checkbox
-      [(ngModel)]="dataPermission.quyenqlchinhanh">Xóa chi nhánh</label>
-  </div><br><br>
-
-  <label style="font-weight: bold; font-style: italic; font-size: 18px;" nz-checkbox
-    [(ngModel)]="dataPermission.quyenqlkhachhang">Quản lý khách hàng</label><br>
-  <div style="display:flex; margin-left: 50px">
-    <label nzDisabled style="font-size: 14px; font-weight: bold;" nz-checkbox
-      [(ngModel)]="dataPermission.quyenqlkhachhang">Thêm khách hàng</label>
-    <label nzDisabled style="font-size: 14px; margin-left: 50px; font-weight: bold;" nz-checkbox
-      [(ngModel)]="dataPermission.quyenqlkhachhang">Sửa thông tin khách hàng</label>
-    <label nzDisabled style="font-size: 14px; margin-left: 50px; font-weight: bold;" nz-checkbox
-      [(ngModel)]="dataPermission.quyenqlkhachhang">Xóa khách hàng</label>
-  </div><br><br>
-
-  <label style="font-weight: bold; font-style: italic; font-size: 18px;" nz-checkbox
-    [(ngModel)]="dataPermission.quyenqlInvoice">Quản lý hóa đơn đầu vào</label><br>
-  <div style="display:flex; margin-left: 50px">
-    <label nzDisabled style="font-size: 14px; font-weight: bold;" nz-checkbox
-      [(ngModel)]="dataPermission.quyenqlInvoice">Thêm hóa đơn</label>
-    <label nzDisabled style="font-size: 14px; margin-left: 50px; font-weight: bold;" nz-checkbox
-      [(ngModel)]="dataPermission.quyenqlInvoice">Sửa thông tin hóa đơn</label>
-    <label nzDisabled style="font-size: 14px; margin-left: 50px; font-weight: bold;" nz-checkbox
-      [(ngModel)]="dataPermission.quyenqlInvoice">Xóa hóa đơn</label>
-  </div><br><br>
-
-</div> -->
 
 <div style="position: relative; height: 50px; margin-top: 50px;">
   <button class="luu" nz-button nzType="primary" type="" (click)="Save()">
