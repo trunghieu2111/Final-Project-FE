@@ -15,6 +15,8 @@ export class LoginComponent implements OnInit {
   Password = '';
   Tenant = '';
   TenantId : any;
+  data:any;
+  dataUser:any;
 
   constructor(
     private router: Router,
@@ -29,12 +31,13 @@ export class LoginComponent implements OnInit {
     else{
       this.loginService.loginTenantInvoice(this.Tenant).subscribe((data) => {
         //console.log(data);
-        if(data.tax == 0){
+        if(data.mst == 0){
           this.NotifiTenant = "Chi nhánh không hợp lệ!";
         }
         else{
           this.NotifiTenant = "Thành công!";
-          this.TenantId = data.tax;
+          this.TenantId = data.id;
+          this.data = data;
         }
       })
     }
@@ -49,13 +52,16 @@ export class LoginComponent implements OnInit {
       pass: this.Password,
       tenantId: this.TenantId
     }
-    console.log("pa:", params);
+    //console.log("pa:", params);
     this.loginService.loginAccountInvoice(params).subscribe((data) => {
-      console.log("data:", data);
+      //console.log("data:", data);
       if(data.id == 0){
         this.NotifiLogin = "Vui lòng nhập đầy đủ các thông tin! Sai tài khoản hoặc mật khẩu!";
       }
       else{
+        //console.log("data:", this.data);
+        localStorage.setItem('Token', JSON.stringify(this.data));
+        localStorage.setItem('TokenUser', JSON.stringify(data));
         this.router.navigate(['/hethong'], { replaceUrl: true });
         // replaceUrl: true xóa lịch sử đường dẫn trước đó
       }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { BranchService } from 'src/app/pages/hethong/chinhanh/branch.service';
 import { Location } from '@angular/common';
 import { CustomerService } from '../customer.service';
 

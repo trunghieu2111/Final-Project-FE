@@ -1,8 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PermissionService } from '../../quyen/permission.service';
+import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { AccountService } from '../Account.service';
-import { IData } from '../data.model';
+import { Location } from '@angular/common'
+import { PermissionService } from '../../quyen/permission.service';
+import { AccountRolesData, PermissionData } from '../data.model';
+import { ServiceCommon } from 'src/app/share/common.service';
 
 
 @Component({
@@ -11,81 +14,161 @@ import { IData } from '../data.model';
   styleUrls: ['./form-acc.component.css']
 })
 export class FormAccComponent implements OnInit {
-  @Output() newItemEvent = new EventEmitter();
-  @Input() item: IData = {};
-  @Input() flag: boolean = false;
-  @Output() backEvent = new EventEmitter();
-
-  dataPer:any;
-  test: any;
-  data:IData = {};
-
-  backList: boolean = false;
+  isShowCreateOrUpdate: boolean = false; //false: tạo, true: sửa
+  ids = this.route.snapshot.paramMap.get('id');
+  data: PermissionData[] = [];
+  accountRoles: AccountRolesData[] = [];
+  accountRolesGetId: AccountRolesData[] = [];
+  idAccountRole: number[] = [];
+  flagEditPass = '';
 
   submitForm: FormGroup;
 
   constructor(
-    public fb: FormBuilder,
+    private _location: Location,
+    private route: ActivatedRoute,
+    public accountService: AccountService,
     public permissionService: PermissionService,
-    public accountService: AccountService
+    public serviceCommon: ServiceCommon,
+    public fb: FormBuilder,
   ) {
     this.submitForm = this.fb.group({
-      hoten: [null, Validators.required],
+      name: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
-      sdt: [null, [Validators.required, Validators.minLength(10)]],
-      taikhoan: [null, [Validators.required]],
-      matkhau: [null, Validators.required],
-      quyen: [null, Validators.required],
+      phone: [null, [Validators.required, Validators.minLength(10)]],
+      acc: [null, [Validators.required]],
+      pass: [null, Validators.required]
     })
   }
 
   ngOnInit(): void {
-
-    if (this.flag) {
-      this.submitForm.get('taikhoan')?.disable();
+    this.flagEditPass = localStorage.getItem('checkEditAccount');
+    if (localStorage.getItem('checkEditAccount') == "1") {
+      this.submitForm.get('acc')?.disable();
     }
 
     this.permissionService.getListPermission().subscribe((data) => {
-      this.dataPer = data.items;
+      this.data = data.items;
+      //console.log(this.data);
+      for (let i = 0; i < this.data.length; i++) {
+        this.data[i].checkPermission = false;
+      }
+      //lấy data tránh bị chạy bất đồng bộ thì sẽ không có dữ liệu để xử lý.
+      if (String(this.ids) !== '0') {
+        this.isShowCreateOrUpdate = true;
+        this.loadData(this.ids);
+        //this.flag = false; để làm cờ ẩn hiện input khi sửa. Không làm theo cách lưu vào local biến.
+      }
     })
 
-    this.accountService.getListAccount().subscribe((data) => {
-      this.test = data.items;
-      console.log("test", this.test);
-    })
+  }
+
+  public checkPermission() {
+    for (let i = 0; i < this.data.length; i++) {
+      if (this.idAccountRole.includes(this.data[i].id)) {
+        this.data[i].checkPermission = true;
+      }
+    }
+  }
+  public loadData(id: any) {
+    this.accountService.getInfoAccountByID(id).subscribe((data) => {
+      this.accountRolesGetId = data.accountRoles;
+      for (let i of this.accountRolesGetId) {
+        this.idAccountRole.push(i.roleID);
+      }
+
+      this.checkPermission();
+
+      this.submitForm.patchValue({
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        acc: data.acc,
+        pass: data.pass,
+      })
+    });
+  }
+
+  Onchange() {
+    this.accountRoles = [];
+    for (let i of this.data) {
+      if (i.checkPermission == true) {
+        const params = {
+          roleID: i.id
+        }
+        this.accountRoles.push(params);
+      }
+    }
+    // console.log("data:", this.data);
+    // console.log("acc:", this.accountRoles);
   }
 
   onSubmit() {
-    //console.log("data", this.submitForm.controls.quyen.value);
-    console.log("data", this.submitForm.value);
-    const params = {
-      name: this.submitForm.get('hoten')?.value,
-      email: this.submitForm.get('email')?.value,
-      phone: this.submitForm.get('sdt')?.value,
-      acc: this.submitForm.get('taikhoan')?.value,
-      pass: this.submitForm.get('matkhau')?.value,
-      permissionId: this.submitForm.get('quyen')?.value
-    }
-    this.accountService.createAccount(params).subscribe((data) => {
-      //this._location.back();
-      console.log("thành công thêm:", this.submitForm.value);
-    })
+    const valid = this.submitForm.valid;
+    if (valid) {
+      localStorage.removeItem('checkEditAccount');
+      if (this.isShowCreateOrUpdate) { // Update
+        //thêm mới id = 0
+        for (let i = 0; i < this.accountRoles.length; i++) {
+          if (this.idAccountRole.includes(this.accountRoles[i].roleID) == false) {
+            this.accountRoles[i].id = 0;
+          }
+          //Có quyền giống so với lúc chưa sửa
+          else {
+            for (let j = 0; j < this.accountRolesGetId.length; j++) {
+              if (this.accountRolesGetId[j].roleID == this.accountRoles[i].roleID) {
+                this.accountRoles[i].id = this.accountRolesGetId[j].id;
+                break;
+              }
+            }
+          }
+        }
 
-    // const valid = this.submitForm.valid;
-    // if (valid) {
-    //   this.newItemEvent.emit(this.submitForm.value);
-    //   //console.log(this.submitForm.value);
-    // } else {
-    //   for (const i in this.submitForm.controls) {
-    //     if (this.submitForm.controls.hasOwnProperty(i)) {
-    //       this.submitForm.controls[i].markAsDirty();
-    //       this.submitForm.controls[i].updateValueAndValidity();
-    //     }
-    //   }
-    // }
+        const params = {
+          id: this.ids,
+          name: this.submitForm.get('name')?.value,
+          email: this.submitForm.get('email')?.value,
+          phone: "0" + this.submitForm.get('phone')?.value,
+          acc: this.submitForm.get('acc')?.value,
+          pass: this.submitForm.get('pass')?.value,
+          tenantId: this.serviceCommon.tokenTenant.id,
+
+          accountRoles: this.accountRoles
+        }
+        //console.log("dataUpdate:", params);
+        this.accountService.updateAccount(params).subscribe((data) => {
+          this._location.back();
+        })
+      } else { // CREATE
+        const params = {
+          name: this.submitForm.get('name')?.value,
+          email: this.submitForm.get('email')?.value,
+          phone: "0" + this.submitForm.get('phone')?.value,
+          acc: this.submitForm.get('acc')?.value,
+          pass: this.submitForm.get('pass')?.value,
+          tenantId: this.serviceCommon.tokenTenant.id,
+
+          accountRoles: this.accountRoles
+        }
+        //console.log("data:", params);
+        this.accountService.createAccount(params).subscribe((data) => {
+          this._location.back();
+        })
+
+      }
+
+    } else {
+      for (const i in this.submitForm.controls) {
+        if (this.submitForm.controls.hasOwnProperty(i)) {
+          this.submitForm.controls[i].markAsDirty();
+          this.submitForm.controls[i].updateValueAndValidity();
+        }
+      }
+    }
   }
 
   back() {
-    this.backEvent.emit(this.backList);
+    localStorage.removeItem('checkEditAccount');
+    this._location.back();
   }
 }

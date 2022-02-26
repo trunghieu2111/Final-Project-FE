@@ -7,22 +7,22 @@ import { ServiceBaseService } from 'src/app/services/service-base.service';
 export class AccountService extends ServiceBaseService{
 
   getListAccount(keyword: any = null){
-    return this.get(`api/app/my-account${keyword?('?Keyword='+keyword):''}`);
+    return this.get(`api/app/account-role${keyword?('?Keyword='+keyword):''}`);
   }
   // ${keyword?('?Keyword='+keyword):''} nếu tồn tại keyword thì thêm đoạn url sau nếu không thì rỗng;
   updateAccount(params: any){
-    return this.put(`api/app/my-account/${params.id}`, params);
+    return this.put(`api/app/account-role/${params.id}`, params);
   }
 
   getInfoAccountByID(id: any){
-    return this.get(`api/app/my-account/${id}`);
+    return this.get(`api/app/account-role/${id}`);
   }
 
   deleteAccount(id: any){
-    return this.delete(`api/app/my-account/${id}`);
+    return this.delete(`api/app/account-role/${id}`);
   }
 
   createAccount(params: any){
-    return this.post(`api/app/my-account`, params);
+    return this.post(`api/app/account-role`, params);
   }
 }

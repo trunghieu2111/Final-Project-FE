@@ -5,6 +5,7 @@ import { ChinhanhComponent } from './chinhanh/chinhanh.component';
 import { HethongComponent } from './hethong.component';
 import { FormPermissionComponent } from './quyen/form-permission/form-permission.component';
 import { QuyenComponent } from './quyen/quyen.component';
+import { FormAccComponent } from './taikhoan/form-acc/form-acc.component';
 import { TaikhoanComponent } from './taikhoan/taikhoan.component';
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'quyen', component: QuyenComponent },
   { path: 'quyen/form-permission/:id', component: FormPermissionComponent},
   { path: 'chinhanh/branch-form/:id', component: BranchFormComponent },
+  { path: 'taikhoan/account-form/:id', component: FormAccComponent },
   { path: 'taikhoan', component: TaikhoanComponent }
 ];
 

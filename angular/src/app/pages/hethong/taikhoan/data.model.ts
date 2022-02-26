@@ -1,8 +1,11 @@
-export interface IData {
-    hoten?: string;
-    email?: string;
-    sdt?: string;
-    taikhoan?: string;
-    matkhau?: string;
-    quyen?: string;
+export interface PermissionData {
+    id?: number;
+    roleName?: string;
+    checkPermission?: boolean;
+}
+
+export interface AccountRolesData {
+    id?: number;
+    accountID?: number;
+    roleID?: number;
 }

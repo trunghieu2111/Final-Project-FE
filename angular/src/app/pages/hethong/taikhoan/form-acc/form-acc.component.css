@@ -1,8 +1,13 @@
 .luu{
     position: absolute;
-    right: 200px;
+    right: 100px;
 }
 .back{
     position: absolute;
-    right: 100px;
+    right: 0px;
+}
+
+.form-group{
+    margin-left: 20px;
+    margin-right: 20px;
 }
