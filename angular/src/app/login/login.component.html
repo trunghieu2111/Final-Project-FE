@@ -8,9 +8,9 @@
   <input type="submit" value="Xác Nhận" class="submit-tenant" (click)="submitTenant()">
   <div style="margin: 5px auto; display: flex;">
     <div class="notifiDiv1">
-      <span *ngIf="NotifiTenant == 'Chi nhánh không hợp lệ!' || NotifiTenant == 'Chưa chọn chi nhánh!'"
+      <!-- <span *ngIf="NotifiTenant == 'Chi nhánh không hợp lệ!' || NotifiTenant == 'Chưa chọn chi nhánh!'"
         class="notifiTenant1">{{NotifiTenant}}</span>
-      <span *ngIf="NotifiTenant == 'Thành công!'" class="notifiTenant2">{{NotifiTenant}}</span>
+      <span *ngIf="NotifiTenant == 'Thành công!'" class="notifiTenant2">{{NotifiTenant}}</span> -->
     </div>
   </div>
 </div>
@@ -29,7 +29,7 @@
       <input type="password" placeholder="Mật khẩu" [(ngModel)]="Password">
       <div style="margin: 5px auto; display: flex;">
         <div class="notifiDiv">
-          <span *ngIf="NotifiLogin != ''" style="color: rgb(255, 28, 28); font-size: 16px;">{{NotifiLogin}}</span>
+          <!-- <span *ngIf="NotifiLogin != ''" style="color: rgb(255, 28, 28); font-size: 16px;">{{NotifiLogin}}</span> -->
         </div>
       </div>
       <input type="submit" value="Đăng Nhập" class="submit" (click)="submitLogin()">

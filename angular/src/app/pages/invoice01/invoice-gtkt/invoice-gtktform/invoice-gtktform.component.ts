@@ -28,9 +28,9 @@ export class InvoiceGTKTFormComponent implements OnInit {
   flagCreateorUpdateInvoiceDetail = true; //Create
   indexOfInvoiceDetailUpdate: number;
   isVisible = false;
-  //MoneyTaxSellBeforeEdit: number;
+  percentDiscountAfterTax = 0;//cho lúc thêm sửa xóa detail thì tính lại %chiết khấu sau thuế
 
-  selectedValueTaxSell:any;
+  selectedValueTaxSell: any;
   taxs: ITax[] = [
     {
       lable: 'Thuế suất 10%',
@@ -74,9 +74,9 @@ export class InvoiceGTKTFormComponent implements OnInit {
   totalPay: number = 0;
 
   intoMoneyAffer: number;
-  intoMoneyBefore: number=0;
-  percentDiscount:number=0;
-  intoMoneyBeforeTax:number = 0;
+  intoMoneyBefore: number = 0;
+  percentDiscount: number = 0;
+  intoMoneyBeforeTax: number = 0;
   //PercentDiscountBeforeTax: number = 0;
   MoneyTaxSell: number = 0;
   quantity: number;
@@ -86,6 +86,9 @@ export class InvoiceGTKTFormComponent implements OnInit {
   TotalDiscountAfterTax = 0;
   //để không bị trùng id khi mà dùng chức năng sửa
   idOfCreateDetail = 0.5;
+  taxCodeBuy: any;
+  companyNameBuy: any;
+  addressBuy: any;
 
   constructor(
     public serviceCommon: ServiceCommon,
@@ -95,9 +98,9 @@ export class InvoiceGTKTFormComponent implements OnInit {
     public fb: FormBuilder,
   ) {
     this.submitForm = this.fb.group({
-      taxCodeBuy: [null, Validators.required],
-      companyNameBuy: [null, [Validators.required, Validators.minLength(6)]],
-      addressBuy: [null, Validators.required],
+      taxCodeBuy: this.taxCodeBuy,
+      companyNameBuy: this.companyNameBuy,
+      addressBuy: this.addressBuy,
       dateInvoice: [null],
       payType: [null],
       invoiceNumber: [null],
@@ -114,8 +117,9 @@ export class InvoiceGTKTFormComponent implements OnInit {
       accountBankSell: [],
       //checkbox hóa đơn chiết khấu.
       flagInvoiceDetail: [],
-      //detail
-
+      //tổng chiết khẩu trc thuế
+      PercentDiscountAfterTax: [],
+      TotalDiscountAfterTax: []
       // nameProduct: [],
       // productId: [],
       // content: [],
@@ -145,6 +149,10 @@ export class InvoiceGTKTFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.taxCodeBuy = this.serviceCommon.tokenTenant.mst;
+    this.companyNameBuy = this.serviceCommon.tokenTenant.nameBranch;
+    this.addressBuy = this.serviceCommon.tokenTenant.address;
+
     if (String(this.ids) !== '0') {
       this.isShowCreateOrUpdate = true;
       this.loadData(this.ids);
@@ -153,8 +161,8 @@ export class InvoiceGTKTFormComponent implements OnInit {
 
   showModal(): void {
     this.isVisible = true;
-    this.percentDiscount = 0;
-    this.MoneyTaxSell = 0;
+    // this.percentDiscount = 0;
+    // this.MoneyTaxSell = 0;
   }
 
   handleOk(): void {
@@ -221,6 +229,8 @@ export class InvoiceGTKTFormComponent implements OnInit {
     }
     this.submitFormDetails.reset();
     this.isVisible = false;
+    
+    this.subOnKeyPercentDiscountAfterTax();
   }
 
   handleCancel(): void {
@@ -257,6 +267,10 @@ export class InvoiceGTKTFormComponent implements OnInit {
       this.totalProduct = data.totalProduct;
       this.totalTax = data.totalTax;
       this.totalPay = data.totalPay;
+      this.intoMoneyBeforeTax = data.totalDiscountBeforeTax;
+      this.TotalDiscountAfterTax = data.totalDiscountAfterTax;
+      this.PercentDiscountAfterTax = data.percentDiscountAfterTax;
+      this.percentDiscountAfterTax = this.PercentDiscountAfterTax;
       //console.log("date:",String(data.invoiceDay).slice(0,10));
 
       // console.log("dataTaxxLoad:", this.InvoiceTaxBreaks);
@@ -277,6 +291,7 @@ export class InvoiceGTKTFormComponent implements OnInit {
     this.calculateTaxSell();
     // console.log("dataTaxx:", this.InvoiceTaxBreaks);
     // console.log("data:", this.InvoiceDetails);
+    this.subOnKeyPercentDiscountAfterTax();//tính lại % thuế suất tổng
   }
 
   handTaxSell() {
@@ -299,25 +314,32 @@ export class InvoiceGTKTFormComponent implements OnInit {
     //console.log("datatxxxxx:", this.InvoiceTaxBreaks);
   }
 
-  onKeyPercentDiscountAfterTax(percent:any){
+  onKeyPercentDiscountAfterTax(percent: any) {
+    this.percentDiscountAfterTax = Number(percent.target.value);
     this.PercentDiscountAfterTax = Number(percent.target.value);
-    this.TotalDiscountAfterTax = (this.PercentDiscountAfterTax * this.totalProduct)/100;
+    this.TotalDiscountAfterTax = (this.PercentDiscountAfterTax * this.totalProduct) / 100;
     this.totalPay = (this.totalProduct + this.totalTax) - this.TotalDiscountAfterTax;
   }
-  onKeyTotalDiscountAfterTax(total:any){
+  //sub để tính lại khi mà thêm sửa xóa detail thì tính lại % thuế suất
+  subOnKeyPercentDiscountAfterTax() {
+    this.PercentDiscountAfterTax = this.percentDiscountAfterTax;
+    this.TotalDiscountAfterTax = (this.PercentDiscountAfterTax * this.totalProduct) / 100;
+    this.totalPay = (this.totalProduct + this.totalTax) - this.TotalDiscountAfterTax;
+  }
+  onKeyTotalDiscountAfterTax(total: any) {
     //người dùng làm tròn thuế
     this.TotalDiscountAfterTax = Number(total.target.value);
     this.totalPay = (this.totalProduct + this.totalTax) - this.TotalDiscountAfterTax;
   }
 
-  calculateDiscount(){
+  calculateDiscount() {
     this.intoMoneyBeforeTax = 0;
-    for(let i of this.InvoiceDetails){
+    for (let i of this.InvoiceDetails) {
       this.intoMoneyBeforeTax += i.percentMoney;
       //console.log("data", i.percentMoney +"-"+ this.intoMoneyBeforeTax);
     }
     //console.log("data", this.InvoiceDetails);
-    
+
   }
 
   calculateTaxSell() {
@@ -399,27 +421,32 @@ export class InvoiceGTKTFormComponent implements OnInit {
         this.quantity = this.InvoiceDetails[i].quantity;
         //xử lý chọn sau:
         this.selectedValueTaxSell = this.InvoiceDetails[i].percentTaxSell;
+        //xử lý chiết khấu
+        this.percentDiscount = this.InvoiceDetails[i].percentDiscountBeforeTax;
+        this.MoneyTaxSell = this.InvoiceDetails[i].percentMoney;
         break;
       }
     }
     this.showModal();
+    this.subOnKeyPercentDiscountAfterTax();//tính lại % thuế suất tổng
   }
   onSubmit() {
     //console.log(this.flagInvoiceDetail);
-    for(let i of this.InvoiceDetails){
-      if(Number.isInteger(i.id)==false){
+    for (let i of this.InvoiceDetails) {
+      if (Number.isInteger(i.id) == false) {
         i.id = 0;
       }
     }
-    
+
     const valid = this.submitForm.valid;
     if (valid) {
       if (this.isShowCreateOrUpdate) { // Update
         const params = {
           id: this.ids,
-          taxCodeBuyer: this.submitForm.get('taxCodeBuy')?.value,
-          companyNameBuyer: this.submitForm.get('companyNameBuy')?.value,
-          addressBuyer: this.submitForm.get('addressBuy')?.value,
+          personCreateUpdate: this.serviceCommon.tokenUser.acc,
+          taxCodeBuyer: this.taxCodeBuy,
+          companyNameBuyer: this.companyNameBuy,
+          addressBuyer: this.addressBuy,
           taxCodeSeller: this.submitForm.get('taxCodeSell')?.value,
           customerIdSeller: this.submitForm.get('customerIdSell')?.value,
           companyNameSeller: this.submitForm.get('companyNameSell')?.value,
@@ -448,10 +475,11 @@ export class InvoiceGTKTFormComponent implements OnInit {
         })
       } else { // CREATE
         const params = {
+          personCreateUpdate: this.serviceCommon.tokenUser.acc,
           tenantId: this.serviceCommon.tokenTenant.id,
-          taxCodeBuyer: this.submitForm.get('taxCodeBuy')?.value,
-          companyNameBuyer: this.submitForm.get('companyNameBuy')?.value,
-          addressBuyer: this.submitForm.get('addressBuy')?.value,
+          taxCodeBuyer: this.taxCodeBuy,
+          companyNameBuyer: this.companyNameBuy,
+          addressBuyer: this.addressBuy,
           taxCodeSeller: this.submitForm.get('taxCodeSell')?.value,
           customerIdSeller: this.submitForm.get('customerIdSell')?.value,
           companyNameSeller: this.submitForm.get('companyNameSell')?.value,
@@ -507,8 +535,8 @@ export class InvoiceGTKTFormComponent implements OnInit {
     this.handTaxSell();
   }
 
-  onKeyDiscount(discount:any){
-    this.MoneyTaxSell = (Number(discount.target.value) * this.intoMoneyBefore)/100;
+  onKeyDiscount(discount: any) {
+    this.MoneyTaxSell = (Number(discount.target.value) * this.intoMoneyBefore) / 100;
     this.percentDiscount = Number(discount.target.value);
     this.intoMoneyAffer = (this.quantity * this.priceAffter) - this.MoneyTaxSell;
     //console.log("intomoney:", this.intoMoneyAffer + "+" + this.quantity + "pri"+this.priceAffter + "chiết"+this.MoneyTaxSell);
@@ -517,15 +545,15 @@ export class InvoiceGTKTFormComponent implements OnInit {
   onKeyQuantity(quantity: any) {
     this.quantity = Number(quantity.target.value);
     this.intoMoneyBefore = this.quantity * this.priceAffter;
-    this.MoneyTaxSell = (this.percentDiscount * this.intoMoneyBefore)/100;
+    this.MoneyTaxSell = (this.percentDiscount * this.intoMoneyBefore) / 100;
     this.intoMoneyAffer = (this.quantity * this.priceAffter) - this.MoneyTaxSell;
   }
 
   onKey(p: any) {
     this.intoMoneyBefore = this.quantity * Number(p.target.value);
     this.priceAffter = Number(p.target.value);
-    this.MoneyTaxSell = (this.percentDiscount * this.intoMoneyBefore)/100;
-    this.intoMoneyAffer = (this.quantity * Number(p.target.value))- this.MoneyTaxSell;
+    this.MoneyTaxSell = (this.percentDiscount * this.intoMoneyBefore) / 100;
+    this.intoMoneyAffer = (this.quantity * Number(p.target.value)) - this.MoneyTaxSell;
   }
 
   back() {

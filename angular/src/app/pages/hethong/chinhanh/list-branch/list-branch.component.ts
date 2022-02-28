@@ -27,6 +27,7 @@ export class ListBranchComponent implements OnInit {
     this.loadData();
   }
   public loadData(){
+    //console.log("test:", this.tenantId);
     this.branchService.getListBranch(this.tenantId).subscribe((data) => {
       this.data = data.items;
       //this.data = data;

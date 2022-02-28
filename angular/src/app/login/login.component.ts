@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { ServiceLogin } from './login.service';
 
 @Component({
@@ -9,8 +10,6 @@ import { ServiceLogin } from './login.service';
 })
 export class LoginComponent implements OnInit {
 
-  NotifiLogin = '';
-  NotifiTenant = '';
   Username = '';
   Password = '';
   Tenant = '';
@@ -20,22 +19,32 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private modal: NzModalService,
     private loginService: ServiceLogin
   ) { }
 
   submitTenant(){
     //console.log(this.NotifiTenant);
     if(this.Tenant == ''){
-      this.NotifiTenant = "Chưa chọn chi nhánh!";
+      // this.NotifiTenant = "Chưa chọn chi nhánh!";
+      this.modal.error({
+        nzTitle: 'Lỗi',
+        nzContent: 'Chưa chọn chi nhánh. Nhập mã số thuế chi nhánh!'
+      });
     }
     else{
       this.loginService.loginTenantInvoice(this.Tenant).subscribe((data) => {
         //console.log(data);
         if(data.mst == 0){
-          this.NotifiTenant = "Chi nhánh không hợp lệ!";
+          this.modal.error({
+            nzTitle: 'Lỗi',
+            nzContent: 'Chi nhánh không hợp lệ!'
+          });
         }
         else{
-          this.NotifiTenant = "Thành công!";
+          this.modal.success({
+            nzTitle: 'Thành công!'
+          });
           this.TenantId = data.id;
           this.data = data;
         }
@@ -53,34 +62,31 @@ export class LoginComponent implements OnInit {
       tenantId: this.TenantId
     }
     //console.log("pa:", params);
-    this.loginService.loginAccountInvoice(params).subscribe((data) => {
-      //console.log("data:", data);
-      if(data.id == 0){
-        this.NotifiLogin = "Vui lòng nhập đầy đủ các thông tin! Sai tài khoản hoặc mật khẩu!";
-      }
-      else{
-        //console.log("data:", this.data);
-        localStorage.setItem('Token', JSON.stringify(this.data));
-        localStorage.setItem('TokenUser', JSON.stringify(data));
-        this.router.navigate(['/hethong'], { replaceUrl: true });
-        // replaceUrl: true xóa lịch sử đường dẫn trước đó
-      }
-      // if(data.status == "success"){
-      //   //lần đầu vào thì nó chưa có local nên phải gán.
-      //   this.loginService.flagPermission = data.user.role;
-      //   localStorage.setItem('flagPermission', data.user.role);
-
-      //   if(data.user.role == "student"){
-      //     this.loginService.flagSinhvienId = data.user.id_student;
-      //     localStorage.setItem('flagSinhvienId', data.user.id_student);
-      //   }
-      //   //console.log("role:", data.user.role);
-      //   this.router.navigate(['/dashboard'], { replaceUrl: true });
-      // }
-      // else{
-      //   this.Notifi = "Sai tài khoản hoặc mật khẩu!";
-      // }
-    })
+    if(this.Username == '' || this.Password == '' || this.Tenant == ''){
+      this.modal.error({
+        nzTitle: 'Lỗi',
+        nzContent: 'Chưa nhập đầy đủ các thông tin!'
+      });
+    }
+    else{
+      this.loginService.loginAccountInvoice(params).subscribe((data) => {
+        //console.log("data:", data);
+        if(data.id == 0){
+          this.modal.error({
+            nzTitle: 'Lỗi',
+            nzContent: 'Sai tài khoản hoặc mật khẩu!'
+          });
+        }
+        else{
+          //console.log("data:", this.data);
+          localStorage.setItem('Token', JSON.stringify(this.data));
+          localStorage.setItem('TokenUser', JSON.stringify(data));
+          this.router.navigate(['/hethong'], { replaceUrl: true });
+          // replaceUrl: true xóa lịch sử đường dẫn trước đó
+        }
+      })
+    }
+    
   }
 
   ngOnInit(): void {

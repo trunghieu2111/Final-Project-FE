@@ -1,64 +1,69 @@
 <!-- <ng-container> -->
-    <nz-layout class="app-layout">
-        <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
-            [nzTrigger]="null">
-            <div class="sidebar-logo">
-                <a href="hethong">
-                    <img src="../assets/icon/logo-login-resize-removebg.png" alt="logo">
-                    <h1>OME</h1>
-                </a>{{' '}}
-                <!-- <button (click)="logout()">Logout</button> -->
+<nz-layout class="app-layout">
+    <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
+        [nzTrigger]="null">
+        <div class="sidebar-logo">
+            <a href="hethong">
+                <img src="../assets/icon/logo-login-resize-removebg.png" alt="logo">
+                <h1>OME</h1>
+            </a>
+            <!-- <button (click)="logout()">Logout</button> -->
+        </div>
+        <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+            <li nz-menu-item style="border-bottom: 2px solid rgba(0,0,0,.85); height: 55px !important;">
+                <i nz-icon nzType="bar-chart"></i>
+                <span><a routerLink="hethong">Dashboard</a></span>
+            </li>
+
+            <li nz-submenu nzOpen nzTitle="Hệ Thống" nzIcon="radius-setting">
+                <ul>
+                    <li nz-menu-item>
+                        <a routerLink="hethong/chinhanh">Quản lý chi nhánh</a>
+                    </li>
+                    <li nz-menu-item>
+                        <a routerLink="hethong/quyen">Quản lý quyền</a>
+                    </li>
+                    <li nz-menu-item>
+                        <a routerLink="hethong/taikhoan">Quản lý tài khoản</a>
+                    </li>
+                </ul>
+            </li>
+            <li nz-submenu nzOpen nzTitle="Danh Mục" nzIcon="menu">
+                <ul>
+                    <li nz-menu-item>
+                        <a routerLink="danhmuc/khachhang">Quản lý khách hàng</a>
+                    </li>
+                </ul>
+            </li>
+            <li nz-submenu nzOpen nzTitle="Hóa Đơn" nzIcon="book">
+                <ul>
+                    <li nz-menu-item>
+                        <a routerLink="invoice/invoiceGTKT">Quản lý hóa đơn 01GTKT</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li nz-menu-item style="width: 70%; margin: auto; margin-top: 50px;">
+                <i nz-icon nzType="logout" [nzRotate]=180></i>
+                <span><a style="color:brown;" routerLink="/login">Log Out</a></span>
+
+            </li>
+
+        </ul>
+    </nz-sider>
+    <nz-layout>
+        <nz-header>
+            <div class="app-header">
+                <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+                    <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
+                </span>
             </div>
-            <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-                <li nz-submenu nzOpen nzTitle="Hệ Thống" nzIcon="radius-setting">
-                    <ul>
-                        <li nz-menu-item nzMatchRouter>
-                            <a routerLink="hethong/chinhanh">Quản lý chi nhánh</a>
-                        </li>
-                        <li nz-menu-item nzMatchRouter>
-                            <a routerLink="hethong/quyen">Quản lý quyền</a>
-                        </li>
-                        <li nz-menu-item nzMatchRouter>
-                            <a routerLink="hethong/taikhoan">Quản lý tài khoản</a>
-                        </li>
-                    </ul>
-                </li>
-                <li nz-submenu nzOpen nzTitle="Danh Mục" nzIcon="menu"> 
-                    <ul>
-                        <li nz-menu-item nzMatchRouter>
-                            <a routerLink="danhmuc/khachhang">Quản lý khách hàng</a>
-                        </li>
-                    </ul>
-                </li>
-                <li nz-submenu nzOpen nzTitle="Hóa Đơn" nzIcon="book">
-                    <ul>
-                        <li nz-menu-item nzMatchRouter>
-                            <a routerLink="invoice/invoiceGTKT">Quản lý hóa đơn 01GTKT</a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li nz-menu-item style="width: 70%; margin: auto; margin-top: 50px;">
-                    <i nz-icon nzType="logout" [nzRotate] = 180></i>
-                    <span><a style="color:brown;" routerLink="/login">Log Out</a></span>
-                    
-                </li>
-
-            </ul>
-        </nz-sider>
-        <nz-layout>
-            <nz-header>
-                <div class="app-header">
-                    <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-                        <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
-                    </span>
-                </div>
-            </nz-header>
-            <nz-content>
-                <div class="inner-content">
-                    <router-outlet></router-outlet>
-                </div>
-            </nz-content>
-        </nz-layout>
+        </nz-header>
+        <nz-content>
+            <div class="inner-content">
+                <router-outlet></router-outlet>
+            </div>
+        </nz-content>
     </nz-layout>
+</nz-layout>
 <!-- </ng-container> -->
