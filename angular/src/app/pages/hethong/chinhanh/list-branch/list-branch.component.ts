@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BranchService } from '../branch.service';
 import { Router } from '@angular/router';
+import { ServiceCommon } from 'src/app/share/common.service';
 
 @Component({
   selector: 'app-list-branch',
@@ -12,18 +13,21 @@ export class ListBranchComponent implements OnInit {
   pageIndex: number = 1;
   pageSize: number = 5;
   total:number = 0;
+  tenantId:any;
 
   // pageIndexChange:number = 1;
     
   constructor(public branchService: BranchService,
+    public serviceCommon: ServiceCommon,
     private router: Router,
     ) { }
 
   ngOnInit(): void {
+    this.tenantId = this.serviceCommon.tokenTenant.id;
     this.loadData();
   }
   public loadData(){
-    this.branchService.getListBranch().subscribe((data) => {
+    this.branchService.getListBranch(this.tenantId).subscribe((data) => {
       this.data = data.items;
       //this.data = data;
       this.total = this.data.length;
@@ -49,15 +53,9 @@ export class ListBranchComponent implements OnInit {
     //   keyword: keyword.target.value
     // }
 
-    this.branchService.getListBranch(keyword.target.value).subscribe((data) =>{
+    this.branchService.getListBranch(this.tenantId,keyword.target.value).subscribe((data) =>{
       this.data = data.items;
       this.total = this.data.length;
     })
-   
-    // this.branchService.getListBranch(keyword.target.value).subscribe((data) =>{
-    //   this.data = data;
-    //   this.total = this.data.length;
-    // })
-    //console.log(keyword);
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ServiceCommon } from 'src/app/share/common.service';
 import { InvoiceGTKTService } from '../InvoiceGTKT.service';
 
 @Component({
@@ -16,18 +17,20 @@ export class ListInvoiceGTKTComponent implements OnInit {
   pageIndex: number = 1;
   pageSize: number = 5;
   total:number = 0;
-
+  tenantId:any;
   // pageIndexChange:number = 1;
     
   constructor(public invoiceGTKTService: InvoiceGTKTService,
+    public serviceCommon: ServiceCommon,
     private router: Router,
     ) { }
 
   ngOnInit(): void {
+    this.tenantId = this.serviceCommon.tokenTenant.id;
     this.loadData();
   }
   public loadData(){
-    this.invoiceGTKTService.getListInvoiceGTKT().subscribe((data) => {
+    this.invoiceGTKTService.getListInvoiceGTKT(this.tenantId).subscribe((data) => {
       this.data = data.items;
       this.total = this.data.length;
     })
@@ -48,7 +51,7 @@ export class ListInvoiceGTKTComponent implements OnInit {
   }
   
   onKey(keyword:any){
-    this.invoiceGTKTService.getListInvoiceGTKT(keyword.target.value).subscribe((data) =>{
+    this.invoiceGTKTService.getListInvoiceGTKT(this.tenantId, keyword.target.value).subscribe((data) =>{
       this.data = data.items;
       this.total = this.data.length;
     })

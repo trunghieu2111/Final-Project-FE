@@ -6,9 +6,13 @@ import { ServiceBaseService } from 'src/app/services/service-base.service';
 })
 export class BranchService extends ServiceBaseService{
 
-  getListBranch(keyword: any = null){
-    return this.get(`api/app/branch${keyword?('?Keyword='+keyword):''}`);
-    //return this.get(`room${keyword?('?id='+keyword):''}`);
+  getListBranch(tenantId:any, keyword: any = null){
+    // return this.get(`api/app/branch${keyword?('?Keyword='+keyword):''}`);
+    if(keyword == null){
+      return this.get(`api/app/branch?TenantID=${tenantId}`);
+    }else{
+      return this.get(`api/app/branch?Keyword=${keyword}&TenantID=${tenantId}`);
+    }
   }
   // ${keyword?('?Keyword='+keyword):''} nếu tồn tại keyword thì thêm đoạn url sau nếu không thì rỗng;
   updateBranch(params: any){

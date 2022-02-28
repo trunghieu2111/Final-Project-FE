@@ -6,8 +6,12 @@ import { ServiceBaseService } from 'src/app/services/service-base.service';
 })
 export class AccountService extends ServiceBaseService{
 
-  getListAccount(keyword: any = null){
-    return this.get(`api/app/account-role${keyword?('?Keyword='+keyword):''}`);
+  getListAccount(tenantId:any, keyword: any = null){
+    if(keyword == null){
+      return this.get(`api/app/account-role?TenantID=${tenantId}`);
+    }else{
+      return this.get(`api/app/account-role?Keyword=${keyword}&TenantID=${tenantId}`);
+    }
   }
   // ${keyword?('?Keyword='+keyword):''} nếu tồn tại keyword thì thêm đoạn url sau nếu không thì rỗng;
   updateAccount(params: any){

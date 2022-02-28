@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ServiceCommon } from 'src/app/share/common.service';
 import { PermissionService } from '../permission.service';
 
 @Component({
@@ -24,16 +25,20 @@ export class ListPermissionComponent implements OnInit {
   pageIndex: number = 1;
   pageSize: number = 5;
   total:number = 0;
+  tenantId:any;
+
   constructor(public permissionService: PermissionService,
-              private router: Router,
-    ) { }
+    public serviceCommon: ServiceCommon,
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
+    this.tenantId = this.serviceCommon.tokenTenant.id;
     this.loadData();
   }
 
   public loadData(){
-    this.permissionService.getListPermission().subscribe((data) => {
+    this.permissionService.getListPermission(this.tenantId).subscribe((data) => {
       this.data = data.items;
       this.total = this.data.length;
       //console.log(data);
@@ -55,7 +60,7 @@ export class ListPermissionComponent implements OnInit {
   }
 
   onKey(keyword:any){
-    this.permissionService.getListPermission(keyword.target.value).subscribe((data) =>{
+    this.permissionService.getListPermission(this.tenantId, keyword.target.value).subscribe((data) =>{
       //Gán lại data để hiển thị tìm kiếm.
       this.data = data.items;
       this.total = this.data.length;

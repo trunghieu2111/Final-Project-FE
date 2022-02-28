@@ -21,6 +21,7 @@ export class FormAccComponent implements OnInit {
   accountRolesGetId: AccountRolesData[] = [];
   idAccountRole: number[] = [];
   flagEditPass = '';
+  tenantId:any;
 
   submitForm: FormGroup;
 
@@ -42,12 +43,13 @@ export class FormAccComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.tenantId = this.serviceCommon.tokenTenant.id;
     this.flagEditPass = localStorage.getItem('checkEditAccount');
     if (localStorage.getItem('checkEditAccount') == "1") {
       this.submitForm.get('acc')?.disable();
     }
 
-    this.permissionService.getListPermission().subscribe((data) => {
+    this.permissionService.getListPermission(this.tenantId).subscribe((data) => {
       this.data = data.items;
       //console.log(this.data);
       for (let i = 0; i < this.data.length; i++) {

@@ -13,6 +13,8 @@ export class ListAccComponent implements OnInit {
   pageIndex: number = 1;
   pageSize: number = 5;
   total:number = 0;
+  tenantId:any;
+
   constructor(
     public accountService: AccountService,
     private router: Router,
@@ -20,11 +22,12 @@ export class ListAccComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    this.tenantId = this.serviceCommon.tokenTenant.id;
     this.loadData();
   }
 
   public loadData(){
-    this.accountService.getListAccount().subscribe((data) => {
+    this.accountService.getListAccount(this.tenantId).subscribe((data) => {
       this.data = data.items;
       this.total = this.data.length;
       //console.log(data);
@@ -47,7 +50,7 @@ export class ListAccComponent implements OnInit {
   }
 
   onKey(keyword:any){
-    this.accountService.getListAccount(keyword.target.value).subscribe((data) =>{
+    this.accountService.getListAccount(this.tenantId, keyword.target.value).subscribe((data) =>{
       //Gán lại data để hiển thị tìm kiếm.
       this.data = data.items;
       this.total = this.data.length;

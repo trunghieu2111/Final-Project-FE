@@ -6,8 +6,12 @@ import { ServiceBaseService } from 'src/app/services/service-base.service';
 })
 export class PermissionService extends ServiceBaseService{
 
-  getListPermission(keyword: any = null){
-    return this.get(`api/app/permission${keyword?('?Keyword='+keyword):''}`);
+  getListPermission(tenantId:any, keyword: any = null){
+    if(keyword == null){
+      return this.get(`api/app/permission?TenantID=${tenantId}`);
+    }else{
+      return this.get(`api/app/permission?Keyword=${keyword}&TenantID=${tenantId}`);
+    }
   }
   // ${keyword?('?Keyword='+keyword):''} nếu tồn tại keyword thì thêm đoạn url sau nếu không thì rỗng;
   updatePermission(params: any){

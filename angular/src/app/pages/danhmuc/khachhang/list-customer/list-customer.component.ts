@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ServiceCommon } from 'src/app/share/common.service';
 import { CustomerService } from '../customer.service';
 
 @Component({
@@ -13,18 +14,20 @@ export class ListCustomerComponent implements OnInit {
   pageIndex: number = 1;
   pageSize: number = 5;
   total:number = 0;
-
+  tenantId:any;
   // pageIndexChange:number = 1;
     
   constructor(public customerService: CustomerService,
     private router: Router,
+    public serviceCommon: ServiceCommon,
     ) { }
 
   ngOnInit(): void {
+    this.tenantId = this.serviceCommon.tokenTenant.id;
     this.loadData();
   }
   public loadData(){
-    this.customerService.getListCustomer().subscribe((data) => {
+    this.customerService.getListCustomer(this.tenantId).subscribe((data) => {
       this.data = data.items;
       this.total = this.data.length;
       //console.log(data);
@@ -49,7 +52,7 @@ export class ListCustomerComponent implements OnInit {
     // let params = {
     //   keyword: keyword.target.value
     // }
-    this.customerService.getListCustomer(keyword.target.value).subscribe((data) =>{
+    this.customerService.getListCustomer(this.tenantId,keyword.target.value).subscribe((data) =>{
       //Gán lại data để hiển thị tìm kiếm.
       this.data = data.items;
       this.total = this.data.length;
