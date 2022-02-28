@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { InvoiceGTKTService } from '../InvoiceGTKT.service';
 import { IDataDetails, IDataTaxBreaks } from '../dataInvoiceDetail.model';
+import { ServiceCommon } from 'src/app/share/common.service';
 
 interface ITax {
   lable: string;
@@ -87,6 +88,7 @@ export class InvoiceGTKTFormComponent implements OnInit {
   idOfCreateDetail = 0.5;
 
   constructor(
+    public serviceCommon: ServiceCommon,
     private _location: Location,
     private route: ActivatedRoute,
     public invoiceService: InvoiceGTKTService,
@@ -446,6 +448,7 @@ export class InvoiceGTKTFormComponent implements OnInit {
         })
       } else { // CREATE
         const params = {
+          tenantId: this.serviceCommon.tokenTenant.id,
           taxCodeBuyer: this.submitForm.get('taxCodeBuy')?.value,
           companyNameBuyer: this.submitForm.get('companyNameBuy')?.value,
           addressBuyer: this.submitForm.get('addressBuy')?.value,

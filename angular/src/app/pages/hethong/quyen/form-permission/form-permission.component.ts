@@ -4,6 +4,7 @@ import { PermissionService } from '../permission.service';
 import { Location } from '@angular/common';
 import { IPermissionRole } from '../data.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ServiceCommon } from 'src/app/share/common.service';
 
 @Component({
   selector: 'app-form-permission',
@@ -52,6 +53,7 @@ export class FormPermissionComponent implements OnInit {
 
   constructor(
     private _location: Location,
+    public serviceCommon: ServiceCommon,
     private route: ActivatedRoute,
     public permissionService: PermissionService,
     public fb: FormBuilder,
@@ -851,6 +853,7 @@ export class FormPermissionComponent implements OnInit {
       // console.log("test:", this.dataPermission);
       const params = {
         roleName: this.submitForm.get('roleName')?.value,
+        tenantId: this.serviceCommon.tokenTenant.id,
         myPermissionRoles: this.dataPermission
       }
       this.permissionService.createPermission(params).subscribe((data) => {

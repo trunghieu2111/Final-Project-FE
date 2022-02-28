@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { CustomerService } from '../customer.service';
+import { ServiceCommon } from 'src/app/share/common.service';
 
 @Component({
   selector: 'app-customer-form',
@@ -22,6 +23,7 @@ export class CustomerFormComponent implements OnInit {
 
   constructor(
     private _location: Location,
+    public serviceCommon: ServiceCommon,
     private route: ActivatedRoute,
     public customerService: CustomerService,
     public fb: FormBuilder,
@@ -75,6 +77,7 @@ export class CustomerFormComponent implements OnInit {
       if (this.isShowCreateOrUpdate) { // Update
         const params = {
           id: this.ids,
+          tenantId: this.serviceCommon.tokenTenant.id,
           customerId: this.submitForm.get('customerId')?.value,
           taxCode: this.submitForm.get('taxCode')?.value,
           address: this.submitForm.get('address')?.value,
@@ -93,6 +96,7 @@ export class CustomerFormComponent implements OnInit {
         })
       } else { // CREATE
         const params = {
+          tenantId: this.serviceCommon.tokenTenant.id,
           customerId: this.submitForm.get('customerId')?.value,
           taxCode: this.submitForm.get('taxCode')?.value,
           address: this.submitForm.get('address')?.value,
