@@ -6,6 +6,7 @@ import { Location } from '@angular/common'
 import { PermissionService } from '../../quyen/permission.service';
 import { AccountRolesData, PermissionData } from '../data.model';
 import { ServiceCommon } from 'src/app/share/common.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 
 @Component({
@@ -21,11 +22,12 @@ export class FormAccComponent implements OnInit {
   accountRolesGetId: AccountRolesData[] = [];
   idAccountRole: number[] = [];
   flagEditPass = '';
-  tenantId:any;
+  tenantId: any;
 
   submitForm: FormGroup;
 
   constructor(
+    private modal: NzModalService,
     private _location: Location,
     private route: ActivatedRoute,
     public accountService: AccountService,
@@ -38,7 +40,8 @@ export class FormAccComponent implements OnInit {
       email: [null, [Validators.required, Validators.email]],
       phone: [null, [Validators.required, Validators.minLength(10)]],
       acc: [null, [Validators.required]],
-      pass: [null, Validators.required]
+      pass: [null, Validators.required],
+      confirmpass: [null, Validators.required]
     })
   }
 
@@ -142,21 +145,30 @@ export class FormAccComponent implements OnInit {
           this._location.back();
         })
       } else { // CREATE
-        const params = {
-          name: this.submitForm.get('name')?.value,
-          email: this.submitForm.get('email')?.value,
-          phone: "0" + this.submitForm.get('phone')?.value,
-          acc: this.submitForm.get('acc')?.value,
-          pass: this.submitForm.get('pass')?.value,
-          tenantId: this.serviceCommon.tokenTenant.id,
+        if (this.submitForm.get('pass')?.value !== this.submitForm.get('confirmpass')?.value) {
 
-          accountRoles: this.accountRoles
+          this.modal.error({
+            nzTitle: 'Lỗi',
+            nzContent: 'Mật khẩu không khớp. Vui lòng nhập lại!'
+          });
+
         }
-        //console.log("data:", params);
-        this.accountService.createAccount(params).subscribe((data) => {
-          this._location.back();
-        })
+        else {
+          const params = {
+            name: this.submitForm.get('name')?.value,
+            email: this.submitForm.get('email')?.value,
+            phone: "0" + this.submitForm.get('phone')?.value,
+            acc: this.submitForm.get('acc')?.value,
+            pass: this.submitForm.get('pass')?.value,
+            tenantId: this.serviceCommon.tokenTenant.id,
 
+            accountRoles: this.accountRoles
+          }
+          //console.log("data:", params);
+          this.accountService.createAccount(params).subscribe((data) => {
+            this._location.back();
+          })
+        }
       }
 
     } else {

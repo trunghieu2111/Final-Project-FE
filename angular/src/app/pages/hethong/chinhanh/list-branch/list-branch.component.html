@@ -1,8 +1,6 @@
 <span style="font-size: 27px;">Quản lý chi nhánh</span>
 <br><br>
 <div style="position: relative;">
-  <!-- <span *ngIf="flag===false Then hd1 else hd2"></span> -->
-  <!-- <ng-template #hd1> -->
   <button #buttonThem nz-button nzType="primary" (click)="addBranch()">
     <i class="add" nz-icon nzType="plus" nzTheme="outline"></i>Tạo chi nhánh
   </button>
@@ -26,8 +24,7 @@
           <th>Tên miền</th>
           <th>Tên chi nhánh</th>
           <th>Địa chỉ</th>
-          <th>Trạng thái</th>
-          <th>Action</th>
+          <th style="width: 10%;">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -36,12 +33,6 @@
           <td>{{data.url}}</td>
           <td>{{data.nameBranch}}</td>
           <td>{{data.address}}</td>
-          <td>{{data.status}}</td>
-          <!-- <td>{{data.id}}</td>
-          <td>{{data.toanha}}</td>
-          <td>{{data.tang}}</td>
-          <td>{{data.sogiuong}}</td>
-          <td>{{data.songuoitoida}}</td> -->
 
           <td>
             <a><i style="color: red; margin-right: 10px; font-size: 20px;" nz-icon nzType="close" nzTheme="outline"

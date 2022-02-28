@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { BranchService } from '../branch.service';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
+import { ServiceCommon } from 'src/app/share/common.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-branch-form',
@@ -15,26 +17,31 @@ export class BranchFormComponent implements OnInit {
   // @Output() backEvent = new EventEmitter();
 
   // backList:boolean = false;
-  isShowCreateOrUpdate: boolean= false; //false: tạo, true: sửa
+  isShowCreateOrUpdate: boolean = false; //false: tạo, true: sửa
   ids = this.route.snapshot.paramMap.get('id');
-
-  //ids = this.route.snapshot.paramMap.get('_id');
 
   flag = true;
 
   submitForm: FormGroup;
 
   constructor(
+    private modal: NzModalService,
     private _location: Location,
     private route: ActivatedRoute,
     public branchService: BranchService,
+    public serviceCommon: ServiceCommon,
     public fb: FormBuilder,
   ) {
     this.submitForm = this.fb.group({
       MST: [null, [Validators.required]],
       tenmien: [null, Validators.required],
-      tenchinhanh: [null, [Validators.required, Validators.minLength(6)]],
+      tenchinhanh: [null, [Validators.required]],
       diachi: [null, Validators.required],
+      acc: [null, Validators.required],
+      name: [null, Validators.required],
+      email: [null, [Validators.required, Validators.email]],
+      pass: [null, Validators.required],
+      confirmpass: [null, Validators.required],
     })
   }
 
@@ -66,40 +73,60 @@ export class BranchFormComponent implements OnInit {
     });
   }
 
-  onSubmit(){
+  // handleOk(): void {
+  //   this.errorConfirmPass = false;
+  // }
+
+  // handleCancel(): void {
+  //   this.errorConfirmPass = false;
+  // }
+
+  onSubmit() {
     const valid = this.submitForm.valid;
-    if(valid){
+    if (valid) {
       if (this.isShowCreateOrUpdate) { // Update
         const params = {
           id: this.ids,
           mst: this.submitForm.get('MST')?.value,
           url: this.submitForm.get('tenmien')?.value,
           nameBranch: this.submitForm.get('tenchinhanh')?.value,
-          address: this.submitForm.get('diachi')?.value,
-          status: "false",
+          address: this.submitForm.get('diachi')?.value
         }
         this.branchService.updateBranch(params).subscribe((data) => {
           this._location.back();
         })
       } else { // CREATE
-        const params = {
-          mst: this.submitForm.get('MST')?.value,
-          url: this.submitForm.get('tenmien')?.value,
-          nameBranch: this.submitForm.get('tenchinhanh')?.value,
-          address: this.submitForm.get('diachi')?.value,
-          status: "false",
-
-          // id: this.submitForm.get('MST')?.value,
-          // toanha: this.submitForm.get('tenmien')?.value,
-          // tang: this.submitForm.get('tenchinhanh')?.value,
-          // sogiuong: this.submitForm.get('diachi')?.value,
-
+        if (this.submitForm.get('pass')?.value !== this.submitForm.get('confirmpass')?.value) {
+          
+            this.modal.error({
+              nzTitle: 'Lỗi',
+              nzContent: 'Mật khẩu không khớp. Vui lòng nhập lại!'
+            });
+          
         }
-        this.branchService.createBranch(params).subscribe((data) => {
-          this._location.back();
-        })
+        else {
+          const accountBranch = {
+            name: this.submitForm.get('name')?.value,
+            email: this.submitForm.get('email')?.value,
+            acc: this.submitForm.get('acc')?.value,
+            pass: this.submitForm.get('pass')?.value,
+          }
+          const params = {
+            mst: this.submitForm.get('MST')?.value,
+            url: this.submitForm.get('tenmien')?.value,
+            nameBranch: this.submitForm.get('tenchinhanh')?.value,
+            address: this.submitForm.get('diachi')?.value,
+            parentId: this.serviceCommon.tokenTenant.id,
+
+            accountBranch: accountBranch
+          }
+          //console.log("data:", params);
+          this.branchService.createBranch(params).subscribe((data) => {
+            this._location.back();
+          })
+        }
       }
-    }else{
+    } else {
       for (const i in this.submitForm.controls) {
         if (this.submitForm.controls.hasOwnProperty(i)) {
           this.submitForm.controls[i].markAsDirty();
@@ -109,7 +136,7 @@ export class BranchFormComponent implements OnInit {
     }
   }
 
-  back(){
+  back() {
     this._location.back();
   }
 }

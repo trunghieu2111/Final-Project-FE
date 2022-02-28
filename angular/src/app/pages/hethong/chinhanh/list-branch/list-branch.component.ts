@@ -49,10 +49,6 @@ export class ListBranchComponent implements OnInit {
   }
   
   onKey(keyword:any){
-    // let params = {
-    //   keyword: keyword.target.value
-    // }
-
     this.branchService.getListBranch(this.tenantId,keyword.target.value).subscribe((data) =>{
       this.data = data.items;
       this.total = this.data.length;
