@@ -9,7 +9,8 @@
             <nz-form-item nz-row>
                 <nz-form-label nz-col nzSpan="4" nzFor="taxCodeBuy" style="font-weight: bold">Mã số thuế</nz-form-label>
                 <nz-form-control nz-col nzSpan="20">
-                    <input readonly [(ngModel)]="taxCodeBuy" nz-input type="text" placeholder="" formControlName="taxCodeBuy" />
+                    <input readonly [(ngModel)]="taxCodeBuy" nz-input type="text" placeholder=""
+                        formControlName="taxCodeBuy" />
                 </nz-form-control>
             </nz-form-item>
 
@@ -17,7 +18,8 @@
                 <nz-form-label nz-col nzSpan="4" nzFor="companyNameBuy" style="font-weight: bold">Tên công ty
                 </nz-form-label>
                 <nz-form-control nz-col nzSpan="20">
-                    <input readonly [(ngModel)]="companyNameBuy" nz-input type="text" placeholder="" formControlName="companyNameBuy" />
+                    <input readonly [(ngModel)]="companyNameBuy" nz-input type="text" placeholder=""
+                        formControlName="companyNameBuy" />
                 </nz-form-control>
             </nz-form-item>
 
@@ -25,7 +27,8 @@
                 <nz-form-label nz-col nzSpan="4" nzFor="addressBuy" style="font-weight: bold">Địa chỉ
                 </nz-form-label>
                 <nz-form-control nz-col nzSpan="20">
-                    <input readonly [(ngModel)]="addressBuy" nz-input type="text" placeholder="" formControlName="addressBuy" />
+                    <input readonly [(ngModel)]="addressBuy" nz-input type="text" placeholder=""
+                        formControlName="addressBuy" />
                 </nz-form-control>
             </nz-form-item>
         </div>
@@ -33,38 +36,40 @@
 
     <div style="display: flex">
         <div style="border-top: 3px solid #66ccff; width: 30%">
-            <div style="border-bottom: 1px solid #dddddd; height: 40px; margin-top: 10px; position: relative">
-                <span style="font-size: 18px; color: #333333"> Thông tin hóa đơn </span>
-                <div style="width: 145px; position: absolute; right: 0%; top: 0%">
+            <div nz-row style="border-bottom: 1px solid #dddddd; height: 40px; margin-top: 10px">
+                <span nz-col nzSpan="14" style="font-size: 18px; color: #333333"> Thông tin hóa đơn </span>
+                <div nz-col nzSpan="10" style="width: 145px; right: 0%; top: 0%">
                     <input nz-input type="text" placeholder="Số hóa đơn" formControlName="invoiceNumber" />
                 </div>
             </div>
 
             <div style="margin-top: 10px; margin-left: 15px">
-                <nz-form-item>
-                    <nz-form-label [nzSpan]="0" nzFor="dateInvoice" style="font-weight: bold">Ngày hóa đơn
-                    </nz-form-label>
-                    <nz-form-control [nzSpan]="0">
-                        <input style="width: auto" nz-input type="date" placeholder="-Chọn ngày-"
-                            formControlName="dateInvoice" />
+                <nz-form-item nz-row>
+                    <!-- <nz-form-label nz-col nzSpan="9" nzFor="dateInvoice" style="font-weight: bold">Ngày hóa đơn
+                    </nz-form-label> -->
+                    <span nz-col nzSpan="9" style="font-weight: bold; margin-top: 5px;">Ngày hóa đơn:
+                    </span>
+                    <nz-form-control nz-col nzSpan="15">
+                        <input nz-input type="date" placeholder="-Chọn ngày-" formControlName="dateInvoice" />
                     </nz-form-control>
                 </nz-form-item>
-
-                <div>
-                    <nz-form-label [nzSpan]="0" nzFor="" style="font-weight: bold">Hình thức thanh toán</nz-form-label>
-                    <nz-select style="width: 100%" formControlName="payType" nzShowSearch nzAllowClear
-                        nzPlaceHolder="-Chọn hình thức thanh toán-" [(ngModel)]="selectedValue">
+                <br>
+                <div nz-row>
+                    <!-- <nz-form-label nz-col nzSpan="12" nzFor="" style="font-weight: bold">Hình thức thanh toán</nz-form-label> -->
+                    <span nz-col nzSpan="13" style="font-weight: bold; margin-top: 5px;">Hình thức thanh toán:</span>
+                    <nz-select nz-col nzSpan="11" formControlName="payType" nzShowSearch nzAllowClear
+                        nzPlaceHolder="- Chọn hình thức -" [(ngModel)]="selectedValue">
                         <nz-option *ngFor="let data of payTypes" nzLabel="{{ data }}" nzValue="{{ data }}">
                         </nz-option>
                     </nz-select>
                 </div>
-                <br />
+                <br><br>
 
                 <div class="form-group" nz-row>
                     <nz-form-item nz-col nzSpan="12">
                         <div nz-row>
-                            <nz-form-label nz-col nzSpan="10" nzFor="invoiceForm" style="font-weight: bold">Mẫu số
-                            </nz-form-label>
+                            <span nz-col nzSpan="10" style="font-weight: bold; margin-top: 5px;">Mẫu số:
+                            </span>
                             <nz-form-control nz-col nzSpan="14" nzErrorTip="Chưa nhập mẫu số">
                                 <input nz-input type="text" formControlName="invoiceForm" />
                             </nz-form-control>
@@ -72,19 +77,23 @@
                     </nz-form-item>
                     <nz-form-item nz-col nzSpan="12">
                         <div nz-row>
-                            <nz-form-label nz-col nzSpan="10" nzFor="invoiceSign" style="font-weight: bold">Kí hiệu
-                            </nz-form-label>
-                            <nz-form-control nz-col nzSpan="14" nzErrorTip="Chưa nhập kí hiệu">
+                            <span nz-col nzSpan="12"
+                                style="font-weight: bold; margin-top: 5px; text-align: right; margin-right: 7px;">Kí
+                                hiệu:
+                            </span>
+                            <nz-form-control nz-col nzSpan="12" nzErrorTip="Chưa nhập kí hiệu">
                                 <input nz-input type="text" formControlName="invoiceSign" />
                             </nz-form-control>
                         </div>
                     </nz-form-item>
                 </div>
 
-                <nz-form-item>
-                    <nz-form-label [nzSpan]="0" nzFor="noteInvoice" style="font-weight: bold">Ghi chú
-                    </nz-form-label>
-                    <nz-form-control [nzSpan]="0">
+                <nz-form-item nz-row>
+                    <!-- <nz-form-label nz-col nzSpan="5" nzFor="noteInvoice" style="font-weight: bold">Ghi chú
+                    </nz-form-label> -->
+                    <!-- <span nz-col nzSpan="5" style="font-weight: bold; margin-top: 5px;">Ghi chú:
+                    </span> -->
+                    <nz-form-control nz-col nzSpan="24">
                         <input nz-input type="text" placeholder="Ghi chú" formControlName="noteInvoice" />
                     </nz-form-control>
                 </nz-form-item>
@@ -92,9 +101,9 @@
         </div>
 
         <div style="border-top: 3px solid #66ccff; width: 66%; margin-left: 4%">
-            <div style="border-bottom: 1px solid #dddddd; height: 40px; margin-top: 10px; position: relative">
-                <span style="font-size: 18px; color: #333333"> Thông tin người bán </span>
-                <div style="width: 400px; position: absolute; right: 0%; top: 0%">
+            <div nz-row style="border-bottom: 1px solid #dddddd; height: 40px; margin-top: 10px">
+                <span nz-col nzSpan="8" style="font-size: 18px; color: #333333"> Thông tin người bán </span>
+                <div nz-col nzSpan="16" style="width: 400px;">
                     <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
                         <input nz-input placeholder="Nhập khách hàng để tìm kiếm" (keyup)="onKey($event)" />
                     </nz-input-group>
@@ -104,75 +113,108 @@
                 </div>
             </div>
 
-            <div style="margin-top: 10px; margin-left: 15px">
-                <div style="display: flex">
-                    <nz-form-item>
-                        <nz-form-label [nzSpan]="0" nzFor="customerId" style="font-weight: bold">Mã khách hàng
-                        </nz-form-label>
-                        <nz-form-control [nzSpan]="0">
-                            <input nz-input type="text" placeholder="" formControlName="customerIdSell" />
-                        </nz-form-control>
-                    </nz-form-item>
+            <div style="margin-top: 10px; margin-left: 0px">
+                <div nz-row>
+                    <div nz-col nzSpan="12">
+                        <nz-form-item nz-row>
+                            <nz-form-label nz-col nzSpan="8" nzFor="customerId" style="font-weight: bold">Mã khách hàng
+                            </nz-form-label>
+                            <!-- <span nz-col nzSpan="10" style="font-weight: bold; margin-top: 5px;">Mã khách hàng:
+                            </span> -->
+                            <nz-form-control nz-col nzSpan="16">
+                                <input nz-input type="text" placeholder="" formControlName="customerIdSell" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
 
-                    <nz-form-item style="margin-left: 80px">
-                        <nz-form-label [nzSpan]="0" nzFor="taxCode" style="font-weight: bold">Mã số thuế
-                        </nz-form-label>
-                        <nz-form-control [nzSpan]="0">
-                            <input nz-input type="text" placeholder="" formControlName="taxCodeSell" />
-                        </nz-form-control>
-                    </nz-form-item>
+                    <div nz-col nzSpan="12">
+                        <nz-form-item nz-row>
+                            <!-- <nz-form-label nz-col nzSpan="9" nzFor="taxCode" style="font-weight: bold">&emsp;Mã số thuế
+                            </nz-form-label> -->
+                            <span nz-col nzSpan="9"
+                                style="font-weight: bold; margin-top: 5px; text-align: right; margin-right: 10px;">Mã số
+                                thuế:
+                            </span>
+                            <nz-form-control nz-col nzSpan="15">
+                                <input nz-input type="text" placeholder="" formControlName="taxCodeSell" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
                 </div>
 
-                <nz-form-item>
-                    <nz-form-label [nzSpan]="0" nzFor="companyNameSell" style="font-weight: bold">Tên đơn vị
+                <nz-form-item nz-row>
+                    <nz-form-label nz-col nzSpan="4" nzFor="companyNameSell" style="font-weight: bold">Tên đơn vị
                     </nz-form-label>
-                    <nz-form-control [nzSpan]="0">
+                    <!-- <span nz-col nzSpan="3" style="font-weight: bold; margin-top: 5px;">Tên đơn
+                        vị:
+                    </span> -->
+                    <nz-form-control nz-col nzSpan="20">
                         <input nz-input type="text" placeholder="" formControlName="companyNameSell" />
                     </nz-form-control>
                 </nz-form-item>
 
-                <div style="display: flex">
-                    <nz-form-item>
-                        <nz-form-label [nzSpan]="0" nzFor="nameSell" style="font-weight: bold">Người bán hàng
+                <div nz-row>
+                    <div nz-col nzSpan="12">
+                        <nz-form-item nz-row>
+                            <nz-form-label nz-col nzSpan="8" nzFor="nameSell" style="font-weight: bold">Người bán
                         </nz-form-label>
-                        <nz-form-control [nzSpan]="0">
-                            <input nz-input type="text" placeholder="" formControlName="nameSell" />
-                        </nz-form-control>
-                    </nz-form-item>
+                            <!-- <span nz-col nzSpan="10" style="font-weight: bold; margin-top: 5px;">Người bán hàng:
+                            </span> -->
+                            <nz-form-control nz-col nzSpan="16">
+                                <input nz-input type="text" placeholder="" formControlName="nameSell" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
 
-                    <nz-form-item style="margin-left: 80px">
-                        <nz-form-label [nzSpan]="0" nzFor="emailSell" style="font-weight: bold">Email</nz-form-label>
-                        <nz-form-control [nzSpan]="0">
-                            <input nz-input type="text" placeholder="" formControlName="emailSell" />
-                        </nz-form-control>
-                    </nz-form-item>
+                    <div nz-col nzSpan="12">
+                        <nz-form-item nz-row>
+                            <!-- <nz-form-label [nzSpan]="0" nzFor="emailSell" style="font-weight: bold">Email</nz-form-label> -->
+                            <span nz-col nzSpan="9"
+                                style="font-weight: bold; margin-top: 5px; text-align: right; margin-right: 10px;">Email:</span>
+                            <nz-form-control nz-col nzSpan="15">
+                                <input nz-input type="email" placeholder="" formControlName="emailSell" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
                 </div>
 
-                <nz-form-item>
-                    <nz-form-label [nzSpan]="0" nzFor="addressSell" style="font-weight: bold">Địa chỉ
+                <nz-form-item nz-row>
+                    <nz-form-label nz-col nzSpan="4" nzFor="addressSell" style="font-weight: bold">Địa chỉ
                     </nz-form-label>
-                    <nz-form-control [nzSpan]="0">
+                    <!-- <span nz-col nzSpan="4" style="font-weight: bold; margin-top: 5px;">Địa chỉ:
+                    </span> -->
+                    <nz-form-control nz-col nzSpan="20">
                         <input nz-input type="text" placeholder="" formControlName="addressSell" />
                     </nz-form-control>
                 </nz-form-item>
 
-                <div style="display: flex">
-                    <nz-form-item>
-                        <nz-form-label [nzSpan]="0" nzFor="accountBankSell" style="font-weight: bold">Số tài khoản
+                <div nz-row>
+                    <div nz-col nzSpan="12">
+                        <nz-form-item nz-row>
+                            <nz-form-label  nz-col nzSpan="8" nzFor="accountBankSell" style="font-weight: bold">Số tài khoản
                         </nz-form-label>
-                        <nz-form-control [nzSpan]="0">
-                            <input nz-input type="text" placeholder="" formControlName="accountBankSell" />
-                        </nz-form-control>
-                    </nz-form-item>
+                        <!-- <span nz-col nzSpan="10" style="font-weight: bold; margin-top: 5px;">Số tài khoản:
+                        </span> -->
+                            <nz-form-control nz-col nzSpan="16">
+                                <input nz-input type="text" placeholder="" formControlName="accountBankSell" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
 
-                    <nz-form-item style="margin-left: 80px">
-                        <nz-form-label [nzSpan]="0" nzFor="nameBankSell" style="font-weight: bold">Tại ngân hàng
-                        </nz-form-label>
-                        <nz-form-control [nzSpan]="0">
-                            <input nz-input type="text" placeholder="" formControlName="nameBankSell" />
-                        </nz-form-control>
-                    </nz-form-item>
+                    <div nz-col nzSpan="12">
+                        <nz-form-item nz-row>
+                            <!-- <nz-form-label [nzSpan]="0" nzFor="nameBankSell" style="font-weight: bold">Tại ngân hàng
+                        </nz-form-label> -->
+                        <span nz-col nzSpan="9"
+                        style="font-weight: bold; margin-top: 5px; text-align: right; margin-right: 10px;">Tại ngân hàng:
+                        </span>
+                            <nz-form-control nz-col nzSpan="15">
+                                <input nz-input type="text" placeholder="" formControlName="nameBankSell" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -184,7 +226,7 @@
         height: 40px;
         margin-top: 10px;
         display: flex;
-      ">
+    ">
             <div>
                 <span style="font-size: 18px; color: #333333"> Chi tiết hóa đơn </span>
             </div>
@@ -254,7 +296,7 @@
                                 </nz-form-label>
                                 <nz-select nz-col nzSpan="16" formControlName="percentTaxSell" nzShowSearch nzAllowClear
                                     nzPlaceHolder="-Chọn thuế suất-" [(ngModel)]="selectedValueTaxSell">
-                                    <nz-option *ngFor="let taxsell of taxs" [nzLabel]= "taxsell.lable"
+                                    <nz-option *ngFor="let taxsell of taxs" [nzLabel]="taxsell.lable"
                                         [nzValue]="taxsell.value">
                                     </nz-option>
                                 </nz-select>
@@ -364,7 +406,7 @@
                                 </nz-form-label>
                                 <nz-select nz-col nzSpan="16" formControlName="percentTaxSell" nzShowSearch nzAllowClear
                                     nzPlaceHolder="-Chọn thuế suất-" [(ngModel)]="selectedValueTaxSell">
-                                    <nz-option *ngFor="let taxsell of taxs" [nzLabel]= "taxsell.lable"
+                                    <nz-option *ngFor="let taxsell of taxs" [nzLabel]="taxsell.lable"
                                         [nzValue]="taxsell.value">
                                     </nz-option>
                                 </nz-select>
@@ -378,7 +420,7 @@
                                         [(ngModel)]="percentDiscount" (keyup)="onKeyDiscount($event)">
                                 </nz-form-control>
                             </div>
-                            
+
                             <div class="form-group" nz-row>
                                 <nz-form-label nz-col nzSpan="8" nzFor="percentMoney" style="font-weight: bold;">Tiền
                                     chiết khấu
@@ -535,8 +577,8 @@
                     <span>Tổng tiền thanh toán </span>
                 </div>
                 <div>
-                    <span>{{intoMoneyBeforeTax}}</span><br /><br/>
-                    <span>{{totalProduct}}</span><br /><br/>
+                    <span>{{intoMoneyBeforeTax}}</span><br /><br />
+                    <span>{{totalProduct}}</span><br /><br />
                     <span *ngFor="let i of InvoiceTaxBreaks">
                         <input class="inputTax" value="{{i.moneyTaxSell}}"
                             (keyup)="onKeyTaxSell($event, i.percentTaxSell)" /><br />
@@ -545,9 +587,13 @@
                     <!-- <span><input class="inputTax" value="{{PercentDiscountAfterTax}}" (keyup)="onKeyPercentDiscountAfterTax($event)" />%&emsp;</span>
                     <span>&emsp;=<input class="inputTax" value="{{TotalDiscountAfterTax}}" (keyup)="onKeyTotalDiscountAfterTax($event)"/></span>
                     <br/><br/> -->
-                    <span><input class="inputTax" [(ngModel)] = "PercentDiscountAfterTax" formControlName="PercentDiscountAfterTax" (keyup)="onKeyPercentDiscountAfterTax($event)" />%&emsp;</span>
-                    <span>&emsp;=<input class="inputTax" [(ngModel)] = "TotalDiscountAfterTax" formControlName="TotalDiscountAfterTax" (keyup)="onKeyTotalDiscountAfterTax($event)"/></span>
-                    <br/><br/>
+                    <span><input class="inputTax" [(ngModel)]="PercentDiscountAfterTax"
+                            formControlName="PercentDiscountAfterTax"
+                            (keyup)="onKeyPercentDiscountAfterTax($event)" />%&emsp;</span>
+                    <span>&emsp;=<input class="inputTax" [(ngModel)]="TotalDiscountAfterTax"
+                            formControlName="TotalDiscountAfterTax"
+                            (keyup)="onKeyTotalDiscountAfterTax($event)" /></span>
+                    <br /><br />
                     <span>{{totalPay}}</span>
                 </div>
             </div>
