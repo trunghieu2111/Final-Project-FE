@@ -2,7 +2,10 @@
 <div style="position: relative">
     <!-- <span *ngIf="flag===false Then hd1 else hd2"></span> -->
     <!-- <ng-template #hd1> -->
-    <button #buttonThem nz-button nzType="primary" (click)="addInvoice()">
+    <button *ngIf="permissionAthen.add == true" #buttonThem nz-button nzType="primary" (click)="addInvoice()">
+        <i class="add" nz-icon nzType="plus" nzTheme="outline"></i>Lập Hóa Đơn
+    </button>
+    <button *ngIf="permissionAthen.add == false" disabled #buttonThem nz-button nzType="primary" (click)="addInvoice()">
         <i class="add" nz-icon nzType="plus" nzTheme="outline"></i>Lập Hóa Đơn
     </button>
 
@@ -16,7 +19,7 @@
     </div>
 
     <div class="tableInvoice" style="border-top: 2px solid #66ccff; margin-top: 50px">
-        <nz-table #tableList style="margin-top: 10px" #basicTable [nzData]="data" [nzPageIndex]="pageIndex"
+        <nz-table *ngIf="permissionAthen.list == true" #tableList style="margin-top: 10px" #basicTable [nzData]="data" [nzPageIndex]="pageIndex"
             [nzPageSize]="pageSize" [nzTotal]="total">
             <!-- (nzPageIndexChange)="pageIndexChange($event)" -->
             <thead>
@@ -48,10 +51,14 @@
                     <td>{{ data.totalPay }}</td>
 
                     <td>
-                        <a><i style="color: red; margin-right: 10px; font-size: 20px" nz-icon nzType="close"
+                        <a *ngIf="permissionAthen.del == true"><i style="color: red; margin-right: 10px; font-size: 20px" nz-icon nzType="close"
+                                nzTheme="outline" title="Xóa" (click)="removeInvoice(data.id)"></i></a>
+                        <a *ngIf="permissionAthen.del == false" style="cursor: not-allowed;"><i style="pointer-events: none; color: red; margin-right: 10px; font-size: 20px" nz-icon nzType="close"
                                 nzTheme="outline" title="Xóa" (click)="removeInvoice(data.id)"></i></a>
                         &emsp;
-                        <a><i style="font-size: 20px" nz-icon nzType="edit" nzTheme="outline" title="Sửa"
+                        <a *ngIf="permissionAthen.edit == true"><i style="font-size: 20px" nz-icon nzType="edit" nzTheme="outline" title="Sửa"
+                                (click)="editInvoice(data.id)"></i></a>
+                        <a *ngIf="permissionAthen.edit == false" style="cursor: not-allowed;"><i style="pointer-events: none; font-size: 20px" nz-icon nzType="edit" nzTheme="outline" title="Sửa"
                                 (click)="editInvoice(data.id)"></i></a>
                     </td>
                 </tr>

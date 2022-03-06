@@ -26,6 +26,7 @@ export class ListPermissionComponent implements OnInit {
   pageSize: number = 5;
   total:number = 0;
   tenantId:any;
+  permissionAthen = {add: false, list: false, edit: false, del: false};
 
   constructor(public permissionService: PermissionService,
     public serviceCommon: ServiceCommon,
@@ -34,6 +35,24 @@ export class ListPermissionComponent implements OnInit {
 
   ngOnInit(): void {
     this.tenantId = this.serviceCommon.tokenTenant.id;
+    for(let i of this.serviceCommon.permission){
+      if(i.id.toUpperCase() ==  "B22B8690-BD30-484C-94B8-7BFC4903901A"){
+        this.permissionAthen.list = true;
+        continue;
+      }
+      else if(i.id.toUpperCase() ==  "B22B8690-BD30-484C-94B8-7BFC4903903A"){
+        this.permissionAthen.edit = true;
+        continue;
+      }
+      else if(i.id.toUpperCase() ==  "B22B8690-BD30-484C-94B8-7BFC4903904A"){
+        this.permissionAthen.del = true;
+        continue;
+      }
+      else if(i.id.toUpperCase() ==  "B22B8690-BD30-484C-94B8-7BFC4903902A"){
+        this.permissionAthen.add = true;
+        continue;
+      }
+    }
     this.loadData();
   }
 

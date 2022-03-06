@@ -166,7 +166,15 @@ export class FormAccComponent implements OnInit {
           }
           //console.log("data:", params);
           this.accountService.createAccount(params).subscribe((data) => {
-            this._location.back();
+            if(data.acc == 0){
+              this.modal.error({
+                nzTitle: 'Lỗi',
+                nzContent: 'Tài khoản đã tồn tại. Vui lòng nhập tài khoản khác!'
+              });
+            }
+            else{
+              this._location.back();
+            }
           })
         }
       }

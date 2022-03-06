@@ -14,6 +14,7 @@ export class ListBranchComponent implements OnInit {
   pageSize: number = 5;
   total:number = 0;
   tenantId:any;
+  permissionAthen = {add: false, list: false, edit: false, del: false};
 
   // pageIndexChange:number = 1;
     
@@ -24,6 +25,24 @@ export class ListBranchComponent implements OnInit {
 
   ngOnInit(): void {
     this.tenantId = this.serviceCommon.tokenTenant.id;
+    for(let i of this.serviceCommon.permission){
+      if(i.id.toUpperCase() ==  "5FDA7B60-2569-4188-88B1-E81433F1AAA6"){
+        this.permissionAthen.list = true;
+        continue;
+      }
+      else if(i.id.toUpperCase() ==  "5FDA7B60-2569-4188-88B2-E81433F1AAA6"){
+        this.permissionAthen.edit = true;
+        continue;
+      }
+      else if(i.id.toUpperCase() ==  "5FDA7B60-2569-4188-88B4-E81433F1AAA6"){
+        this.permissionAthen.del = true;
+        continue;
+      }
+      else if(i.id.toUpperCase() ==  "5FDA7B60-2569-4188-88B3-E81433F1AAA6"){
+        this.permissionAthen.add = true;
+        continue;
+      }
+    }
     this.loadData();
   }
   public loadData(){

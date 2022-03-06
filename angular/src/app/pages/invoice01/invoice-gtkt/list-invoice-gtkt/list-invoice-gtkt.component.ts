@@ -19,6 +19,7 @@ export class ListInvoiceGTKTComponent implements OnInit {
   total:number = 0;
   tenantId:any;
   // pageIndexChange:number = 1;
+  permissionAthen = {add: false, list: false, edit: false, del: false};
     
   constructor(public invoiceGTKTService: InvoiceGTKTService,
     public serviceCommon: ServiceCommon,
@@ -27,6 +28,24 @@ export class ListInvoiceGTKTComponent implements OnInit {
 
   ngOnInit(): void {
     this.tenantId = this.serviceCommon.tokenTenant.id;
+    for(let i of this.serviceCommon.permission){
+      if(i.id.toUpperCase() ==  "F06BE707-4D1D-458A-84CE-C0E5B1BB15B8"){
+        this.permissionAthen.list = true;
+        continue;
+      }
+      else if(i.id.toUpperCase() ==  "5FDA7B60-2569-4188-88BB-E81433F1AAA6"){
+        this.permissionAthen.edit = true;
+        continue;
+      }
+      else if(i.id.toUpperCase() ==  "C5385A8F-B8C6-4C02-BF3F-22AF32C8F04A"){
+        this.permissionAthen.del = true;
+        continue;
+      }
+      else if(i.id.toUpperCase() ==  "32F38657-BDED-4232-91D1-BA558394FF7F"){
+        this.permissionAthen.add = true;
+        continue;
+      }
+    }
     this.loadData();
   }
   public loadData(){

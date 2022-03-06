@@ -83,6 +83,9 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('TokenUser', JSON.stringify(data));
           this.router.navigate(['/hethong'], { replaceUrl: true });
           // replaceUrl: true xóa lịch sử đường dẫn trước đó
+          this.loginService.permissionAccount(data.id).subscribe((data) =>{
+            localStorage.setItem('Permission', JSON.stringify(data.items));
+          })
         }
       })
     }

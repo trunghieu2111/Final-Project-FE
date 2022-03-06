@@ -1,7 +1,10 @@
 <span style="font-size: 27px;">Quản lý quyền</span>
 <br><br>
 <div style="position: relative;">
-  <button #buttonThem nz-button nzType="primary" (click)="addPermission()">
+  <button *ngIf="permissionAthen.add == true" #buttonThem nz-button nzType="primary" (click)="addPermission()">
+    <i class="add" nz-icon nzType="plus" nzTheme="outline"></i>Thêm mới
+  </button>
+  <button *ngIf="permissionAthen.add == false" disabled #buttonThem nz-button nzType="primary" (click)="addPermission()">
     <i class="add" nz-icon nzType="plus" nzTheme="outline"></i>Thêm mới
   </button>
 
@@ -15,7 +18,7 @@
   </div>
 
   <div class="tablePermission" style="border-top: 2px solid #66CCFF; margin-top: 50px">
-    <nz-table #tableList style="margin-top: 10px" #basicTable [nzData]="data" [nzPageIndex]="pageIndex"
+    <nz-table *ngIf="permissionAthen.list == true" #tableList style="margin-top: 10px" #basicTable [nzData]="data" [nzPageIndex]="pageIndex"
       [nzPageSize]="pageSize" [nzTotal]="total">
       <thead>
         <tr>
@@ -27,10 +30,14 @@
         <tr *ngFor="let data of basicTable.data">
           <td>{{data.roleName}}</td>
           <td>
-            <a><i style="color: red; margin-right: 10px; font-size: 20px;" nz-icon nzType="close" nzTheme="outline"
+            <a *ngIf="permissionAthen.del == true"><i style="color: red; margin-right: 10px; font-size: 20px;" nz-icon nzType="close" nzTheme="outline"
+                title="Xóa" (click)="removePermission(data.id)"></i></a>
+            <a *ngIf="permissionAthen.del == false" style="cursor: not-allowed;"><i style="pointer-events: none; color: red; margin-right: 10px; font-size: 20px;" nz-icon nzType="close" nzTheme="outline"
                 title="Xóa" (click)="removePermission(data.id)"></i></a>
             &emsp;
-            <a><i style="font-size: 20px;" nz-icon nzType="edit" nzTheme="outline" title="Sửa"
+            <a *ngIf="permissionAthen.edit == true"><i style="font-size: 20px;" nz-icon nzType="edit" nzTheme="outline" title="Sửa"
+                (click)="editPermission(data.id)"></i></a>
+            <a *ngIf="permissionAthen.edit == false" style="cursor: not-allowed;"><i style="pointer-events: none; font-size: 20px;" nz-icon nzType="edit" nzTheme="outline" title="Sửa"
                 (click)="editPermission(data.id)"></i></a>
           </td>
         </tr>
