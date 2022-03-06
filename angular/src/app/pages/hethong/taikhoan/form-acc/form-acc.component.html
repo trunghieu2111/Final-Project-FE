@@ -8,45 +8,45 @@
     <div id="divform" style="margin-top: 40px;">
       <div class="form-group" nz-row>
         <nz-form-label nz-col nzSpan="4" nzFor="name" style="font-weight: bold;">Họ tên</nz-form-label>
-        <nz-form-control nz-col nzSpan="20" nzErrorTip="Chưa nhập tên">
+        <nz-form-control nz-col nzSpan="20" nzErrorTip="Chưa nhập họ tên">
           <input nz-input type="text" formControlName="name">
         </nz-form-control>
-      </div><br>
+      </div>
 
       <div class="form-group" nz-row>
         <nz-form-label nz-col nzSpan="4" nzFor="email" style="font-weight: bold;">Email</nz-form-label>
-        <nz-form-control nz-col nzSpan="20" nzErrorTip="Chưa nhập email">
+        <nz-form-control nz-col nzSpan="20" nzErrorTip="Email có dạng: abc@gmail.com">
           <input nz-input type="email" formControlName="email">
         </nz-form-control>
-      </div><br>
+      </div>
 
       <div class="form-group" nz-row>
         <nz-form-label nz-col nzSpan="4" nzFor="phone" style="font-weight: bold;">Số điện thoại</nz-form-label>
-        <nz-form-control nz-col nzSpan="20" nzErrorTip="Chưa nhập số điện thoại">
+        <nz-form-control nz-col nzSpan="20" nzErrorTip="Số điện thoại có dạng: 0912356789">
           <input nz-input type="number" formControlName="phone">
         </nz-form-control>
-      </div><br>
+      </div>
 
       <div class="form-group" nz-row>
         <nz-form-label nz-col nzSpan="4" nzFor="acc" style="font-weight: bold;">Tài khoản</nz-form-label>
-        <nz-form-control nz-col nzSpan="20" nzErrorTip="Chưa nhập tài khoản">
+        <nz-form-control nz-col nzSpan="20" nzErrorTip="Tài khoản phải > 6 kí tự">
           <input nz-input type="text" formControlName="acc">
         </nz-form-control>
-      </div><br>
+      </div>
 
       <div *ngIf="flagEditPass != '1'" class="form-group" nz-row>
         <nz-form-label nz-col nzSpan="4" nzFor="pass" style="font-weight: bold;">Mật khẩu</nz-form-label>
-        <nz-form-control nz-col nzSpan="20" nzErrorTip="Chưa nhập mật khẩu">
+        <nz-form-control nz-col nzSpan="20" nzErrorTip="Mật khẩu phải > 6 kí tự">
           <input nz-input type="password" formControlName="pass">
         </nz-form-control>
-      </div><br>
+      </div>
 
       <div *ngIf="flagEditPass != '1'" class="form-group" nz-row>
         <nz-form-label nz-col nzSpan="4" nzFor="confirmpass" style="font-weight: bold;">Xác nhận mật khẩu</nz-form-label>
-        <nz-form-control nz-col nzSpan="20" nzErrorTip="Chưa nhập xác nhận mật khẩu">
+        <nz-form-control nz-col nzSpan="20" nzErrorTip="Mật khẩu phải > 6 kí tự">
           <input nz-input type="password" formControlName="confirmpass">
         </nz-form-control>
-      </div><br>
+      </div>
 
     </div>
   </div>

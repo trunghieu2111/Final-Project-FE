@@ -37,11 +37,11 @@ export class BranchFormComponent implements OnInit {
       tenmien: [null, Validators.required],
       tenchinhanh: [null, [Validators.required]],
       diachi: [null, Validators.required],
-      acc: [null, Validators.required],
+      acc: [null, [Validators.required, Validators.minLength(6)]],
       name: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
-      pass: [null, Validators.required],
-      confirmpass: [null, Validators.required],
+      pass: [null, [Validators.required, Validators.minLength(6)]],
+      confirmpass: [null, [Validators.required, Validators.minLength(6)]],
     })
   }
 

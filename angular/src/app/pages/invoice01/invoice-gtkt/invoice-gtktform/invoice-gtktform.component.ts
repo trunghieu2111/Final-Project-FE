@@ -101,46 +101,34 @@ export class InvoiceGTKTFormComponent implements OnInit {
       taxCodeBuy: this.taxCodeBuy,
       companyNameBuy: this.companyNameBuy,
       addressBuy: this.addressBuy,
-      dateInvoice: [null],
-      payType: [null],
-      invoiceNumber: [null],
-      invoiceForm: [null],
-      invoiceSign: [null],
-      noteInvoice: [null],
-      customerIdSell: [],
-      taxCodeSell: [],
-      companyNameSell: [],
-      addressSell: [],
-      nameSell: [],
-      emailSell: [],
-      nameBankSell: [],
-      accountBankSell: [],
+      dateInvoice: [null, [Validators.required]],
+      payType: [null, [Validators.required]],
+      invoiceNumber: [null, [Validators.required]],
+      invoiceForm: [null, [Validators.required]],
+      invoiceSign: [null, [Validators.required]],
+      noteInvoice: [null, [Validators.required]],
+      customerIdSell: [null, [Validators.required]],
+      taxCodeSell: [null, [Validators.required]],
+      companyNameSell: [null, [Validators.required]],
+      addressSell: [null, [Validators.required]],
+      nameSell: [null, [Validators.required]],
+      emailSell: [null, [Validators.required, Validators.email]],
+      nameBankSell: [null, [Validators.required]],
+      accountBankSell: [null, [Validators.required]],
       //checkbox hóa đơn chiết khấu.
       flagInvoiceDetail: [],
       //tổng chiết khẩu trc thuế
       PercentDiscountAfterTax: [],
       TotalDiscountAfterTax: []
-      // nameProduct: [],
-      // productId: [],
-      // content: [],
-      // unit: [],
-      // quantity: [],
-      // price: [],
-      // percentTaxSell: [],
-      // percentMoney: [],
-      // percentDiscountBeforeTax: [],
-      // intoMoney: [],
     })
 
     this.submitFormDetails = this.fb.group({
-      //detail
-      //id: [],
-      nameProduct: [],
-      productId: [],
-      content: [],
-      unit: [],
-      quantity: [],
-      price: [],
+      nameProduct: [null, [Validators.required]],
+      productId: [null, [Validators.required]],
+      content: [null, [Validators.required]],
+      unit: [null, [Validators.required]],
+      quantity: [null, [Validators.required]],
+      price: [null, [Validators.required]],
       percentTaxSell: [],
       percentMoney: [0],
       percentDiscountBeforeTax: [0],
@@ -161,20 +149,9 @@ export class InvoiceGTKTFormComponent implements OnInit {
 
   showModal(): void {
     this.isVisible = true;
-    // this.percentDiscount = 0;
-    // this.MoneyTaxSell = 0;
   }
 
   handleOk(): void {
-    //tính thuế suất khi âm
-    // if (Number(this.submitFormDetails.get('percentTaxSell')?.value) < 0) {
-    //this.PercentTaxSellinForm = 0;
-    //   console.log("vào <0");
-    // }
-    // else {
-    //   console.log("vào >0");
-    //   this.PercentTaxSellinForm = (Number(this.submitFormDetails.get('percentTaxSell')?.value) * Number(this.submitFormDetails.get('intoMoney')?.value)) / 100;
-    // }
 
     if (this.flagCreateorUpdateInvoiceDetail == true) {
       const par = {

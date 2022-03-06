@@ -39,9 +39,9 @@ export class FormAccComponent implements OnInit {
       name: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
       phone: [null, [Validators.required, Validators.minLength(10)]],
-      acc: [null, [Validators.required]],
-      pass: [null, Validators.required],
-      confirmpass: [null, Validators.required]
+      acc: [null, [Validators.required, Validators.minLength(6)]],
+      pass: [null, [Validators.required, Validators.minLength(6)]],
+      confirmpass: [null, [Validators.required, Validators.minLength(6)]]
     })
   }
 

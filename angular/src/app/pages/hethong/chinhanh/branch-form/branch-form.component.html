@@ -20,19 +20,19 @@
       </nz-form-item>
       <nz-form-item nz-row>
         <nz-form-label nz-col nzSpan="5" nzFor="MST" style="font-weight: bold;">Mã số thuế</nz-form-label>
-        <nz-form-control nz-col nzSpan="19">
+        <nz-form-control nz-col nzSpan="19" nzErrorTip="Chưa nhập mã số thuế">
           <input nz-input type="text" formControlName="MST" placeholder="Mã số thuế là duy nhất trên toàn bộ hệ thống">
         </nz-form-control>
       </nz-form-item>
       <nz-form-item nz-row>
         <nz-form-label nz-col nzSpan="5" nzFor="tenchinhanh" style="font-weight: bold;">Tên tiếng việt</nz-form-label>
-        <nz-form-control nz-col nzSpan="19">
+        <nz-form-control nz-col nzSpan="19" nzErrorTip="Chưa nhập tên chi nhánh">
           <input nz-input type="text" formControlName="tenchinhanh" placeholder="Tên chi nhánh viết bằng tiếng Việt">
         </nz-form-control>
       </nz-form-item>
       <nz-form-item nz-row>
         <nz-form-label nz-col nzSpan="5" nzFor="diachi" style="font-weight: bold;">Địa chỉ</nz-form-label>
-        <nz-form-control nz-col nzSpan="19">
+        <nz-form-control nz-col nzSpan="19" nzErrorTip="Chưa nhập địa chỉ">
           <input nz-input type="text" formControlName="diachi" placeholder="Địa chỉ chi nhánh">
         </nz-form-control>
       </nz-form-item>
@@ -48,31 +48,31 @@
     <div style="margin-top: 50px; margin-right: 30px;">
       <nz-form-item nz-row>
         <nz-form-label nz-col nzSpan="5" nzFor="acc" style="font-weight: bold;">Tên đăng nhập</nz-form-label>
-        <nz-form-control nz-col nzSpan="19" nzErrorTip="Chưa nhập tên đăng nhập">
+        <nz-form-control nz-col nzSpan="19" nzErrorTip="Tên đăng nhập phải > 6 kí tự">
           <input nz-input type="text" formControlName="acc" placeholder="Tài khoản đăng nhập quyền Admin chi nhánh">
         </nz-form-control>
       </nz-form-item>
       <nz-form-item nz-row>
         <nz-form-label nz-col nzSpan="5" nzFor="name" style="font-weight: bold;">Họ tên</nz-form-label>
-        <nz-form-control nz-col nzSpan="19">
+        <nz-form-control nz-col nzSpan="19" nzErrorTip="Chưa nhập họ tên">
           <input nz-input type="text" formControlName="name" placeholder="Tên hiển thị">
         </nz-form-control>
       </nz-form-item>
       <nz-form-item nz-row>
         <nz-form-label nz-col nzSpan="5" nzFor="email" style="font-weight: bold;">Email</nz-form-label>
-        <nz-form-control nz-col nzSpan="19">
+        <nz-form-control nz-col nzSpan="19" nzErrorTip="Email có dạng: abc@gmail.com">
           <input nz-input type="email" formControlName="email">
         </nz-form-control>
       </nz-form-item>
       <nz-form-item nz-row>
         <nz-form-label nz-col nzSpan="5" nzFor="pass" style="font-weight: bold;">Mật khẩu</nz-form-label>
-        <nz-form-control nz-col nzSpan="19">
+        <nz-form-control nz-col nzSpan="19" nzErrorTip="Mật khẩu phải > 6 kí tự">
           <input nz-input type="password" formControlName="pass">
         </nz-form-control>
       </nz-form-item>
       <nz-form-item nz-row>
         <nz-form-label nz-col nzSpan="5" nzFor="confirmpass" style="font-weight: bold;">Xác nhận mật khẩu</nz-form-label>
-        <nz-form-control nz-col nzSpan="19">
+        <nz-form-control nz-col nzSpan="19" nzErrorTip="Mật khẩu phải > 6 kí tự">
           <input nz-input type="password" formControlName="confirmpass">
         </nz-form-control>
       </nz-form-item>

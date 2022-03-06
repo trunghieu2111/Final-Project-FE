@@ -39,7 +39,7 @@
             <div nz-row style="border-bottom: 1px solid #dddddd; height: 40px; margin-top: 10px">
                 <span nz-col nzSpan="14" style="font-size: 18px; color: #333333"> Thông tin hóa đơn </span>
                 <div nz-col nzSpan="10" style="width: 145px; right: 0%; top: 0%">
-                    <input nz-input type="text" placeholder="Số hóa đơn" formControlName="invoiceNumber" />
+                    <input nz-input type="number" placeholder="Số hóa đơn" formControlName="invoiceNumber" />
                 </div>
             </div>
 
@@ -49,7 +49,7 @@
                     </nz-form-label> -->
                     <span nz-col nzSpan="9" style="font-weight: bold; margin-top: 5px;">Ngày hóa đơn:
                     </span>
-                    <nz-form-control nz-col nzSpan="15">
+                    <nz-form-control nz-col nzSpan="15" nzErrorTip="Chưa chọn ngày hóa đơn">
                         <input nz-input type="date" placeholder="-Chọn ngày-" formControlName="dateInvoice" />
                     </nz-form-control>
                 </nz-form-item>
@@ -93,7 +93,7 @@
                     </nz-form-label> -->
                     <!-- <span nz-col nzSpan="5" style="font-weight: bold; margin-top: 5px;">Ghi chú:
                     </span> -->
-                    <nz-form-control nz-col nzSpan="24">
+                    <nz-form-control nz-col nzSpan="24" nzErrorTip="Chưa nhập ghi chú">
                         <input nz-input type="text" placeholder="Ghi chú" formControlName="noteInvoice" />
                     </nz-form-control>
                 </nz-form-item>
@@ -121,7 +121,7 @@
                             </nz-form-label>
                             <!-- <span nz-col nzSpan="10" style="font-weight: bold; margin-top: 5px;">Mã khách hàng:
                             </span> -->
-                            <nz-form-control nz-col nzSpan="16">
+                            <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập mã khách hàng">
                                 <input nz-input type="text" placeholder="" formControlName="customerIdSell" />
                             </nz-form-control>
                         </nz-form-item>
@@ -135,7 +135,7 @@
                                 style="font-weight: bold; margin-top: 5px; text-align: right; margin-right: 10px;">Mã số
                                 thuế:
                             </span>
-                            <nz-form-control nz-col nzSpan="15">
+                            <nz-form-control nz-col nzSpan="15" nzErrorTip="Chưa nhập mã số thuế">
                                 <input nz-input type="text" placeholder="" formControlName="taxCodeSell" />
                             </nz-form-control>
                         </nz-form-item>
@@ -148,7 +148,7 @@
                     <!-- <span nz-col nzSpan="3" style="font-weight: bold; margin-top: 5px;">Tên đơn
                         vị:
                     </span> -->
-                    <nz-form-control nz-col nzSpan="20">
+                    <nz-form-control nz-col nzSpan="20" nzErrorTip="Chưa nhập tên đơn vị">
                         <input nz-input type="text" placeholder="" formControlName="companyNameSell" />
                     </nz-form-control>
                 </nz-form-item>
@@ -160,7 +160,7 @@
                         </nz-form-label>
                             <!-- <span nz-col nzSpan="10" style="font-weight: bold; margin-top: 5px;">Người bán hàng:
                             </span> -->
-                            <nz-form-control nz-col nzSpan="16">
+                            <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập tên người bán">
                                 <input nz-input type="text" placeholder="" formControlName="nameSell" />
                             </nz-form-control>
                         </nz-form-item>
@@ -171,7 +171,7 @@
                             <!-- <nz-form-label [nzSpan]="0" nzFor="emailSell" style="font-weight: bold">Email</nz-form-label> -->
                             <span nz-col nzSpan="9"
                                 style="font-weight: bold; margin-top: 5px; text-align: right; margin-right: 10px;">Email:</span>
-                            <nz-form-control nz-col nzSpan="15">
+                            <nz-form-control nz-col nzSpan="15" nzErrorTip="Email có dạng: abc@gmail.com">
                                 <input nz-input type="email" placeholder="" formControlName="emailSell" />
                             </nz-form-control>
                         </nz-form-item>
@@ -183,7 +183,7 @@
                     </nz-form-label>
                     <!-- <span nz-col nzSpan="4" style="font-weight: bold; margin-top: 5px;">Địa chỉ:
                     </span> -->
-                    <nz-form-control nz-col nzSpan="20">
+                    <nz-form-control nz-col nzSpan="20" nzErrorTip="Chưa nhập địa chỉ">
                         <input nz-input type="text" placeholder="" formControlName="addressSell" />
                     </nz-form-control>
                 </nz-form-item>
@@ -195,8 +195,8 @@
                         </nz-form-label>
                         <!-- <span nz-col nzSpan="10" style="font-weight: bold; margin-top: 5px;">Số tài khoản:
                         </span> -->
-                            <nz-form-control nz-col nzSpan="16">
-                                <input nz-input type="text" placeholder="" formControlName="accountBankSell" />
+                            <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập số tài khoản">
+                                <input nz-input type="number" placeholder="" formControlName="accountBankSell" />
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -208,7 +208,7 @@
                         <span nz-col nzSpan="9"
                         style="font-weight: bold; margin-top: 5px; text-align: right; margin-right: 10px;">Tại ngân hàng:
                         </span>
-                            <nz-form-control nz-col nzSpan="15">
+                            <nz-form-control nz-col nzSpan="15" nzErrorTip="Chưa nhập tên ngân hàng">
                                 <input nz-input type="text" placeholder="" formControlName="nameBankSell" />
                             </nz-form-control>
                         </nz-form-item>
@@ -249,10 +249,10 @@
                                 <nz-form-label nz-col nzSpan="8" nzFor="nameProduct" style="font-weight: bold;">Hàng hóa
                                     /
                                     dịch vụ</nz-form-label>
-                                <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập hàng hóa">
+                                <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập tên hàng hóa">
                                     <input nz-input type="text" formControlName="nameProduct">
                                 </nz-form-control>
-                            </div><br>
+                            </div>
                             <div class="form-group" nz-row>
                                 <nz-form-label nz-col nzSpan="8" nzFor="productId" style="font-weight: bold;">Mã Hàng
                                     hóa /
@@ -260,7 +260,7 @@
                                 <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập mã hàng hóa">
                                     <input nz-input type="text" formControlName="productId">
                                 </nz-form-control>
-                            </div><br>
+                            </div>
                             <div class="form-group" nz-row>
                                 <nz-form-label nz-col nzSpan="8" nzFor="content" style="font-weight: bold;">Nội dung
                                 </nz-form-label>
@@ -271,22 +271,22 @@
                             <div class="form-group" nz-row>
                                 <nz-form-label nz-col nzSpan="8" nzFor="unit" style="font-weight: bold;">Đơn vị tính
                                 </nz-form-label>
-                                <nz-form-control nz-col nzSpan="16" nzErrorTip="">
+                                <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập đơn vị tính">
                                     <input nz-input type="text" formControlName="unit">
                                 </nz-form-control>
                             </div>
                             <div class="form-group" nz-row>
                                 <nz-form-label nz-col nzSpan="8" nzFor="quantity" style="font-weight: bold;">Số lượng
                                 </nz-form-label>
-                                <nz-form-control nz-col nzSpan="16" nzErrorTip="">
-                                    <input nz-input type="text" formControlName="quantity"
+                                <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập số lượng">
+                                    <input nz-input type="number" formControlName="quantity"
                                         (keyup)="onKeyQuantity($event)">
                                 </nz-form-control>
                             </div>
                             <div class="form-group" nz-row>
                                 <nz-form-label nz-col nzSpan="8" nzFor="price" style="font-weight: bold;">Đơn giá
                                 </nz-form-label>
-                                <nz-form-control nz-col nzSpan="16" nzErrorTip="">
+                                <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập đơn giá">
                                     <input nz-input type="text" formControlName="price" (keyup)="onKey($event)">
                                 </nz-form-control>
                             </div>
@@ -347,7 +347,7 @@
                                 <nz-form-label nz-col nzSpan="8" nzFor="nameProduct" style="font-weight: bold;">Hàng hóa
                                     /
                                     dịch vụ</nz-form-label>
-                                <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập hàng hóa">
+                                <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập tên hàng hóa">
                                     <input nz-input type="text" formControlName="nameProduct">
                                 </nz-form-control>
                             </div><br>
@@ -369,22 +369,22 @@
                             <div class="form-group" nz-row>
                                 <nz-form-label nz-col nzSpan="8" nzFor="unit" style="font-weight: bold;">Đơn vị tính
                                 </nz-form-label>
-                                <nz-form-control nz-col nzSpan="16" nzErrorTip="">
+                                <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập đơn vị tính">
                                     <input nz-input type="text" formControlName="unit">
                                 </nz-form-control>
                             </div>
                             <div class="form-group" nz-row>
                                 <nz-form-label nz-col nzSpan="8" nzFor="quantity" style="font-weight: bold;">Số lượng
                                 </nz-form-label>
-                                <nz-form-control nz-col nzSpan="16" nzErrorTip="">
-                                    <input nz-input type="text" formControlName="quantity"
+                                <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập số lượng">
+                                    <input nz-input type="number" formControlName="quantity"
                                         (keyup)="onKeyQuantity($event)">
                                 </nz-form-control>
                             </div>
                             <div class="form-group" nz-row>
                                 <nz-form-label nz-col nzSpan="8" nzFor="price" style="font-weight: bold;">Đơn giá
                                 </nz-form-label>
-                                <nz-form-control nz-col nzSpan="16" nzErrorTip="">
+                                <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập đơn giá">
                                     <input nz-input type="text" formControlName="price" (keyup)="onKey($event)">
                                 </nz-form-control>
                             </div>

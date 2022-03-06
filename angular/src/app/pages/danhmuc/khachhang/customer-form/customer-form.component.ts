@@ -31,16 +31,16 @@ export class CustomerFormComponent implements OnInit {
     this.submitForm = this.fb.group({
       customerId: [null, [Validators.required]],
       taxCode: [null, Validators.required],
-      fullName: [null, [Validators.required, Validators.minLength(6)]],
+      fullName: [null, [Validators.required]],
       address: [null, Validators.required],
-      legalName: [null],
-      bankAcount: [],
-      bankName: [],
-      phone: [],
-      soFax: [],
-      email: [],
-      district: [],
-      city: []
+      legalName: [null, Validators.required],
+      bankAcount: [null, Validators.required],
+      bankName: [null, Validators.required],
+      phone: [null, Validators.required],
+      soFax: [null, Validators.required],
+      email: [null, [Validators.required, Validators.email]],
+      district: [null, Validators.required],
+      city: [null, Validators.required]
     })
   }
 
