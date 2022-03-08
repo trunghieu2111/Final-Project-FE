@@ -13,9 +13,10 @@ export class LoginComponent implements OnInit {
   Username = '';
   Password = '';
   Tenant = '';
-  TenantId : any;
-  data:any;
-  dataUser:any;
+  TenantId: any;
+  data: any;
+  dataUser: any;
+  flagCheckTenant = false;
 
   constructor(
     private router: Router,
@@ -23,25 +24,26 @@ export class LoginComponent implements OnInit {
     private loginService: ServiceLogin
   ) { }
 
-  submitTenant(){
+  submitTenant() {
     //console.log(this.NotifiTenant);
-    if(this.Tenant == ''){
+    if (this.Tenant == '') {
       // this.NotifiTenant = "Chưa chọn chi nhánh!";
       this.modal.error({
         nzTitle: 'Lỗi',
         nzContent: 'Chưa chọn chi nhánh. Nhập mã số thuế chi nhánh!'
       });
     }
-    else{
+    else {
       this.loginService.loginTenantInvoice(this.Tenant).subscribe((data) => {
         //console.log(data);
-        if(data.mst == 0){
+        if (data.mst == 0) {
           this.modal.error({
             nzTitle: 'Lỗi',
             nzContent: 'Chi nhánh không hợp lệ!'
           });
         }
-        else{
+        else {
+          this.flagCheckTenant = true;
           this.modal.success({
             nzTitle: 'Thành công!'
           });
@@ -52,48 +54,57 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  submitLogin(){
+  submitLogin() {
     //this.router.navigate(['/dashboard'], { replaceUrl: true });
 
     //console.log("taxxx:", this.TenantId);
-    const params = {
-      acc: this.Username,
-      pass: this.Password,
-      tenantId: this.TenantId
-    }
-    //console.log("pa:", params);
-    if(this.Username == '' || this.Password == '' || this.Tenant == ''){
+    if (this.flagCheckTenant == false) {
       this.modal.error({
         nzTitle: 'Lỗi',
-        nzContent: 'Chưa nhập đầy đủ các thông tin!'
+        nzContent: 'Chưa chọn chi nhánh. Nhập mã số thuế chi nhánh!'
       });
     }
-    else{
-      this.loginService.loginAccountInvoice(params).subscribe((data) => {
-        //console.log("data:", data);
-        if(data.id == 0){
-          this.modal.error({
-            nzTitle: 'Lỗi',
-            nzContent: 'Sai tài khoản hoặc mật khẩu!'
-          });
-        }
-        else{
-          //console.log("data:", this.data);
-          localStorage.setItem('Token', JSON.stringify(this.data));
-          localStorage.setItem('TokenUser', JSON.stringify(data));
-          this.router.navigate(['/hethong'], { replaceUrl: true });
-          // replaceUrl: true xóa lịch sử đường dẫn trước đó
-          this.loginService.permissionAccount(data.id).subscribe((data) =>{
-            localStorage.setItem('Permission', JSON.stringify(data.items));
-          })
-        }
-      })
+    else {
+      const params = {
+        acc: this.Username,
+        pass: this.Password,
+        tenantId: this.TenantId
+      }
+      //console.log("pa:", params);
+      if (this.Username == '' || this.Password == '' || this.Tenant == '') {
+        this.modal.error({
+          nzTitle: 'Lỗi',
+          nzContent: 'Chưa nhập đầy đủ các thông tin!'
+        });
+      }
+      else {
+        this.loginService.loginAccountInvoice(params).subscribe((data) => {
+          //console.log("data:", data);
+          if (data.id == 0) {
+            this.modal.error({
+              nzTitle: 'Lỗi',
+              nzContent: 'Sai tài khoản hoặc mật khẩu!'
+            });
+          }
+          else {
+            //console.log("data:", this.data);
+            localStorage.setItem('Token', JSON.stringify(this.data));
+            localStorage.setItem('TokenUser', JSON.stringify(data));
+            this.router.navigate(['/hethong'], { replaceUrl: true });
+            // replaceUrl: true xóa lịch sử đường dẫn trước đó
+            this.loginService.permissionAccount(data.id).subscribe((data) => {
+              localStorage.setItem('Permission', JSON.stringify(data.items));
+            })
+          }
+        })
+      }
     }
-    
+
+
   }
 
   ngOnInit(): void {
-    localStorage.clear(); 
+    localStorage.clear();
   }
 
   // ! tồn tại
