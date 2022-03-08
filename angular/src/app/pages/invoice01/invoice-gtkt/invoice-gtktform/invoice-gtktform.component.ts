@@ -5,6 +5,7 @@ import { Location } from '@angular/common';
 import { InvoiceGTKTService } from '../InvoiceGTKT.service';
 import { IDataDetails, IDataTaxBreaks } from '../dataInvoiceDetail.model';
 import { ServiceCommon } from 'src/app/share/common.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 interface ITax {
   lable: string;
@@ -91,6 +92,7 @@ export class InvoiceGTKTFormComponent implements OnInit {
   addressBuy: any;
 
   constructor(
+    private modal: NzModalService,
     public serviceCommon: ServiceCommon,
     private _location: Location,
     private route: ActivatedRoute,
@@ -129,7 +131,7 @@ export class InvoiceGTKTFormComponent implements OnInit {
       unit: [null, [Validators.required]],
       quantity: [null, [Validators.required]],
       price: [null, [Validators.required]],
-      percentTaxSell: [],
+      percentTaxSell: [null, [Validators.required]],
       percentMoney: [0],
       percentDiscountBeforeTax: [0],
       intoMoney: [],
@@ -152,62 +154,77 @@ export class InvoiceGTKTFormComponent implements OnInit {
   }
 
   handleOk(): void {
+    const validDetail = this.submitFormDetails.valid;
+    if (validDetail) {
 
-    if (this.flagCreateorUpdateInvoiceDetail == true) {
-      const par = {
-        id: this.idOfCreateDetail + 1,
-        //invoiceId: this.InvoiceDetails[0].invoiceId,
-        nameProduct: this.submitFormDetails.get('nameProduct')?.value,
-        productId: this.submitFormDetails.get('productId')?.value,
-        content: this.submitFormDetails.get('content')?.value,
-        unit: this.submitFormDetails.get('unit')?.value,
-        quantity: Number(this.submitFormDetails.get('quantity')?.value),
-        price: Number(this.submitFormDetails.get('price')?.value),
-        percentTaxSell: Number(this.submitFormDetails.get('percentTaxSell')?.value),
-        percentDiscountBeforeTax: Number(this.submitFormDetails.get('percentDiscountBeforeTax')?.value),
-        percentMoney: Number(this.submitFormDetails.get('percentMoney')?.value),
-        intoMoney: Number(this.submitFormDetails.get('intoMoney')?.value),
+      if (this.flagCreateorUpdateInvoiceDetail == true) {
+        const par = {
+          id: this.idOfCreateDetail + 1,
+          //invoiceId: this.InvoiceDetails[0].invoiceId,
+          nameProduct: this.submitFormDetails.get('nameProduct')?.value,
+          productId: this.submitFormDetails.get('productId')?.value,
+          content: this.submitFormDetails.get('content')?.value,
+          unit: this.submitFormDetails.get('unit')?.value,
+          quantity: Number(this.submitFormDetails.get('quantity')?.value),
+          price: Number(this.submitFormDetails.get('price')?.value),
+          percentTaxSell: Number(this.submitFormDetails.get('percentTaxSell')?.value),
+          percentDiscountBeforeTax: Number(this.submitFormDetails.get('percentDiscountBeforeTax')?.value),
+          percentMoney: Number(this.submitFormDetails.get('percentMoney')?.value),
+          intoMoney: Number(this.submitFormDetails.get('intoMoney')?.value),
+        }
+        this.InvoiceDetails.push(par);
+        this.InvoiceDetails = [...this.InvoiceDetails];
+        this.calculateTaxSell();
+
+        this.idOfCreateDetail = par.id;
+        // console.log("dataTaxx:", this.InvoiceTaxBreaks);
+        // console.log("data:", this.InvoiceDetails);
       }
-      this.InvoiceDetails.push(par);
-      this.InvoiceDetails = [...this.InvoiceDetails];
-      this.calculateTaxSell();
+      else {
+        for (let i = 0; i < this.InvoiceDetails.length; i++) {
+          if (this.InvoiceDetails[i].id == this.InvoiceDetails[this.indexOfInvoiceDetailUpdate].id) {
+            const par = {
+              id: this.InvoiceDetails[i].id,
+              //invoiceId: this.InvoiceDetails[i].invoiceId,
+              nameProduct: this.submitFormDetails.get('nameProduct')?.value,
+              productId: this.submitFormDetails.get('productId')?.value,
+              content: this.submitFormDetails.get('content')?.value,
+              unit: this.submitFormDetails.get('unit')?.value,
+              quantity: Number(this.submitFormDetails.get('quantity')?.value),
+              price: Number(this.submitFormDetails.get('price')?.value),
+              percentTaxSell: Number(this.submitFormDetails.get('percentTaxSell')?.value),
+              percentDiscountBeforeTax: Number(this.submitFormDetails.get('percentDiscountBeforeTax')?.value),
+              percentMoney: Number(this.submitFormDetails.get('percentMoney')?.value),
+              intoMoney: Number(this.submitFormDetails.get('intoMoney')?.value),
+            }
+            this.InvoiceDetails[i] = par;
+            this.InvoiceDetails = [...this.InvoiceDetails];
+            //console.log("dataDetail Sửa:", this.InvoiceDetails);
+            break;
+          }
+        }
+        this.calculateTaxSell();
+        // console.log("dataTaxx:", this.InvoiceTaxBreaks);
+        // console.log("data:", this.InvoiceDetails);
+        this.flagCreateorUpdateInvoiceDetail = true;
+      }
+      this.submitFormDetails.reset();
+      this.isVisible = false;
 
-      this.idOfCreateDetail = par.id;
-      // console.log("dataTaxx:", this.InvoiceTaxBreaks);
-      // console.log("data:", this.InvoiceDetails);
+      this.subOnKeyPercentDiscountAfterTax();
     }
     else {
-      for (let i = 0; i < this.InvoiceDetails.length; i++) {
-        if (this.InvoiceDetails[i].id == this.InvoiceDetails[this.indexOfInvoiceDetailUpdate].id) {
-          const par = {
-            id: this.InvoiceDetails[i].id,
-            //invoiceId: this.InvoiceDetails[i].invoiceId,
-            nameProduct: this.submitFormDetails.get('nameProduct')?.value,
-            productId: this.submitFormDetails.get('productId')?.value,
-            content: this.submitFormDetails.get('content')?.value,
-            unit: this.submitFormDetails.get('unit')?.value,
-            quantity: Number(this.submitFormDetails.get('quantity')?.value),
-            price: Number(this.submitFormDetails.get('price')?.value),
-            percentTaxSell: Number(this.submitFormDetails.get('percentTaxSell')?.value),
-            percentDiscountBeforeTax: Number(this.submitFormDetails.get('percentDiscountBeforeTax')?.value),
-            percentMoney: Number(this.submitFormDetails.get('percentMoney')?.value),
-            intoMoney: Number(this.submitFormDetails.get('intoMoney')?.value),
-          }
-          this.InvoiceDetails[i] = par;
-          this.InvoiceDetails = [...this.InvoiceDetails];
-          //console.log("dataDetail Sửa:", this.InvoiceDetails);
-          break;
-        }
-      }
-      this.calculateTaxSell();
-      // console.log("dataTaxx:", this.InvoiceTaxBreaks);
-      // console.log("data:", this.InvoiceDetails);
-      this.flagCreateorUpdateInvoiceDetail = true;
+      // for (const i in this.submitForm.controls) {
+      //   if (this.submitForm.controls.hasOwnProperty(i)) {
+      //     this.submitForm.controls[i].markAsDirty();
+      //     this.submitForm.controls[i].updateValueAndValidity();
+      //   }
+      // }
+      this.modal.error({
+        nzTitle: 'Lỗi',
+        nzContent: 'Nhập đầy đủ các thông tin chi tiết hàng hóa, dịch vụ!'
+      });
     }
-    this.submitFormDetails.reset();
-    this.isVisible = false;
-    
-    this.subOnKeyPercentDiscountAfterTax();
   }
 
   handleCancel(): void {
@@ -415,85 +432,94 @@ export class InvoiceGTKTFormComponent implements OnInit {
       }
     }
 
-    const valid = this.submitForm.valid;
-    if (valid) {
-      if (this.isShowCreateOrUpdate) { // Update
-        const params = {
-          id: this.ids,
-          personCreateUpdate: this.serviceCommon.tokenUser.acc,
-          taxCodeBuyer: this.taxCodeBuy,
-          companyNameBuyer: this.companyNameBuy,
-          addressBuyer: this.addressBuy,
-          taxCodeSeller: this.submitForm.get('taxCodeSell')?.value,
-          customerIdSeller: this.submitForm.get('customerIdSell')?.value,
-          companyNameSeller: this.submitForm.get('companyNameSell')?.value,
-          fulNameSeller: this.submitForm.get('nameSell')?.value,
-          emailSeller: this.submitForm.get('emailSell')?.value,
-          addressSeller: this.submitForm.get('addressSell')?.value,
-          bankNumberSeller: this.submitForm.get('accountBankSell')?.value,
-          nameBankSeller: this.submitForm.get('nameBankSell')?.value,
-          invoiceNumber: this.submitForm.get('invoiceNumber')?.value,
-          invoiceForm: this.submitForm.get('invoiceForm')?.value,
-          invoiceSign: this.submitForm.get('invoiceSign')?.value,
-          invoiceDay: this.submitForm.get('dateInvoice')?.value,
-          payments: this.submitForm.get('payType')?.value,
-          invoiceNote: this.submitForm.get('noteInvoice')?.value,
-          totalProduct: this.totalProduct,
-          totalTax: this.totalTax,
-          totalPay: this.totalPay,
-          totalDiscountBeforeTax: this.intoMoneyBeforeTax,
-          totalDiscountAfterTax: this.TotalDiscountAfterTax,
-          percentDiscountAfterTax: this.PercentDiscountAfterTax,
-          invoiceDetails: this.InvoiceDetails,
-          invoiceTaxBreaks: this.InvoiceTaxBreaks
+    if (this.InvoiceDetails.length == 0 || this.InvoiceTaxBreaks.length == 0) {
+      this.modal.error({
+        nzTitle: 'Lỗi',
+        nzContent: 'Chưa có chi tiết hàng hóa, dịch vụ!'
+      });
+    }
+    else {
+      const valid = this.submitForm.valid;
+      if (valid) {
+        if (this.isShowCreateOrUpdate) { // Update
+          const params = {
+            id: this.ids,
+            personCreateUpdate: this.serviceCommon.tokenUser.acc,
+            taxCodeBuyer: this.taxCodeBuy,
+            companyNameBuyer: this.companyNameBuy,
+            addressBuyer: this.addressBuy,
+            taxCodeSeller: this.submitForm.get('taxCodeSell')?.value,
+            customerIdSeller: this.submitForm.get('customerIdSell')?.value,
+            companyNameSeller: this.submitForm.get('companyNameSell')?.value,
+            fulNameSeller: this.submitForm.get('nameSell')?.value,
+            emailSeller: this.submitForm.get('emailSell')?.value,
+            addressSeller: this.submitForm.get('addressSell')?.value,
+            bankNumberSeller: this.submitForm.get('accountBankSell')?.value,
+            nameBankSeller: this.submitForm.get('nameBankSell')?.value,
+            invoiceNumber: this.submitForm.get('invoiceNumber')?.value,
+            invoiceForm: this.submitForm.get('invoiceForm')?.value,
+            invoiceSign: this.submitForm.get('invoiceSign')?.value,
+            invoiceDay: this.submitForm.get('dateInvoice')?.value,
+            payments: this.submitForm.get('payType')?.value,
+            invoiceNote: this.submitForm.get('noteInvoice')?.value,
+            totalProduct: this.totalProduct,
+            totalTax: this.totalTax,
+            totalPay: this.totalPay,
+            totalDiscountBeforeTax: this.intoMoneyBeforeTax,
+            totalDiscountAfterTax: this.TotalDiscountAfterTax,
+            percentDiscountAfterTax: this.PercentDiscountAfterTax,
+            invoiceDetails: this.InvoiceDetails,
+            invoiceTaxBreaks: this.InvoiceTaxBreaks
+          }
+          this.invoiceService.updateInvoiceGTKT(params).subscribe((data) => {
+            this._location.back();
+          })
+          
+        } else { // CREATE
+          const params = {
+            personCreateUpdate: this.serviceCommon.tokenUser.acc,
+            tenantId: this.serviceCommon.tokenTenant.id,
+            taxCodeBuyer: this.taxCodeBuy,
+            companyNameBuyer: this.companyNameBuy,
+            addressBuyer: this.addressBuy,
+            taxCodeSeller: this.submitForm.get('taxCodeSell')?.value,
+            customerIdSeller: this.submitForm.get('customerIdSell')?.value,
+            companyNameSeller: this.submitForm.get('companyNameSell')?.value,
+            fulNameSeller: this.submitForm.get('nameSell')?.value,
+            emailSeller: this.submitForm.get('emailSell')?.value,
+            addressSeller: this.submitForm.get('addressSell')?.value,
+            bankNumberSeller: this.submitForm.get('accountBankSell')?.value,
+            nameBankSeller: this.submitForm.get('nameBankSell')?.value,
+            invoiceNumber: this.submitForm.get('invoiceNumber')?.value,
+            invoiceForm: this.submitForm.get('invoiceForm')?.value,
+            invoiceSign: this.submitForm.get('invoiceSign')?.value,
+            invoiceDay: this.submitForm.get('dateInvoice')?.value,
+            payments: this.submitForm.get('payType')?.value,
+            invoiceNote: this.submitForm.get('noteInvoice')?.value,
+            totalProduct: this.totalProduct,
+            totalTax: this.totalTax,
+            totalPay: this.totalPay,
+            totalDiscountBeforeTax: this.intoMoneyBeforeTax,
+            totalDiscountAfterTax: this.TotalDiscountAfterTax,
+            percentDiscountAfterTax: this.PercentDiscountAfterTax,
+            invoiceDetails: this.InvoiceDetails,
+            invoiceTaxBreaks: this.InvoiceTaxBreaks
+          }
+          //console.log("data:", params);
+          this.invoiceService.createInvoiceGTKT(params).subscribe((data) => {
+            this._location.back();
+          })
+        
         }
-        this.invoiceService.updateInvoiceGTKT(params).subscribe((data) => {
-          this._location.back();
-        })
-      } else { // CREATE
-        const params = {
-          personCreateUpdate: this.serviceCommon.tokenUser.acc,
-          tenantId: this.serviceCommon.tokenTenant.id,
-          taxCodeBuyer: this.taxCodeBuy,
-          companyNameBuyer: this.companyNameBuy,
-          addressBuyer: this.addressBuy,
-          taxCodeSeller: this.submitForm.get('taxCodeSell')?.value,
-          customerIdSeller: this.submitForm.get('customerIdSell')?.value,
-          companyNameSeller: this.submitForm.get('companyNameSell')?.value,
-          fulNameSeller: this.submitForm.get('nameSell')?.value,
-          emailSeller: this.submitForm.get('emailSell')?.value,
-          addressSeller: this.submitForm.get('addressSell')?.value,
-          bankNumberSeller: this.submitForm.get('accountBankSell')?.value,
-          nameBankSeller: this.submitForm.get('nameBankSell')?.value,
-          invoiceNumber: this.submitForm.get('invoiceNumber')?.value,
-          invoiceForm: this.submitForm.get('invoiceForm')?.value,
-          invoiceSign: this.submitForm.get('invoiceSign')?.value,
-          invoiceDay: this.submitForm.get('dateInvoice')?.value,
-          payments: this.submitForm.get('payType')?.value,
-          invoiceNote: this.submitForm.get('noteInvoice')?.value,
-          totalProduct: this.totalProduct,
-          totalTax: this.totalTax,
-          totalPay: this.totalPay,
-          totalDiscountBeforeTax: this.intoMoneyBeforeTax,
-          totalDiscountAfterTax: this.TotalDiscountAfterTax,
-          percentDiscountAfterTax: this.PercentDiscountAfterTax,
-          invoiceDetails: this.InvoiceDetails,
-          invoiceTaxBreaks: this.InvoiceTaxBreaks
-        }
-        //console.log("data:", params);
-        this.invoiceService.createInvoiceGTKT(params).subscribe((data) => {
-          this._location.back();
-        })
-      }
-    } else {
-      for (const i in this.submitForm.controls) {
-        if (this.submitForm.controls.hasOwnProperty(i)) {
-          this.submitForm.controls[i].markAsDirty();
-          this.submitForm.controls[i].updateValueAndValidity();
+      } else {
+        for (const i in this.submitForm.controls) {
+          if (this.submitForm.controls.hasOwnProperty(i)) {
+            this.submitForm.controls[i].markAsDirty();
+            this.submitForm.controls[i].updateValueAndValidity();
+          }
         }
       }
     }
-
   }
 
   onKeyTaxSell(moneyTax: any, tax: any) {
