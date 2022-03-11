@@ -27,10 +27,17 @@
         </nz-form-control>
       </div>
 
-      <div class="form-group" nz-row>
+      <div *ngIf="flagEditPass != '1'" class="form-group" nz-row>
         <nz-form-label nz-col nzSpan="4" nzFor="acc" style="font-weight: bold;">Tài khoản</nz-form-label>
         <nz-form-control nz-col nzSpan="20" nzErrorTip="Tài khoản phải > 6 kí tự">
           <input nz-input type="text" formControlName="acc">
+        </nz-form-control>
+      </div>
+      
+      <div *ngIf="flagEditPass == '1'" class="form-group" nz-row>
+        <nz-form-label nz-col nzSpan="4" nzFor="acc" style="font-weight: bold;">Tài khoản</nz-form-label>
+        <nz-form-control nz-col nzSpan="20" nzErrorTip="Tài khoản phải > 6 kí tự">
+          <input readonly nz-input type="text" formControlName="acc">
         </nz-form-control>
       </div>
 

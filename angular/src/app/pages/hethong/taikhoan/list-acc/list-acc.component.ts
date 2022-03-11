@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { ServiceCommon } from 'src/app/share/common.service';
 import { AccountService } from '../Account.service';
 
@@ -14,9 +15,10 @@ export class ListAccComponent implements OnInit {
   pageSize: number = 5;
   total:number = 0;
   tenantId:any;
-  permissionAthen = {add: false, list: false, edit: false, del: false};
+  permissionAthen = {add: false, list: false, edit: false, del: false, lock: false};
 
   constructor(
+    private modal: NzModalService,
     public accountService: AccountService,
     private router: Router,
     public serviceCommon: ServiceCommon,
@@ -41,6 +43,10 @@ export class ListAccComponent implements OnInit {
         this.permissionAthen.add = true;
         continue;
       }
+      else if(i.id.toUpperCase() ==  "C5385A8F-B8C6-4C02-BF3F-22AF32C8F00A"){
+        this.permissionAthen.lock = true;
+        continue;
+      }
     }
     this.loadData();
   }
@@ -60,6 +66,24 @@ export class ListAccComponent implements OnInit {
   removeAccount(index:any){
     this.accountService.deleteAccount(index).subscribe((data) => {
       this.loadData();
+    });
+  }
+  
+  lockAccount(id:any){
+    this.accountService.lockAccount(id).subscribe((data) => {
+      this.loadData();
+    });
+    this.modal.success({
+      nzTitle: 'Khóa tài khoản thành công!'
+    });
+  }
+
+  unlockAccount(id:any){
+    this.accountService.unlockAccount(id).subscribe((data) => {
+      this.loadData();
+    });
+    this.modal.success({
+      nzTitle: 'Mở khóa thành công!'
     });
   }
 

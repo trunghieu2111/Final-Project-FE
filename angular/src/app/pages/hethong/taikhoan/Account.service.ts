@@ -29,4 +29,12 @@ export class AccountService extends ServiceBaseService{
   createAccount(params: any){
     return this.post(`api/app/account-role`, params);
   }
+
+  lockAccount(id: any){
+    return this.get(`api/app/account/lock-account?id=${id}`);
+  }
+
+  unlockAccount(id: any){
+    return this.get(`api/app/account/unlock-account?id=${id}`);
+  }
 }

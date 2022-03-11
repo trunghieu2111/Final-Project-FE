@@ -17,8 +17,10 @@ export class BranchService extends ServiceBaseService{
   // ${keyword?('?Keyword='+keyword):''} nếu tồn tại keyword thì thêm đoạn url sau nếu không thì rỗng;
   updateBranch(params: any){
     return this.put(`api/app/branch/${params.id}`, params);
+  }
 
-    //return this.post(`room/update/${params.id}`, params);
+  updateInforBranch(params: any){
+    return this.put(`api/app/branch/updateInforTenant/${params.id}`, params);
   }
 
   getInfoBranchByID(id: any){
@@ -33,7 +35,5 @@ export class BranchService extends ServiceBaseService{
 
   createBranch(params: any){
     return this.post(`api/app/branch`, params);
-
-    //return this.post(`room`, params);
   }
 }

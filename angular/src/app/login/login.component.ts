@@ -87,17 +87,31 @@ export class LoginComponent implements OnInit {
             });
           }
           else {
-            //console.log("data:", this.data);
-            localStorage.setItem('Token', JSON.stringify(this.data));
-            localStorage.setItem('TokenUser', JSON.stringify(data));
-            this.router.navigate(['/hethong'], { replaceUrl: true });
-            // replaceUrl: true xóa lịch sử đường dẫn trước đó
-            this.loginService.permissionAccount(data.id).subscribe((data) => {
-              localStorage.setItem('Permission', JSON.stringify(data.items));
+            console.log("datatren:", data);
+            this.loginService.loginAccountCheckLock(data.id).subscribe((data) => {
+              console.log("data:", data);
+              if (data.id == 0) {
+                this.modal.error({
+                  nzTitle: 'Lỗi',
+                  nzContent: 'Tài khoản của bạn đã bị khóa!'
+                });
+              }
+              else {
+                //console.log("data:", this.data);
+                localStorage.setItem('Token', JSON.stringify(this.data));
+                localStorage.setItem('TokenUser', JSON.stringify(data));
+                this.router.navigate(['/hethong'], { replaceUrl: true });
+                // replaceUrl: true xóa lịch sử đường dẫn trước đó
+                this.loginService.permissionAccount(data.id).subscribe((data) => {
+                  localStorage.setItem('Permission', JSON.stringify(data.items));
+                })
+              }
             })
+
           }
         })
       }
+
     }
 
 

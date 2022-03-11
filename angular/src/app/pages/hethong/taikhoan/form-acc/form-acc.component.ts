@@ -48,9 +48,7 @@ export class FormAccComponent implements OnInit {
   ngOnInit(): void {
     this.tenantId = this.serviceCommon.tokenTenant.id;
     this.flagEditPass = localStorage.getItem('checkEditAccount');
-    if (localStorage.getItem('checkEditAccount') == "1") {
-      this.submitForm.get('acc')?.disable();
-    }
+    
 
     this.permissionService.getListPermission(this.tenantId).subscribe((data) => {
       this.data = data.items;
@@ -90,6 +88,7 @@ export class FormAccComponent implements OnInit {
         phone: data.phone,
         acc: data.acc,
         pass: data.pass,
+        confirmpass: data.pass
       })
     });
   }
@@ -111,6 +110,7 @@ export class FormAccComponent implements OnInit {
   onSubmit() {
     const valid = this.submitForm.valid;
     if (valid) {
+      // console.log("vào");
       localStorage.removeItem('checkEditAccount');
       if (this.isShowCreateOrUpdate) { // Update
         //thêm mới id = 0
@@ -140,7 +140,7 @@ export class FormAccComponent implements OnInit {
 
           accountRoles: this.accountRoles
         }
-        //console.log("dataUpdate:", params);
+        console.log("dataUpdate:", params);
         this.accountService.updateAccount(params).subscribe((data) => {
           this._location.back();
         })

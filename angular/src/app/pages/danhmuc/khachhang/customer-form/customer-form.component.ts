@@ -85,9 +85,9 @@ export class CustomerFormComponent implements OnInit {
           city: this.submitForm.get('city')?.value,
           district: this.submitForm.get('district')?.value,
           daidienphapnhan: this.submitForm.get('legalName')?.value,
-          stk: this.submitForm.get('bankAcount')?.value,
+          stk: String(this.submitForm.get('bankAcount')?.value),
           tenNH: this.submitForm.get('bankName')?.value,
-          sdt: this.submitForm.get('phone')?.value,
+          sdt: "0" + this.submitForm.get('phone')?.value,
           fax: this.submitForm.get('soFax')?.value,
           email: this.submitForm.get('email')?.value
         }
@@ -104,9 +104,9 @@ export class CustomerFormComponent implements OnInit {
           city: this.submitForm.get('city')?.value,
           district: this.submitForm.get('district')?.value,
           daidienphapnhan: this.submitForm.get('legalName')?.value,
-          stk: this.submitForm.get('bankAcount')?.value,
+          stk: String(this.submitForm.get('bankAcount')?.value),
           tenNH: this.submitForm.get('bankName')?.value,
-          sdt: this.submitForm.get('phone')?.value,
+          sdt: "0" + this.submitForm.get('phone')?.value,
           fax: this.submitForm.get('soFax')?.value,
           email: this.submitForm.get('email')?.value
         }

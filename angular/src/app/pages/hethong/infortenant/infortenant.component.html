@@ -1,0 +1,111 @@
+<span style="font-size: 27px;">Thông tin doanh nghiệp</span>
+<br><br>
+<form nz-form [formGroup]="submitForm">
+    <div>
+        <div style="border-top: 2px solid #66CCFF; border-bottom: 1px solid #DDDDDD;">
+        </div>
+
+        <div id="divform" style="margin-top: 30px;">
+
+            <div class="form-group">
+                <nz-form-item nz-row>
+                    <nz-form-label nz-col nzSpan="4" nzFor="taxCodeBuy" style="font-weight: bold">Mã số thuế</nz-form-label>
+                    <nz-form-control nz-col nzSpan="20">
+                        <input readonly [(ngModel)]="taxCodeBuy" nz-input type="text" placeholder=""
+                            formControlName="taxCodeBuy" />
+                    </nz-form-control>
+                </nz-form-item>
+    
+                <nz-form-item nz-row>
+                    <nz-form-label nz-col nzSpan="4" nzFor="companyNameBuy" style="font-weight: bold">Tên công ty
+                    </nz-form-label>
+                    <nz-form-control nz-col nzSpan="20">
+                        <input readonly [(ngModel)]="companyNameBuy" nz-input type="text" placeholder=""
+                            formControlName="companyNameBuy" />
+                    </nz-form-control>
+                </nz-form-item>
+    
+                <nz-form-item nz-row>
+                    <nz-form-label nz-col nzSpan="4" nzFor="addressBuy" style="font-weight: bold">Địa chỉ
+                    </nz-form-label>
+                    <nz-form-control nz-col nzSpan="20">
+                        <input readonly [(ngModel)]="addressBuy" nz-input type="text" placeholder=""
+                            formControlName="addressBuy" />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div class="form-group" nz-row>
+                <div nz-col nzSpan="12">
+                    <div nz-row>
+                        <nz-form-label nz-col nzSpan="8" nzFor="legalName" style="font-weight: bold;">Đại diện pháp nhân
+                        </nz-form-label>
+                        <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập đại diện pháp nhân">
+                            <input nz-input type="text" placeholder="Nhập đại diện pháp nhân"
+                                formControlName="legalName">
+                        </nz-form-control>
+                    </div>
+                </div>
+                <div nz-col nzSpan="12">
+                    <div nz-row>
+                        <nz-form-label nz-col nzSpan="8" nzFor="bankAcount" style="font-weight: bold;">Số tài khoản
+                        </nz-form-label>
+                        <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập số tài khoản">
+                            <input nz-input type="number" placeholder="Nhập số tài khoản" formControlName="bankAcount">
+                        </nz-form-control>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" nz-row>
+                <div nz-col nzSpan="12">
+                    <div nz-row>
+                        <nz-form-label nz-col nzSpan="8" nzFor="bankName" style="font-weight: bold;">Tên ngân hàng
+                        </nz-form-label>
+                        <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập tên ngân hàng">
+                            <input nz-input type="text" placeholder="Nhập tên ngân hàng" formControlName="bankName">
+                        </nz-form-control>
+                    </div>
+                </div>
+                <div nz-col nzSpan="12">
+                    <div nz-row>
+                        <nz-form-label nz-col nzSpan="8" nzFor="email" style="font-weight: bold;">Email</nz-form-label>
+                        <nz-form-control nz-col nzSpan="16" nzErrorTip="Email có dạng: abc@gmail.com">
+                            <input nz-input type="email" placeholder="Nhập email" formControlName="email">
+                        </nz-form-control>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" nz-row>
+                <div nz-col nzSpan="12">
+                    <div nz-row>
+                        <nz-form-label nz-col nzSpan="8" nzFor="phone" style="font-weight: bold;">Số điện thoại
+                        </nz-form-label>
+                        <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập số điện thoại">
+                            <input nz-input type="number" placeholder="Nhập số điện thoại" formControlName="phone">
+                        </nz-form-control>
+                    </div>
+                </div>
+                <div nz-col nzSpan="12">
+                    <div nz-row>
+                        <nz-form-label nz-col nzSpan="8" nzFor="soFax" style="font-weight: bold;">Số Fax</nz-form-label>
+                        <nz-form-control nz-col nzSpan="16" nzErrorTip="Chưa nhập số Fax">
+                            <input nz-input type="text" placeholder="Nhập số Fax" formControlName="soFax">
+                        </nz-form-control>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+<div style="position: relative; height: 50px; margin-top: 50px;">
+    <button class="luu" nz-button nzType="primary" (click)="onSubmit()">
+        Lưu
+    </button>
+    <button class="back" nz-button nzType="primary" (click)="back()">
+        Trở về
+    </button>
+</div>

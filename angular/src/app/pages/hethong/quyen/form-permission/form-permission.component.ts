@@ -27,6 +27,8 @@ export class FormPermissionComponent implements OnInit {
   dataPermissionRoles: IPermissionRole[] = [];
   dataPermissionUpdate:string[]=[];
   permission = {
+    editInforTenant: false,
+    lockAccount: false,
     addCustomer: false,
     listCustomer: false,
     editCustomer: false,
@@ -60,6 +62,8 @@ export class FormPermissionComponent implements OnInit {
   ) {
     this.submitForm = this.fb.group({
       roleName: [null, [Validators.required]],
+      editInforTenant: [],
+      lockAccount: [],
       addCustomer: [],
       listCustomer: [],
       editCustomer: [],
@@ -96,6 +100,15 @@ export class FormPermissionComponent implements OnInit {
     this.permissionService.getInfoPermissionByID(id).subscribe((data) => {
       this.dataPermission = data.myPermissionRoles;
       for (let i of this.dataPermission) {
+        if (i.permissionID.toUpperCase() == "C5385A8F-B8C6-4C02-BF3F-22AF32C8F00A") {
+          this.permission.lockAccount = true;
+          continue;
+        }
+        if (i.permissionID.toUpperCase() == "C5385A8F-B8C6-4C02-BF3F-22AF32C8F01A") {
+          this.permission.editInforTenant = true;
+          continue;
+        }
+        //
         if (i.permissionID.toUpperCase() == "B22B8690-BD30-484C-94B8-7BFC4903900A") {
           this.permission.addCustomer = true;
           continue;
@@ -184,6 +197,9 @@ export class FormPermissionComponent implements OnInit {
 
       this.submitForm.patchValue({
         roleName: data.roleName,
+        lockAccount: this.permission.lockAccount,
+        editInforTenant: this.permission.editInforTenant,
+        //
         addCustomer: this.permission.addCustomer,
         listCustomer: this.permission.listCustomer,
         editCustomer: this.permission.editCustomer,
@@ -239,6 +255,56 @@ export class FormPermissionComponent implements OnInit {
 
       }
 
+      if (this.submitForm.get('editInforTenant')?.value == true) {
+        if(this.dataPermissionUpdate.includes("C5385A8F-B8C6-4C02-BF3F-22AF32C8F01A")){
+          for(let i of this.dataPermission){
+            if(i.permissionID.toUpperCase() == "C5385A8F-B8C6-4C02-BF3F-22AF32C8F01A"){
+              const para = {
+                id: i.id,
+                permissionID: i.permissionID,
+                roleID: i.roleID
+              }
+              this.dataPermissionRoles.push(para);
+              break;
+            }
+          }
+          
+        }
+        else{
+          const para = {
+            id: 0,
+            permissionID: "C5385A8F-B8C6-4C02-BF3F-22AF32C8F01A"
+          }
+          this.dataPermissionRoles.push(para);
+        }
+
+      }
+
+      if (this.submitForm.get('lockAccount')?.value == true) {
+        if(this.dataPermissionUpdate.includes("C5385A8F-B8C6-4C02-BF3F-22AF32C8F00A")){
+          for(let i of this.dataPermission){
+            if(i.permissionID.toUpperCase() == "C5385A8F-B8C6-4C02-BF3F-22AF32C8F00A"){
+              const para = {
+                id: i.id,
+                permissionID: i.permissionID,
+                roleID: i.roleID
+              }
+              this.dataPermissionRoles.push(para);
+              break;
+            }
+          }
+          
+        }
+        else{
+          const para = {
+            id: 0,
+            permissionID: "C5385A8F-B8C6-4C02-BF3F-22AF32C8F00A"
+          }
+          this.dataPermissionRoles.push(para);
+        }
+
+      }
+      //
       if (this.submitForm.get('listCustomer')?.value == true) {
         if(this.dataPermissionUpdate.includes("AABE8729-5FD5-4A88-8D29-7DCB2F18E567")){
           for(let i of this.dataPermission){
@@ -737,6 +803,20 @@ export class FormPermissionComponent implements OnInit {
         }
         this.dataPermission.push(permissionRole);
       }
+      //
+      if (this.submitForm.get('lockAccount')?.value == true) {
+        const permissionRole = {
+          permissionID: "C5385A8F-B8C6-4C02-BF3F-22AF32C8F00A"
+        }
+        this.dataPermission.push(permissionRole);
+      }
+      if (this.submitForm.get('editInforTenant')?.value == true) {
+        const permissionRole = {
+          permissionID: "C5385A8F-B8C6-4C02-BF3F-22AF32C8F01A"
+        }
+        this.dataPermission.push(permissionRole);
+      }
+      //
       if (this.submitForm.get('editCustomer')?.value == true) {
         const permissionRole = {
           permissionID: "D2EC9A7F-3B38-406D-8C76-9B2FFA661119"

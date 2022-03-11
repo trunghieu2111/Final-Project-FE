@@ -11,7 +11,10 @@ export class ServiceLogin extends ServiceBaseService {
     loginAccountInvoice(params: any){
         return this.post(`api/app/login/account`, params);
     }
-
+    
+    loginAccountCheckLock(id: any){
+        return this.get(`api/app/login/checkstatus?id=${id}`);
+    }
     permissionAccount(id: any){
         return this.get(`api/app/authen-permission/${id}`);
     }

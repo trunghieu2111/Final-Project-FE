@@ -18,15 +18,16 @@
   </div>
 
   <div class="tableAccount" style="border-top: 2px solid #66CCFF; margin-top: 50px">
-    <nz-table *ngIf="permissionAthen.list == true" #tableList style="margin-top: 10px" #basicTable [nzData]="data" [nzPageIndex]="pageIndex"
-      [nzPageSize]="pageSize" [nzTotal]="total">
+    <nz-table *ngIf="permissionAthen.list == true" #tableList style="margin-top: 10px" #basicTable [nzData]="data"
+      [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="total">
       <thead>
         <tr>
           <th>Tài khoản</th>
           <th>Họ tên</th>
           <th>Email</th>
           <th>SĐT</th>
-          <th style="width: 10%;">Action</th>
+          <th>Trạng thái</th>
+          <th style="width: 12%;">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -35,16 +36,35 @@
           <td>{{data.name}}</td>
           <td>{{data.email}}</td>
           <td>{{data.phone}}</td>
+          <td *ngIf="data.lockStatus == true" style="color: rgb(117, 117, 245);">Hoạt động</td>
+          <td *ngIf="data.lockStatus == false" style="color: rgb(248, 70, 70)">Đã bị khóa</td>
           <td>
-            <a *ngIf="permissionAthen.del == true"><i style="color: red; margin-right: 10px; font-size: 20px;" nz-icon nzType="close" nzTheme="outline"
-                title="Xóa tài khoản" (click)="removeAccount(data.id)"></i></a>
-            <a *ngIf="permissionAthen.del == false" style="cursor: not-allowed;"><i style="pointer-events: none; color: red; margin-right: 10px; font-size: 20px;" nz-icon nzType="close" nzTheme="outline"
-                  title="Xóa tài khoản" (click)="removeAccount(data.id)"></i></a>
+            <a *ngIf="permissionAthen.lock == true && data.lockStatus == true"><i
+                style="margin-right: 10px; color: rgb(117, 117, 245); font-size: 20px;" nz-icon nzType="lock"
+                nzTheme="outline" title="Khóa tài khoản" (click)="lockAccount(data.id)"></i></a>
+            <a *ngIf="permissionAthen.lock == false && data.lockStatus == true" style="cursor: not-allowed;"><i
+                style="margin-right: 10px; color: rgb(117, 117, 245); pointer-events: none; font-size: 20px;" nz-icon
+                nzType="lock" nzTheme="outline" title="Khóa tài khoản" (click)="lockAccount(data.id)"></i></a>
+
+            <a *ngIf="permissionAthen.lock == true && data.lockStatus == false"><i
+                style="margin-right: 10px; color: rgb(117, 117, 245); font-size: 20px;" nz-icon nzType="unlock"
+                nzTheme="outline" title="Mở khóa tài khoản" (click)="unlockAccount(data.id)"></i></a>
+            <a *ngIf="permissionAthen.lock == false && data.lockStatus == false" style="cursor: not-allowed;"><i
+                style="margin-right: 10px; color: rgb(117, 117, 245); pointer-events: none; font-size: 20px;" nz-icon
+                nzType="unlock" nzTheme="outline" title="Mở khóa tài khoản" (click)="unlockAccount(data.id)"></i></a>
+
+            <a *ngIf="permissionAthen.del == true"><i style="color: red; margin-right: 10px; font-size: 20px;" nz-icon
+                nzType="close" nzTheme="outline" title="Xóa tài khoản" (click)="removeAccount(data.id)"></i></a>
+            <a *ngIf="permissionAthen.del == false" style="cursor: not-allowed;"><i
+                style="pointer-events: none; color: red; margin-right: 10px; font-size: 20px;" nz-icon nzType="close"
+                nzTheme="outline" title="Xóa tài khoản" (click)="removeAccount(data.id)"></i></a>
             &emsp;
-            <a *ngIf="permissionAthen.edit == true"><i style="font-size: 20px;" nz-icon nzType="edit" nzTheme="outline" title="Sửa tài khoản"
-                (click)="editAccount(data.id)"></i></a>
-            <a *ngIf="permissionAthen.edit == false" style="cursor: not-allowed;"><i style="pointer-events: none; font-size: 20px;" nz-icon nzType="edit" nzTheme="outline" title="Sửa tài khoản"
-                  (click)="editAccount(data.id)"></i></a>
+            <a *ngIf="permissionAthen.edit == true"><i style="font-size: 20px;" nz-icon nzType="edit" nzTheme="outline"
+                title="Sửa tài khoản" (click)="editAccount(data.id)"></i></a>
+            <a *ngIf="permissionAthen.edit == false" style="cursor: not-allowed;"><i
+                style="pointer-events: none; font-size: 20px;" nz-icon nzType="edit" nzTheme="outline"
+                title="Sửa tài khoản" (click)="editAccount(data.id)"></i></a>
+
           </td>
         </tr>
       </tbody>

@@ -17,6 +17,7 @@ import { ListPermissionComponent } from './quyen/list-permission/list-permission
 import { FormPermissionComponent } from './quyen/form-permission/form-permission.component';
 import { ListAccComponent } from './taikhoan/list-acc/list-acc.component';
 import { FormAccComponent } from './taikhoan/form-acc/form-acc.component';
+import { InfortenantComponent } from './infortenant/infortenant.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { FormAccComponent } from './taikhoan/form-acc/form-acc.component';
     ListPermissionComponent,
     FormPermissionComponent,
     ListAccComponent,
-    FormAccComponent
+    FormAccComponent,
+    InfortenantComponent
   ],
   imports: [
     CommonModule,
