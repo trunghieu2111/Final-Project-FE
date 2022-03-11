@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BranchService } from '../branch.service';
 import { Router } from '@angular/router';
 import { ServiceCommon } from 'src/app/share/common.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-list-branch',
@@ -19,6 +20,7 @@ export class ListBranchComponent implements OnInit {
   // pageIndexChange:number = 1;
     
   constructor(public branchService: BranchService,
+    private modal: NzModalService,
     public serviceCommon: ServiceCommon,
     private router: Router,
     ) { }
@@ -52,6 +54,13 @@ export class ListBranchComponent implements OnInit {
       //this.data = data;
       this.total = this.data.length;
     })
+  }
+
+  notifiPermission(){
+    this.modal.error({
+      nzTitle: 'Lỗi',
+      nzContent: 'Tài khoản của bạn không được phép sử dụng chức năng này!'
+    });
   }
 
   addBranch(){

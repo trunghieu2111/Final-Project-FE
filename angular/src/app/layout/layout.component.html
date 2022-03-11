@@ -17,9 +17,13 @@
 
             <li nz-submenu nzOpen nzTitle="Hệ Thống" nzIcon="radius-setting">
                 <ul>
-                    <li nz-menu-item>
+                    <li nz-menu-item *ngIf="permissionAthen.InforTenant == true">
                         <a routerLink="hethong/inforTenant">Thông tin doanh nghiệp</a>
                     </li>
+                    <li nz-menu-item *ngIf="permissionAthen.InforTenant == false">
+                        <a style="cursor: not-allowed;" (click)="notifiPermission()">Thông tin doanh nghiệp</a>
+                    </li>
+                    
                     <li nz-menu-item>
                         <a routerLink="hethong/chinhanh">Quản lý chi nhánh</a>
                     </li>

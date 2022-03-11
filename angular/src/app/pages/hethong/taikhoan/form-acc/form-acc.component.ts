@@ -78,8 +78,13 @@ export class FormAccComponent implements OnInit {
       this.accountRolesGetId = data.accountRoles;
       for (let i of this.accountRolesGetId) {
         this.idAccountRole.push(i.roleID);
+        //
+        const params = {
+          roleID: i.roleID
+        }
+        this.accountRoles.push(params);
+        //
       }
-
       this.checkPermission();
 
       this.submitForm.patchValue({
@@ -104,7 +109,7 @@ export class FormAccComponent implements OnInit {
       }
     }
     // console.log("data:", this.data);
-    // console.log("acc:", this.accountRoles);
+    //console.log("acc:", this.accountRoles);
   }
 
   onSubmit() {

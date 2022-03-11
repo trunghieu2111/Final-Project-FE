@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { ServiceCommon } from 'src/app/share/common.service';
 import { CustomerService } from '../customer.service';
 
@@ -19,6 +20,7 @@ export class ListCustomerComponent implements OnInit {
   permissionAthen = {add: false, list: false, edit: false, del: false};
     
   constructor(public customerService: CustomerService,
+    private modal: NzModalService,
     private router: Router,
     public serviceCommon: ServiceCommon,
     ) { }
@@ -68,6 +70,13 @@ export class ListCustomerComponent implements OnInit {
     this.router.navigate(['danhmuc/khachhang/customer-form', index]);
   }
   
+  notifiPermission(){
+    this.modal.error({
+      nzTitle: 'Lỗi',
+      nzContent: 'Tài khoản của bạn không được phép sử dụng chức năng này!'
+    });
+  }
+
   onKey(keyword:any){
     // let params = {
     //   keyword: keyword.target.value

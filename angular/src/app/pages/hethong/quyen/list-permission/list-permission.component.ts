@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { ServiceCommon } from 'src/app/share/common.service';
 import { PermissionService } from '../permission.service';
 
@@ -30,6 +31,7 @@ export class ListPermissionComponent implements OnInit {
 
   constructor(public permissionService: PermissionService,
     public serviceCommon: ServiceCommon,
+    private modal: NzModalService,
     private router: Router,
   ) { }
 
@@ -62,6 +64,13 @@ export class ListPermissionComponent implements OnInit {
       this.total = this.data.length;
       //console.log(data);
     })
+  }
+
+  notifiPermission(){
+    this.modal.error({
+      nzTitle: 'Lỗi',
+      nzContent: 'Tài khoản của bạn không được phép sử dụng chức năng này!'
+    });
   }
 
   addPermission() {

@@ -5,7 +5,7 @@
     <button *ngIf="permissionAthen.add == true" #buttonThem nz-button nzType="primary" (click)="addInvoice()">
         <i class="add" nz-icon nzType="plus" nzTheme="outline"></i>Lập Hóa Đơn
     </button>
-    <button *ngIf="permissionAthen.add == false" disabled #buttonThem nz-button nzType="primary" (click)="addInvoice()">
+    <button style="cursor: not-allowed;" *ngIf="permissionAthen.add == false" #buttonThem nz-button nzType="primary" (click)="notifiPermission()">
         <i class="add" nz-icon nzType="plus" nzTheme="outline"></i>Lập Hóa Đơn
     </button>
 
@@ -53,13 +53,13 @@
                     <td>
                         <a *ngIf="permissionAthen.del == true"><i style="color: red; margin-right: 10px; font-size: 20px" nz-icon nzType="close"
                                 nzTheme="outline" title="Xóa" (click)="removeInvoice(data.id)"></i></a>
-                        <a *ngIf="permissionAthen.del == false" style="cursor: not-allowed;"><i style="pointer-events: none; color: red; margin-right: 10px; font-size: 20px" nz-icon nzType="close"
-                                nzTheme="outline" title="Xóa" (click)="removeInvoice(data.id)"></i></a>
+                        <a *ngIf="permissionAthen.del == false" style="cursor: not-allowed;"><i style="color: red; margin-right: 10px; font-size: 20px" nz-icon nzType="close"
+                                nzTheme="outline" title="Xóa" (click)="notifiPermission()"></i></a>
                         &emsp;
                         <a *ngIf="permissionAthen.edit == true"><i style="font-size: 20px" nz-icon nzType="edit" nzTheme="outline" title="Sửa"
                                 (click)="editInvoice(data.id)"></i></a>
-                        <a *ngIf="permissionAthen.edit == false" style="cursor: not-allowed;"><i style="pointer-events: none; font-size: 20px" nz-icon nzType="edit" nzTheme="outline" title="Sửa"
-                                (click)="editInvoice(data.id)"></i></a>
+                        <a *ngIf="permissionAthen.edit == false" style="cursor: not-allowed;"><i style="font-size: 20px" nz-icon nzType="edit" nzTheme="outline" title="Sửa"
+                                (click)="notifiPermission()"></i></a>
                     </td>
                 </tr>
             </tbody>

@@ -92,6 +92,13 @@ export class ListAccComponent implements OnInit {
     this.router.navigate(['hethong/taikhoan/account-form', index]);
   }
 
+  notifiPermission(){
+    this.modal.error({
+      nzTitle: 'Lỗi',
+      nzContent: 'Tài khoản của bạn không được phép sử dụng chức năng này!'
+    });
+  }
+  
   onKey(keyword:any){
     this.accountService.getListAccount(this.tenantId, keyword.target.value).subscribe((data) =>{
       //Gán lại data để hiển thị tìm kiếm.

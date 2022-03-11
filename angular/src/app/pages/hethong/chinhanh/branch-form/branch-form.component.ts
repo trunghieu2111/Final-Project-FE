@@ -68,6 +68,12 @@ export class BranchFormComponent implements OnInit {
         MST: data.mst,
         tenchinhanh: data.nameBranch,
         diachi: data.address,
+        //tránh lỗi validate khi sửa
+        acc: "abc123",
+        name: "abc123",
+        email: "abc@gmail.com",
+        pass: "abc123",
+        confirmpass: "abc123",
       })
       //console.log("data", data);
     });

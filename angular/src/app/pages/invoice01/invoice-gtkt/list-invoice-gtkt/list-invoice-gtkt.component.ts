@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { ServiceCommon } from 'src/app/share/common.service';
 import { InvoiceGTKTService } from '../InvoiceGTKT.service';
 
@@ -22,6 +23,7 @@ export class ListInvoiceGTKTComponent implements OnInit {
   permissionAthen = {add: false, list: false, edit: false, del: false};
     
   constructor(public invoiceGTKTService: InvoiceGTKTService,
+    private modal: NzModalService,
     public serviceCommon: ServiceCommon,
     private router: Router,
     ) { }
@@ -57,6 +59,13 @@ export class ListInvoiceGTKTComponent implements OnInit {
 
   addInvoice(){
     this.router.navigate(['invoice/invoiceGTKT/form-invoice', 0]);
+  }
+
+  notifiPermission(){
+    this.modal.error({
+      nzTitle: 'Lỗi',
+      nzContent: 'Tài khoản của bạn không được phép sử dụng chức năng này!'
+    });
   }
 
   removeInvoice(index:any){
