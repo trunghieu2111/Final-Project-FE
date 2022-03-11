@@ -44,8 +44,8 @@
         <div nz-col nzSpan="12">
           <div nz-row>
             <nz-form-label nz-col nzSpan="8" nzFor="" style="font-weight: bold;">Tỉnh/Thành phố</nz-form-label>
-            <nz-select nz-col nzSpan="16" formControlName="city" nzShowSearch nzAllowClear
-              nzPlaceHolder="Chọn tỉnh/thành phố" [(ngModel)]="selectedValue">
+            <nz-select [nzOptionOverflowSize]="5" nz-col nzSpan="16" formControlName="city" nzShowSearch nzAllowClear
+              nzPlaceHolder="Nhập để tìm kiếm" [(ngModel)]="selectedValue">
               <nz-option *ngFor="let city of Citys" nzLabel="{{city}}" nzValue="{{city}}">
               </nz-option>
             </nz-select>

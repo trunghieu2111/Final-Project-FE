@@ -28,7 +28,9 @@ const routes: Routes = [
   //     import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
   // },
   
-  { path: '', pathMatch: 'full', redirectTo: '/login' },
+  // { path: '', pathMatch: 'full', redirectTo: '/login' },
+  { path: '', pathMatch: 'full', redirectTo: 'login' },
+  //Chú ý đoạn này
   { path: 'login', component: LoginComponent },
   {path: '', component: LayoutComponent, 
     children: [

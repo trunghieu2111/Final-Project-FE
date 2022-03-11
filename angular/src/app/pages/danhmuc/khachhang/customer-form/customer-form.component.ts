@@ -17,7 +17,16 @@ export class CustomerFormComponent implements OnInit {
   //flag = true;
 
   selectedValue = null;
-  Citys = ['Hà Nội', 'Hồ Chí Minh', 'Đà Nẵng'];
+  Citys = ['Hà Nội', 'Hồ Chí Minh', 'Đà Nẵng', 'Hòa Bình', 'Sơn La', 'Điện Biên',
+    'Lai Châu', 'Lào Cai', 'Yên Bái', 'Thanh Hóa', 'Nghệ An', 'Hà Tĩnh',
+    'Quảng Bình', 'Quảng Trị', 'Thừa Thiên Huế', 'Vũng Tàu', 'Bình Dương', 'Bình Phước', 'Đồng Nai',
+    'Tây Ninh', 'Phú Thọ', 'Hà Giang', 'Tuyên Quang', 'Cao Bằng', 'Bắc Kan', 'Thái Nguyên',
+    'Lạng Sơn', 'Bắc Giang', 'Quảng Ninh', 'Quảng Nam', 'Quảng Ngãi', 'Bình Định',
+    'Phú Yên', 'Khách Hòa', 'Ninh Thuận', 'Bình Thuận', 'Hà Nội', 'Bắc Ninh',
+    'Hà Nam', 'Hải Dương', 'Hải Phòng', 'Hưng Yên', 'Nam Định', 'Thái Bình', 'Vĩnh Phúc', 'Ninh Bình',
+    'Kon Tum', 'Gia Lai', 'Đăk Lăk', 'Đăk Nông', 'Lâm Đồng', 'An Giang', 'Bạc Liêu', 'Bến Tre',
+    'Cà Mau', 'Cần Thơ', 'Đồng Tháp', 'Hậu Giang', 'Kiên Giang', 'Long An', 'Sóc Trăng', 'Tiền Giang',
+    'Trà Vinh', 'Vĩnh Long'];
 
   submitForm: FormGroup;
 
@@ -73,7 +82,7 @@ export class CustomerFormComponent implements OnInit {
 
   onSubmit() {
     const valid = this.submitForm.valid;
-    if(valid){
+    if (valid) {
       if (this.isShowCreateOrUpdate) { // Update
         const params = {
           id: this.ids,
@@ -114,7 +123,7 @@ export class CustomerFormComponent implements OnInit {
           this._location.back();
         })
       }
-    }else{
+    } else {
       for (const i in this.submitForm.controls) {
         if (this.submitForm.controls.hasOwnProperty(i)) {
           this.submitForm.controls[i].markAsDirty();
