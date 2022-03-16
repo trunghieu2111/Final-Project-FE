@@ -52,7 +52,8 @@
                     <span nz-col nzSpan="9" style="font-weight: bold; margin-top: 5px;">Ngày hóa đơn:
                     </span>
                     <nz-form-control nz-col nzSpan="15" nzErrorTip="Chưa chọn ngày hóa đơn">
-                        <input nz-input type="date" placeholder="-Chọn ngày-" formControlName="dateInvoice" />
+                        <!-- <input nz-input type="date" placeholder="-Chọn ngày-" formControlName="dateInvoice" /> -->
+                        <nz-date-picker style="width: 100%;" [nzDisabledDate]="disabledDate" formControlName="dateInvoice"></nz-date-picker>
                     </nz-form-control>
                 </nz-form-item>
                 <br>

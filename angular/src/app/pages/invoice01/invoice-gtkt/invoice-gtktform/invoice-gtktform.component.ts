@@ -6,7 +6,8 @@ import { InvoiceGTKTService } from '../InvoiceGTKT.service';
 import { IDataDetails, IDataTaxBreaks } from '../dataInvoiceDetail.model';
 import { ServiceCommon } from 'src/app/share/common.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
-
+//
+import { differenceInCalendarDays, setHours } from 'date-fns';
 interface ITax {
   lable: string;
   value: number;
@@ -19,7 +20,11 @@ interface ITax {
   styleUrls: ['./invoice-gtktform.component.css']
 })
 export class InvoiceGTKTFormComponent implements OnInit {
-
+  today = new Date();
+  disabledDate = (current: Date): boolean =>
+    // Can not select days before today and today
+    differenceInCalendarDays(current, this.today) > 0;
+  //  
   pageIndex: number = 1;
   pageSize: number = 5;
   total: number = 0;
