@@ -46,9 +46,9 @@
                         <span class="tableDouble">Ngày: </span>{{data.invoiceDay | date: 'dd/MM/yyyy'}}
                     </td>
                     <td>{{ data.companyNameSeller }}</td>
-                    <td>{{ data.totalProduct }}</td>
-                    <td>{{ data.totalTax }}</td>
-                    <td>{{ data.totalPay }}</td>
+                    <td>{{ data.totalProduct | number}}</td>
+                    <td>{{ data.totalTax | number}}</td>
+                    <td>{{ data.totalPay | number}}</td>
 
                     <td>
                         <a *ngIf="permissionAthen.del == true"><i style="color: red; margin-right: 10px; font-size: 20px" nz-icon nzType="close"

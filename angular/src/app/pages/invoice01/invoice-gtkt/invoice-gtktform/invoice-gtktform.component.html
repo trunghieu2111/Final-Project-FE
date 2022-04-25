@@ -478,13 +478,13 @@
                         <td>{{ data.content }}</td>
                         <td>{{ data.unit }}</td>
                         <td>{{ data.quantity }}</td>
-                        <td>{{ data.price }}</td>
+                        <td>{{ data.price | number}}</td>
                         <td *ngIf="data.percentTaxSell == 10">Thuế suất 10%</td>
                         <td *ngIf="data.percentTaxSell == 5">Thuế suất 5%</td>
                         <td *ngIf="data.percentTaxSell == 0">Thuế suất 0%</td>
                         <td *ngIf="data.percentTaxSell == -1">Không chịu thuế</td>
                         <td *ngIf="data.percentTaxSell == -2">Không kê khai</td>
-                        <td>{{ data.intoMoney }}</td>
+                        <td>{{ data.intoMoney | number}}</td>
 
                         <td>
                             <a><i style="color: red; margin-right: 10px; font-size: 20px" nz-icon nzType="close"
@@ -497,7 +497,7 @@
                 </tbody>
             </nz-table>
 
-            <div style="font-size: 16px; font-style: italic;font-weight: bold; display: flex;">
+            <div style="font-size: 16px; font-weight: bold; display: flex;">
                 <div style="width: 500px">
                     <span>Tổng tiền hàng </span><br /><br />
                     <span *ngFor="let i of InvoiceTaxBreaks">
@@ -507,7 +507,7 @@
                     <span>Tổng tiền thanh toán </span>
                 </div>
                 <div>
-                    <span>{{totalProduct}}</span><br /><br />
+                    <span>{{totalProduct | number}}</span><br /><br />
                     <!-- <span *ngFor="let i of InvoiceTaxBreaks">
                         {{i.moneyTaxSell}}<br>
                     </span><br> -->
@@ -515,8 +515,8 @@
                         <input class="inputTax" value="{{i.moneyTaxSell}}"
                             (keyup)="onKeyTaxSell($event, i.percentTaxSell)" /><br />
                     </span><br />
-                    <span>{{totalTax}}</span><br /><br />
-                    <span>{{totalPay}}</span>
+                    <span>{{totalTax | number}}</span><br /><br />
+                    <span>{{totalPay | number}}</span>
                 </div>
             </div>
         </div>
@@ -549,15 +549,15 @@
                         <td>{{ data.content }}</td>
                         <td>{{ data.unit }}</td>
                         <td>{{ data.quantity }}</td>
-                        <td>{{ data.price }}</td>
+                        <td>{{ data.price | number}}</td>
                         <td *ngIf="data.percentTaxSell == 10">Thuế suất 10%</td>
                         <td *ngIf="data.percentTaxSell == 5">Thuế suất 5%</td>
                         <td *ngIf="data.percentTaxSell == 0">Thuế suất 0%</td>
                         <td *ngIf="data.percentTaxSell == -1">Không chịu thuế</td>
                         <td *ngIf="data.percentTaxSell == -2">Không kê khai</td>
                         <td>{{ data.percentDiscountBeforeTax }}</td>
-                        <td>{{ data.percentMoney }}</td>
-                        <td>{{ data.intoMoney }}</td>
+                        <td>{{ data.percentMoney | number}}</td>
+                        <td>{{ data.intoMoney | number}}</td>
 
                         <td>
                             <a><i style="color: red; margin-right: 10px; font-size: 20px" nz-icon nzType="close"
@@ -570,7 +570,7 @@
                 </tbody>
             </nz-table>
 
-            <div style="font-size: 16px; font-style: italic;font-weight: bold; display: flex;">
+            <div style="font-size: 16px; font-weight: bold; display: flex;">
                 <div style="width: 500px">
                     <span>Tổng tiền chiết khấu trước thuế</span><br /><br />
                     <span>Tổng tiền hàng </span><br /><br />
@@ -582,13 +582,13 @@
                     <span>Tổng tiền thanh toán </span>
                 </div>
                 <div>
-                    <span>{{intoMoneyBeforeTax}}</span><br /><br />
-                    <span>{{totalProduct}}</span><br /><br />
+                    <span>{{intoMoneyBeforeTax | number}}</span><br /><br />
+                    <span>{{totalProduct | number}}</span><br /><br />
                     <span *ngFor="let i of InvoiceTaxBreaks">
                         <input class="inputTax" value="{{i.moneyTaxSell}}"
                             (keyup)="onKeyTaxSell($event, i.percentTaxSell)" /><br />
                     </span><br />
-                    <span>{{totalTax}}</span><br /><br />
+                    <span>{{totalTax | number}}</span><br /><br />
                     <!-- <span><input class="inputTax" value="{{PercentDiscountAfterTax}}" (keyup)="onKeyPercentDiscountAfterTax($event)" />%&emsp;</span>
                     <span>&emsp;=<input class="inputTax" value="{{TotalDiscountAfterTax}}" (keyup)="onKeyTotalDiscountAfterTax($event)"/></span>
                     <br/><br/> -->
@@ -599,7 +599,7 @@
                             formControlName="TotalDiscountAfterTax"
                             (keyup)="onKeyTotalDiscountAfterTax($event)" /></span>
                     <br /><br />
-                    <span>{{totalPay}}</span>
+                    <span>{{totalPay | number}}</span>
                 </div>
             </div>
 
